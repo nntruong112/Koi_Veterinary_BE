@@ -7,33 +7,29 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
-
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
-@Table(name = "appointments")
-public class Appointment {
+@Table(name = "fishes")
+public class Fish {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer appointmentId;
+    private Integer fishId;
 
-    private LocalDate appointmentDate;
+    @Column(length = 255, nullable = false)
+    private String name;
 
-    private Integer consultationId;
+    @Column(length = 255, nullable = false)
+    private String species;
 
-    @Column(length = 50)
-    private String status;
+    private Integer age;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private User customer;
 
     @ManyToOne
-    @JoinColumn(name = "staff_id")
-    private User staff;
-
-    @Column(length = 255)
-    private String location;
+    @JoinColumn(name = "appointment_id")
+    private Appointment appointment;
 }

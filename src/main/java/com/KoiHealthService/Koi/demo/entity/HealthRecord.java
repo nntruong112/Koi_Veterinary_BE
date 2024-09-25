@@ -13,27 +13,25 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
-@Table(name = "appointments")
-public class Appointment {
+@Table(name = "health_records")
+public class HealthRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer appointmentId;
+    private Integer healthRecordId;
 
     private LocalDate appointmentDate;
 
-    private Integer consultationId;
+    @Lob
+    private String diagnosis;
 
-    @Column(length = 50)
-    private String status;
+    @Lob
+    private String treatment;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private User customer;
 
     @ManyToOne
-    @JoinColumn(name = "staff_id")
-    private User staff;
-
-    @Column(length = 255)
-    private String location;
+    @JoinColumn(name = "fish_id", nullable = false)
+    private Fish fish;
 }

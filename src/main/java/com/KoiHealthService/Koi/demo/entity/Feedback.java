@@ -7,33 +7,26 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
-
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
-@Table(name = "appointments")
-public class Appointment {
+@Table(name = "feedbacks")
+public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer appointmentId;
+    private Integer feedbackId;
 
-    private LocalDate appointmentDate;
+    @Lob
+    private String comment;
 
-    private Integer consultationId;
-
-    @Column(length = 50)
-    private String status;
+    private Integer rating;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private User customer;
 
     @ManyToOne
-    @JoinColumn(name = "staff_id")
-    private User staff;
-
-    @Column(length = 255)
-    private String location;
+    @JoinColumn(name = "appointment_id", nullable = false)
+    private Appointment appointment;
 }
