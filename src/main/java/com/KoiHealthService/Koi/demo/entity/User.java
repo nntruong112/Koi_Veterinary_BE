@@ -27,6 +27,6 @@ public class User {
     private String password; // New password field
 
     @Column(length = 15)
-    private Integer phone;
+    private String phone;
     
 }
