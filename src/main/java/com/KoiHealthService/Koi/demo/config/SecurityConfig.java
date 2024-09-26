@@ -1,4 +1,4 @@
-package com.KoiHealthService.Koi.demo.congfig;
+package com.KoiHealthService.Koi.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
