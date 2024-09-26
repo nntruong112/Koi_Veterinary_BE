@@ -1,9 +1,6 @@
 package com.KoiHealthService.Koi.demo.service;
 
-import com.KoiHealthService.Koi.demo.dto.request.LoginRequest;
-import com.KoiHealthService.Koi.demo.dto.request.UpdateUserRequest;
 import com.KoiHealthService.Koi.demo.dto.request.UserRequest;
-import com.KoiHealthService.Koi.demo.dto.response.LoginResponse;
 import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
 import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;
@@ -13,22 +10,26 @@ import com.KoiHealthService.Koi.demo.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.experimental.NonFinal;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
 public class UserService {
-    @Autowired
     UserRepository userRepository;
-    @Autowired
-    private UserMapper userMapper;
+
+    UserMapper userMapper;
+
     JavaMailSender javaMailSender;
+    @NonFinal
     @Value("${spring.mail.username}")
     String SENDER_EMAIL;
 
@@ -38,8 +39,10 @@ public class UserService {
         if(userRepository.existsByUsername(userRequest.getUsername())){
             throw new AnotherException(ErrorCode.USER_EXISTED);
         }
-
         User user = userMapper.toUser(userRequest);
+
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
@@ -65,20 +68,7 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.findById(id).orElseThrow(() -> new RuntimeException("Cannot find the id")));
     }
 
-    //Update User By Id
-    public UserResponse UpdateProfile( String id,UpdateUserRequest updateUserRequest){
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Cannot find the id"));
 
-        userMapper.toUpdateUser(user,updateUserRequest);
 
-        return userMapper.toUserResponse(userRepository.save(user));
-    }
 
-    public LoginResponse Login(LoginRequest loginRequest){
-        User user = userRepository.findByUsernameAndPassword(loginRequest.getUsername(), loginRequest.getPassword());
-        if (user == null) {
-            throw new AnotherException(ErrorCode.USER_OR_PASSWORD_INVALID);
-        }
-        return userMapper.toLogin(user);
-    }
 }

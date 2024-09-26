@@ -18,5 +18,5 @@ public class User {
     String username;
     String password;
     String email;
-    int phone;
+    String phone;
 }

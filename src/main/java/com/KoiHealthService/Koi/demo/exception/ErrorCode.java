@@ -10,8 +10,9 @@ public enum ErrorCode {
     PASSWORD_INVALID(1004,"Password must be at least 8 characters"),
     INVALID_KEY(1001,"Invalid message key"),
     USER_NOT_EXISTED(1005,"User not existed"),
-    USER_OR_PASSWORD_INVALID(1010,"Username or password is invalid"),
+    EMAIL_INVALID(1011,"Email must be include @gmail.com"),
     PASSWORD_MATCHES(1009, "Password are not matches"),
+    PHONE_INVALID(1012,"Phone must be 10 number"),
     UNAUTHENTICATED(1006,"Unauthenticated")
     ;
     private int code;
