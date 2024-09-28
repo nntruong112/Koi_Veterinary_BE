@@ -13,13 +13,12 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserRequest {
     String id;
+    String name;
     @Size(min =5 , message = "USERNAME_INVALID")
     String username;
     @Size(min = 7, message = "PASSWORD_INVALID")
     String password;
     @Email(regexp = "^[a-zA-Z0-9._%+-]+@gmail\\.com$", message = "EMAIL_INVALID")
     String email;
-    @Pattern(regexp = "^[0-9]{10}$", message = "")
-    String phone;
 
 }
