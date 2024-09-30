@@ -40,10 +40,11 @@ public class SecurityConfig {
                 request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
                         .requestMatchers(HttpMethod.GET, "/users/get-user")
 //                        .hasRole(Role.ADMIN.name())
-                        .authenticated());
+                        .authenticated())
+                        .csrf(AbstractHttpConfigurer::disable);
 
         //Protect endpoint from cross-eyes
-        httpSecurity.csrf(AbstractHttpConfigurer::disable);
+       //httpSecurity.csrf(AbstractHttpConfigurer::disable);
         //
 //        httpSecurity.oauth2ResourceServer(oauth2 ->
 //                oauth2.jwt(jwtConfigurer ->
