@@ -3,37 +3,51 @@ package com.KoiHealthService.Koi.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter
-@Setter
 @Table(name = "appointments")
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Appointment {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer appointmentId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "appointment_id")
+     String appointmentId;
 
-    private LocalDate appointmentDate;
+    @Column(name = "appointment_date")
+     LocalDate appointmentDate;
 
-    private Integer consultationId;
+    @Column(name = "appointment_type", length = 50)
+     String appointmentType;
 
-    @Column(length = 50)
-    private String status;
+    @Column(name = "status", length = 50)
+     String status;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private User customer;
+    @JoinColumn(name = "customer_id")
+    User customer;  // Reference to Account (was User)
 
     @ManyToOne
-    @JoinColumn(name = "staff_id")
-    private User staff;
+    @JoinColumn(name = "veterinarian_id")
+    User veterinarian;  // Reference to Account (was User)
 
-    @Column(length = 255)
-    private String location;
+    @ManyToOne
+    @JoinColumn(name = "fish_id")
+     Fish fish;
+
+    @Column(name = "location", length = 255)
+     String location;
+
+    @Column(name = "start_time")
+     LocalTime startTime;
+
+    @Column(name = "end_time")
+     LocalTime endTime;
+
 }

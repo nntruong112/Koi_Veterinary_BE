@@ -3,33 +3,32 @@ package com.KoiHealthService.Koi.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 @Entity
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter
-@Setter
 @Table(name = "fishes")
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Fish {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer fishId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "fish_id")
+     String fishId;
 
-    @Column(length = 255, nullable = false)
-    private String name;
+    @Column(name = "name", length = 255)
+     String name;
 
-    @Column(length = 255, nullable = false)
-    private String species;
+    @Column(name = "species", length = 255)
+     String species;
 
-    private Integer age;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private User customer;
+    @Column(name = "age")
+     Integer age;
 
     @ManyToOne
-    @JoinColumn(name = "appointment_id")
-    private Appointment appointment;
+    @JoinColumn(name = "customer_id")
+     User customer;  // Reference to Account (was User)
+
+    // Getters and Setters
 }

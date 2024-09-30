@@ -3,38 +3,41 @@ package com.KoiHealthService.Koi.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
 
 @Entity
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter
-@Setter
 @Table(name = "services")
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Service {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer serviceId;
+    @Column(name = "service_id")
+    private Long serviceId;
 
-    @Column(length = 255, nullable = false)
+    @Column(name = "service_name", length = 255)
     private String serviceName;
 
-    @Lob
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @Column(length = 255)
+    @Column(name = "category", length = 255)
     private String category;
 
+    @Column(name = "price", precision = 10, scale = 2)
     private BigDecimal price;
 
     @ManyToOne
-    @JoinColumn(name = "appointment_id", nullable = false)
+    @JoinColumn(name = "appointment_id")
     private Appointment appointment;
 
     @ManyToOne
-    @JoinColumn(name = "veterinarian_id", nullable = false)
-    private User veterinarian;
+    @JoinColumn(name = "veterinarian_id")
+    private User veterinarian;  // Reference to Account (was User)
+
+    // Getters and Setters
 }
