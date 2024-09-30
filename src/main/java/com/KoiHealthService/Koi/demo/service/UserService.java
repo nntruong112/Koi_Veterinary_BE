@@ -58,7 +58,7 @@ public class UserService {
     }
 
     // Get All User
-    public List<User> getUsers() {
+    public List<UserResponse> getUsers() {
         return userRepository.findAll();
     }
 
