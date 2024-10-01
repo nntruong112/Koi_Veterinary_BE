@@ -31,7 +31,9 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final String[] PUBLIC_ENDPOINTS = {"/auth/token","/users/register","/auth/introspect","/users/verify"};
+    private final String[] PUBLIC_ENDPOINTS = {
+            "/auth/**"
+            ,"/users/**"};
 
     @Value("${jwt.signer_key}")
     private String signerKey;
@@ -40,13 +42,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.cors(cors -> cors.configurationSource(corsConfigurationSource())).authorizeHttpRequests(request ->
-                request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/users").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users/get-user","/users/{id}")
-                        .authenticated())
-                        .csrf(AbstractHttpConfigurer::disable);
+                request.requestMatchers(PUBLIC_ENDPOINTS).permitAll()
+                        .anyRequest());
 
-        httpSecurity.cors(AbstractHttpConfigurer::disable);
+        httpSecurity.csrf(AbstractHttpConfigurer::disable);
 
 
         httpSecurity.oauth2ResourceServer(oauth2 ->
