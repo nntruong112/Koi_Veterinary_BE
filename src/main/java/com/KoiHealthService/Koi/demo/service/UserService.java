@@ -17,12 +17,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -37,7 +38,7 @@ public class UserService {
     UserMapper userMapper;
     @NonNull
     PasswordEncoder passwordEncoder;
-
+    @NonNull
     JavaMailSender javaMailSender;
     @NonFinal
     @Value("${spring.mail.username}")
@@ -46,7 +47,7 @@ public class UserService {
     // Register
     public UserResponse Register(UserRequest userRequest) {
 //        Find exist username
-        if(userRepository.existsByUsername(userRequest.getUsername())){
+        if (userRepository.existsByUsername(userRequest.getUsername())) {
             throw new AnotherException(ErrorCode.USER_EXISTED);
         }
         //Mapping request to database
@@ -55,40 +56,96 @@ public class UserService {
         //Encryption password
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
 
+        // Set verification code expiration time (e.g., 30 minutes from now)
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.HOUR, 2); // adjust the expiration time as needed
+        user.setVerificationCodeExpiration(calendar.getTime());
+
+        //get verify code
+        String verificationCode = generateCode();
+        user.setVerificationCode(verificationCode);
+
+
+        //Set Role
         HashSet<String> roles = new HashSet<>();
         roles.add(Role.USER.name());
-
         user.setRoles(roles);
+        //Send Mail
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(userRequest.getEmail());
+        message.setText("Mã xác minh của bạn là :" + verificationCode);
+        javaMailSender.send(message);
+
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
-    public void testSendEmail(UserRequest userRequest) {
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-
-        simpleMailMessage.setTo(userRequest.getEmail());
-        simpleMailMessage.setSubject("TestEmail");
-        simpleMailMessage.setText("Catbucu");
-        simpleMailMessage.setFrom(SENDER_EMAIL);
-        javaMailSender.send(simpleMailMessage);
-    }
 
     // Get All User
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserResponse> getUsers() {
-        return userRepository.findAll().stream().map( userMapper :: toUserResponse).toList();
+        log.info("In method get Users");
+        return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
     }
 
 
+    public UserResponse getMyInfo(){
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+
+        User user = userRepository.findByUsername(name).orElseThrow(() -> new AnotherException(ErrorCode.USER_NOT_EXISTED));
+
+        return userMapper.toUserResponse(user);
+    }
+
+    public boolean VerifyCode(String email, String verificationCode) {
+        User user = userRepository.findByEmailAndVerificationCode(email, verificationCode);
+        if (user != null) {
+            // Kiểm tra thời gian hết hạn của mã xác minh
+            return !user.getVerificationCodeExpiration().before(new Date()); // Mã xác minh đã hết hạn
+        }
+        return false;
+    }
+
     // Get User By Id
-    public UserResponse getById(String id){
+    @PostAuthorize("returnObject.username == authentication.name")
+    public UserResponse getById(String id) {
+        log.info("In method get user by id");
         return userMapper.toUserResponse(userRepository.findById(id).orElseThrow(() -> new RuntimeException("Cannot find the id")));
     }
 
-    public void DeleterUserByID(String id){
-         userRepository.deleteById(id);
+    public void deleteAll(){
+        userRepository.deleteAll();
     }
 
+    public void DeleterUserByID(String id) {
+        userRepository.deleteById(id);
+    }
 
-
+    public String generateCode() {
+        Random random = new Random();
+        int code = random.nextInt(900000) + 100000; // generate a 6-digit number between 100000 and 999999
+        return String.valueOf(code);
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

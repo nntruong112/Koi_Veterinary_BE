@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -22,5 +23,7 @@ public class User {
     String username;
     String password;
     String email;
+    String verificationCode;
+    Date verificationCodeExpiration;
     Set<String> roles;
 }

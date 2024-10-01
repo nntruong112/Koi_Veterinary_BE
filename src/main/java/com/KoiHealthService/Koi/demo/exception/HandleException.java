@@ -1,5 +1,6 @@
 package com.KoiHealthService.Koi.demo.exception;
 
+import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
 import com.KoiHealthService.Koi.demo.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,44 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class HandleException {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    ResponseEntity<String> handlingMethodException(MethodArgumentNotValidException exception){
-        return ResponseEntity.badRequest().body(exception.getFieldError().getDefaultMessage());
+    ResponseEntity<ApiResponse> handlingMethodException(MethodArgumentNotValidException exception){
+        String enumkey = exception.getFieldError().getDefaultMessage();
+        ErrorCode errorCode = ErrorCode.INVALID_KEY;
+
+        try{
+            errorCode = ErrorCode.valueOf(enumkey);
+        }catch (IllegalArgumentException e){
+            System.out.println("Something went wrong");
+        }
+        ApiResponse apiResponse = new ApiResponse();
+
+        apiResponse.setCode(errorCode.getCode());
+        apiResponse.setMessage(errorCode.getMessage());
+
+        return ResponseEntity.badRequest().body(apiResponse);
     }
+
+    @ExceptionHandler(value = Exception.class)
+    ResponseEntity<ApiResponse> handlingException(Exception exception){
+        ApiResponse apiResponse = new ApiResponse();
+
+        apiResponse.setCode(ErrorCode.USER_UNACCEPTED.getCode());
+        apiResponse.setMessage(ErrorCode.USER_UNACCEPTED.getMessage());
+
+        return ResponseEntity.badRequest().body(apiResponse);
+    }
+
+    @ExceptionHandler(value = AnotherException.class)
+    ResponseEntity<ApiResponse> handlingAnotherException(AnotherException exception){
+        ErrorCode errorCode = exception.getErrorCode();
+
+        ApiResponse apiResponse = new ApiResponse();
+
+        apiResponse.setCode(errorCode.getCode());
+        apiResponse.setMessage(errorCode.getMessage());
+
+        return ResponseEntity.badRequest().body(apiResponse);
+    }
+
+
 }

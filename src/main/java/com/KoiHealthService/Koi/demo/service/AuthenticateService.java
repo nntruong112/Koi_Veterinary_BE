@@ -28,10 +28,7 @@ import org.springframework.util.CollectionUtils;
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.StringJoiner;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -87,18 +84,12 @@ public class AuthenticateService {
 
     //Generate token
     private String generateToken(User user) throws JOSEException {
-        //user info token
-        Map<String, String> userClaims = new HashMap<>();
-        userClaims.put("name", user.getName());
-        userClaims.put("email", user.getEmail());
-        userClaims.put("username", user.getUsername());
-
 
         //Header
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .claim("user: ",userClaims)
+                .subject(user.getUsername())
                 .issuer("")
                 .issueTime(new Date())
                 .expirationTime(new Date(
@@ -128,5 +119,4 @@ public class AuthenticateService {
         }
         return  stringJoiner.toString();
     }
-
 }
