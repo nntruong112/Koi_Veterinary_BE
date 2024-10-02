@@ -14,12 +14,9 @@ import lombok.experimental.FieldDefaults;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id")
-    private Long roleId;
+    @GeneratedValue(strategy = GenerationType.UUID)
 
-    @Column(name = "role_name", length = 50)
-    private String roleName;
+    String roleId;
 
-    // Getters and Setters
+    String roleName;
 }

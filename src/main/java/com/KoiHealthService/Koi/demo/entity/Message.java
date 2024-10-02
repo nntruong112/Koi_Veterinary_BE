@@ -14,23 +14,20 @@ import java.time.LocalDateTime;
 public class Message {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "message_id")
-    private Long messageId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+
+    String messageId;
 
     @ManyToOne
     @JoinColumn(name = "appointment_id")
-    private Appointment appointment;
+    Appointment appointment;
 
     @ManyToOne
     @JoinColumn(name = "sender_id")
-    private User sender;  // Reference to Account (was User)
+    User sender;
 
-    @Column(name = "message_text", columnDefinition = "TEXT")
-    private String messageText;
 
-    @Column(name = "timestamp")
-    private LocalDateTime timestamp;
+    String messageText;
 
-    // Getters and Setters
+    LocalDateTime timestamp;
 }

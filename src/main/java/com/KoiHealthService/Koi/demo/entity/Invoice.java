@@ -17,25 +17,25 @@ import java.math.BigDecimal;
 public class Invoice {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "invoice_id")
-    private Long invoiceId;
+    @GeneratedValue(strategy = GenerationType.UUID)
 
-    @Column(name = "total", precision = 10, scale = 2)
-    private BigDecimal total;
+    String invoiceId;
 
-    @Column(name = "discount", precision = 10, scale = 2)
-    private BigDecimal discount;
 
-    @Column(name = "payment_status", length = 50)
-    private String paymentStatus;
+    BigDecimal total;
 
-    @Column(name = "payment_method", length = 50)
-    private String paymentMethod;
+
+    BigDecimal discount;
+
+
+    String paymentStatus;
+
+
+    String paymentMethod;
 
     @ManyToOne
     @JoinColumn(name = "appointment_id")
-    private Appointment appointment;
+    Appointment appointment;
 
     // Getters and Setters
 }

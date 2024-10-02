@@ -17,37 +17,37 @@ public class Appointment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "appointment_id")
-     String appointmentId;
 
-    @Column(name = "appointment_date")
-     LocalDate appointmentDate;
+    String appointmentId;
 
-    @Column(name = "appointment_type", length = 50)
-     String appointmentType;
 
-    @Column(name = "status", length = 50)
-     String status;
+    LocalDate appointmentDate;
+
+
+    String appointmentType;
+
+
+    String status;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    User customer;  // Reference to Account (was User)
+    User customer;
 
     @ManyToOne
     @JoinColumn(name = "veterinarian_id")
-    User veterinarian;  // Reference to Account (was User)
+    User veterinarian;
 
     @ManyToOne
     @JoinColumn(name = "fish_id")
-     Fish fish;
+    Fish fish;
 
-    @Column(name = "location", length = 255)
-     String location;
 
-    @Column(name = "start_time")
-     LocalTime startTime;
+    String location;
 
-    @Column(name = "end_time")
-     LocalTime endTime;
+
+    LocalTime startTime;
+
+
+    LocalTime endTime;
 
 }

@@ -15,29 +15,29 @@ import java.math.BigDecimal;
 public class Service {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "service_id")
-    private Long serviceId;
+    @GeneratedValue(strategy = GenerationType.UUID)
 
-    @Column(name = "service_name", length = 255)
-    private String serviceName;
+    String serviceId;
 
-    @Column(name = "description", columnDefinition = "TEXT")
-    private String description;
 
-    @Column(name = "category", length = 255)
-    private String category;
+    String serviceName;
 
-    @Column(name = "price", precision = 10, scale = 2)
-    private BigDecimal price;
+
+    String description;
+
+
+    String category;
+
+
+    BigDecimal price;
 
     @ManyToOne
     @JoinColumn(name = "appointment_id")
-    private Appointment appointment;
+    Appointment appointment;
 
     @ManyToOne
     @JoinColumn(name = "veterinarian_id")
-    private User veterinarian;  // Reference to Account (was User)
+    User veterinarian;
 
-    // Getters and Setters
+
 }

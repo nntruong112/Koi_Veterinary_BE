@@ -19,7 +19,7 @@ import java.text.ParseException;
 
 @RestController
 @RequestMapping("/auth")
-@RequiredArgsConstructor
+@RequiredArgsConstructor      //autowired các bean
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationController {
 

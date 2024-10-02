@@ -17,22 +17,13 @@ import java.time.LocalDate;
 public class HealthRecord {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "health_record_id")
-    private Long healthRecordId;
+    @GeneratedValue(strategy = GenerationType.UUID)
 
-    @Column(name = "appointment_date")
-    private LocalDate appointmentDate;
-
-    @Column(name = "diagnosis", columnDefinition = "TEXT")
-    private String diagnosis;
-
-    @Column(name = "treatment", columnDefinition = "TEXT")
-    private String treatment;
-
+    String healthRecordId;
+    LocalDate appointmentDate;
+    String diagnosis;
+    String treatment;
     @ManyToOne
     @JoinColumn(name = "fish_id")
-    private Fish fish;
-
-    // Getters and Setters
+    Fish fish;
 }

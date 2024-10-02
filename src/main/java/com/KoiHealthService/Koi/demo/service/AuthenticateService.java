@@ -33,7 +33,7 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class AuthenticateService {
 
-        UserRepository userRepository;
+        UserRepository userRepository;        
 
         //Key to verify token
         @NonFinal

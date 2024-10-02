@@ -14,22 +14,22 @@ public class Feedback {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "feedback_id")
-     String feedbackId;
 
-    @Column(name = "comment", columnDefinition = "TEXT")
-     String comment;
+    String feedbackId;
 
-    @Column(name = "rating")
-     Integer rating;
+
+    String comment;
+
+
+    Integer rating;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-     User customer;  // Reference to Account (was User)
+    User customer;
 
     @ManyToOne
     @JoinColumn(name = "appointment_id")
-     Appointment appointment;
+    Appointment appointment;
 
     
 }

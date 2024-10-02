@@ -16,22 +16,21 @@ import java.time.LocalTime;
 public class VeterinarianSchedule {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "schedule_id")
-    private Long scheduleId;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    String scheduleId;
 
-    @Column(name = "available_date")
-    private LocalDate availableDate;
 
-    @Column(name = "start_time")
-    private LocalTime startTime;
+    LocalDate availableDate;
 
-    @Column(name = "end_time")
-    private LocalTime endTime;
+
+    LocalTime startTime;
+
+
+    LocalTime endTime;
 
     @ManyToOne
     @JoinColumn(name = "veterinarian_id")
-    private User veterinarian;  // Reference to Account (was User)
+    User veterinarian;
 
-    // Getters and Setters
+
 }
