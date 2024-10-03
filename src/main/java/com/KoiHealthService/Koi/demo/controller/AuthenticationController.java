@@ -25,7 +25,7 @@ public class AuthenticationController {
 
 
     //Login
-    @PostMapping("/token")
+    @PostMapping("/login")
     ApiResponse<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authenticationRequest) throws JOSEException {
         var result = authenticateService.authenticated(authenticationRequest);
 

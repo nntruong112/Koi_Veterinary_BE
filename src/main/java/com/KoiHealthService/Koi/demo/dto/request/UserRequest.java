@@ -13,6 +13,8 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserRequest {
     String id;
+    String firstname;
+    String lastname;
     String name;
     @Size(min =5 , message = "USERNAME_INVALID")
     String username;
@@ -20,5 +22,4 @@ public class UserRequest {
     String password;
     @Email(regexp = "^[a-zA-Z0-9._%+-]+@gmail\\.com$", message = "EMAIL_INVALID")
     String email;
-
 }

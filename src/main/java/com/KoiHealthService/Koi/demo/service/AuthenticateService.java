@@ -54,6 +54,7 @@ public class AuthenticateService {
         if (!authenticated) {
             throw new AnotherException(ErrorCode.UNAUTHENTICATED);
         }
+        //Generate Token
         var token = generateToken(user);
 
         return AuthenticationResponse.builder()
@@ -64,6 +65,7 @@ public class AuthenticateService {
     }
 
 
+    //Verify Token
     public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
         //Get token
         var token = request.getToken();

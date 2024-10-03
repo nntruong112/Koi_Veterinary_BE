@@ -1,6 +1,7 @@
 package com.KoiHealthService.Koi.demo.service;
 
 import com.KoiHealthService.Koi.demo.Enum.Role;
+import com.KoiHealthService.Koi.demo.dto.request.UpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.request.UserRequest;
 import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
 import com.KoiHealthService.Koi.demo.entity.User;
@@ -31,6 +32,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 public class UserService {
+
     @NonNull
     UserRepository userRepository;
 
@@ -47,6 +49,7 @@ public class UserService {
     // Register
     public UserResponse Register(UserRequest userRequest) {
 //        Find exist username
+        log.info("serivce");
         if (userRepository.existsByUsername(userRequest.getUsername())) {
             throw new AnotherException(ErrorCode.USER_EXISTED);
         }
@@ -65,7 +68,6 @@ public class UserService {
         String verificationCode = generateCode();
         user.setVerificationCode(verificationCode);
 
-
         //Set Role
         HashSet<String> roles = new HashSet<>();
         roles.add(Role.USER.name());
@@ -80,6 +82,15 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
+
+    //Update User
+    public UserResponse UpdateUser(String id, UpdateRequest updateRequest){
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User is not found") );
+
+        userMapper.toUpdateUser(user,updateRequest);
+
+        return userMapper.toUserResponse(userRepository.save(user));
+    }
 
     // Get All User
     @PreAuthorize("hasRole('ADMIN')")
@@ -127,7 +138,6 @@ public class UserService {
         int code = random.nextInt(900000) + 100000; // generate a 6-digit number between 100000 and 999999
         return String.valueOf(code);
     }
-
 }
 
 
