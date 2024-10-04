@@ -1,35 +1,33 @@
 package com.KoiHealthService.Koi.demo.entity;
 
-
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-@Entity
-@Table(name = "feedbacks")
+import java.time.LocalDateTime;
+
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Feedback {
+@Entity
+@Table(name = "messages")
+public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
 
-    String feedbackId;
-
-
-    String comment;
-
-
-    Integer rating;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    User customer;
+    String messageId;
 
     @ManyToOne
     @JoinColumn(name = "appointment_id")
     Appointment appointment;
 
-    
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    User sender;
+
+
+    String messageText;
+
+    LocalDateTime timestamp;
 }

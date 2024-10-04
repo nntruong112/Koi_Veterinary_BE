@@ -3,6 +3,7 @@ package com.KoiHealthService.Koi.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -10,26 +11,31 @@ import lombok.experimental.FieldDefaults;
 import java.math.BigDecimal;
 
 @Entity
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter
-@Setter
 @Table(name = "invoices")
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Invoice {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer invoiceId;
+    @GeneratedValue(strategy = GenerationType.UUID)
 
-    private BigDecimal total;
+    String invoiceId;
 
-    private BigDecimal discount;
 
-    @Column(length = 50)
-    private String paymentStatus;
+    BigDecimal total;
 
-    @Column(length = 50)
-    private String paymentMethod;
+
+    BigDecimal discount;
+
+
+    String paymentStatus;
+
+
+    String paymentMethod;
 
     @ManyToOne
-    @JoinColumn(name = "appointment_id", nullable = false)
-    private Appointment appointment;
+    @JoinColumn(name = "appointment_id")
+    Appointment appointment;
+
+    // Getters and Setters
 }
