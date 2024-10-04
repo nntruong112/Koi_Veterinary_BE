@@ -1,36 +1,31 @@
 package com.KoiHealthService.Koi.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.Date;
+import java.util.Set;
 
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @Setter
-@Table (name = "Accounts")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table (name = "Account")
 public class User {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.UUID)
-//    String id;
-//    String username;
-//    String password;
-//    String email;
-//    String phone;
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
+    String firstname;
+    String lastname;
     String name;
-    String email;
     String username;
     String password;
-
-//    @ManyToOne
-//    @JoinColumn(name = "role_id")
-//    Role role;
-
+    String email;
+    String verificationCode;
+    Date verificationCodeExpiration;
+    Set<String> roles;
 }

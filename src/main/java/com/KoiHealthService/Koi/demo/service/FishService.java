@@ -6,17 +6,19 @@ import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
 import com.KoiHealthService.Koi.demo.entity.Fish;
 import com.KoiHealthService.Koi.demo.mapper.FishMapper;
 import com.KoiHealthService.Koi.demo.repository.FishRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class FishService {
-    @Autowired
+
     private FishRepository fishRepository;
 
-    @Autowired
+    
     private FishMapper fishMapper;
 
     public Fish createFish(FishCreationRequest request){

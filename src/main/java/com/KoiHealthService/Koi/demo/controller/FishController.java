@@ -6,16 +6,18 @@ import com.KoiHealthService.Koi.demo.dto.response.FishResponse;
 import com.KoiHealthService.Koi.demo.entity.Fish;
 import com.KoiHealthService.Koi.demo.service.FishService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/fishes")
 public class FishController {
-    @Autowired
+
     private FishService fishService;
 
     @PostMapping()

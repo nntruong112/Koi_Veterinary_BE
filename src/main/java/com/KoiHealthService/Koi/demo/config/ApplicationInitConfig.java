@@ -4,6 +4,7 @@ import com.KoiHealthService.Koi.demo.Enum.Role;
 import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.repository.UserRepository;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -18,6 +19,7 @@ import java.util.HashSet;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 @Slf4j
+@Builder
 public class ApplicationInitConfig {
 
     @NonNull
