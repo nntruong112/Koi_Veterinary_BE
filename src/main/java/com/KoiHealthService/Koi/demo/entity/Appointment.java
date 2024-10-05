@@ -14,40 +14,23 @@ import java.time.LocalTime;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Appointment {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-
     String appointmentId;
-
-
     LocalDate appointmentDate;
-
-
     String appointmentType;
-
-
     String status;
-
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customerId")
     User customer;
-
     @ManyToOne
-    @JoinColumn(name = "veterinarian_id")
+    @JoinColumn(name = "veterinarianId")
     User veterinarian;
-
     @ManyToOne
-    @JoinColumn(name = "fish_id")
+    @JoinColumn(name = "fishId")
     Fish fish;
-
-
     String location;
-
-
     LocalTime startTime;
-
-
     LocalTime endTime;
 
 }

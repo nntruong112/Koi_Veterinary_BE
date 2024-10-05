@@ -1,8 +1,8 @@
 package com.KoiHealthService.Koi.demo.entity;
 
+import com.KoiHealthService.Koi.demo.websocket.MessageType;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
@@ -11,23 +11,20 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "messages")
+@Builder
+@AllArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PUBLIC)
 public class Message {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-
     String messageId;
-
     @ManyToOne
-    @JoinColumn(name = "appointment_id")
+    @JoinColumn(name = "appointmentId")
     Appointment appointment;
-
     @ManyToOne
-    @JoinColumn(name = "sender_id")
+    @JoinColumn(name = "senderId")
     User sender;
-
-
     String messageText;
-
     LocalDateTime timestamp;
+    MessageType type;
 }

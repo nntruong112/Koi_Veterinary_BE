@@ -24,6 +24,6 @@ public class HealthRecord {
     String diagnosis;
     String treatment;
     @ManyToOne
-    @JoinColumn(name = "fish_id")
+    @JoinColumn(name = "fishId")
     Fish fish;
 }

@@ -16,28 +16,15 @@ public class Service {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-
     String serviceId;
-
-
     String serviceName;
-
-
     String description;
-
-
     String category;
-
-
     BigDecimal price;
-
     @ManyToOne
-    @JoinColumn(name = "appointment_id")
+    @JoinColumn(name = "appointmentId")
     Appointment appointment;
-
     @ManyToOne
-    @JoinColumn(name = "veterinarian_id")
+    @JoinColumn(name = "veterinarianId")
     User veterinarian;
-
-
 }

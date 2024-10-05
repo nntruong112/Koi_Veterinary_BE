@@ -14,21 +14,14 @@ public class Feedback {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-
     String feedbackId;
-
-
     String comment;
-
-
     Integer rating;
-
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customerId")
     User customer;
-
     @ManyToOne
-    @JoinColumn(name = "appointment_id")
+    @JoinColumn(name = "appointmentId")
     Appointment appointment;
 
     

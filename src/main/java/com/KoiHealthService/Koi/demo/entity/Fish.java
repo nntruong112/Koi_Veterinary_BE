@@ -19,6 +19,6 @@ public class Fish {
     String species;
     Integer age;
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customerId")
     User customer;
 }

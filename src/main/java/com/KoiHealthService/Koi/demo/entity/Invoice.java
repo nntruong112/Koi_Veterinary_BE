@@ -18,24 +18,12 @@ public class Invoice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-
     String invoiceId;
-
-
     BigDecimal total;
-
-
     BigDecimal discount;
-
-
     String paymentStatus;
-
-
     String paymentMethod;
-
     @ManyToOne
-    @JoinColumn(name = "appointment_id")
+    @JoinColumn(name = "appointmentId")
     Appointment appointment;
-
-    // Getters and Setters
 }

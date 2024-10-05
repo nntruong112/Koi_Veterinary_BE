@@ -18,18 +18,11 @@ public class VeterinarianSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     String scheduleId;
-
-
     LocalDate availableDate;
-
-
     LocalTime startTime;
-
-
     LocalTime endTime;
-
     @ManyToOne
-    @JoinColumn(name = "veterinarian_id")
+    @JoinColumn(name = "veterinarianId")
     User veterinarian;
 
 
