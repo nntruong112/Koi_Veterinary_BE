@@ -16,9 +16,9 @@ public class AppointmentRequest {
     String id;
     LocalDate appointmentDate;
     String appointmentType;
-    User customerId;
-    User veterinarianId;
-    Fish fishId;
+    User customer;
+    User veterinarian;
+    Fish fish;
     String location;
 
 }

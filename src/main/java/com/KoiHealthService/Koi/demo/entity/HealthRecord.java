@@ -2,10 +2,7 @@ package com.KoiHealthService.Koi.demo.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
@@ -14,6 +11,9 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "health_records")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class HealthRecord {
 
     @Id

@@ -1,6 +1,7 @@
 package com.KoiHealthService.Koi.demo.exception;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 
@@ -18,7 +19,9 @@ public enum ErrorCode {
     UNAUTHENTICATED(1006,"Unauthenticated",HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1007,"You do not have permission", HttpStatus.FORBIDDEN)
     ;
+    @Setter
     private int code;
+    @Setter
     private String message;
     private HttpStatusCode httpStatusCode;
 
@@ -28,11 +31,4 @@ public enum ErrorCode {
         this.httpStatusCode = httpStatusCode;
     }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 }

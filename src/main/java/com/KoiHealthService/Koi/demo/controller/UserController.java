@@ -4,6 +4,7 @@ package com.KoiHealthService.Koi.demo.controller;
 
 import com.KoiHealthService.Koi.demo.dto.request.UserRequest;
 import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
+import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -34,11 +35,11 @@ public class UserController {
         userService.testSendEmail(userRequest);
     }
 
-    // Get all user
-//    @GetMapping("/Get_user")
-//    List<UserResponse> getAllUser(){
-//        return userService.getUsers();
-//    }
+     //Get all user
+    @GetMapping("/get_user")
+    List<User> getAllUser(){
+        return userService.getUsers();
+    }
 
 
 }

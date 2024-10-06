@@ -58,17 +58,15 @@ public class UserService {
     }
 
     // Get All User
-//    public List<UserResponse> getUsers() {
-//        return userRepository.findAll();
-//    }
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
 
 
     // Get User By Id
     public UserResponse getById(String id){
         return userMapper.toUserResponse(userRepository.findById(id).orElseThrow(() -> new RuntimeException("Cannot find the id")));
     }
-
-
 
 
 }

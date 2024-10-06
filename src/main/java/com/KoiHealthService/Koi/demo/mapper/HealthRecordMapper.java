@@ -5,7 +5,9 @@ import com.KoiHealthService.Koi.demo.dto.response.HealthRecordResponse;
 import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
 import com.KoiHealthService.Koi.demo.entity.HealthRecord;
 import com.KoiHealthService.Koi.demo.entity.User;
+import lombok.NonNull;
 import org.mapstruct.Mapper;
+
 
 @Mapper(componentModel = "spring")
 public interface HealthRecordMapper{
