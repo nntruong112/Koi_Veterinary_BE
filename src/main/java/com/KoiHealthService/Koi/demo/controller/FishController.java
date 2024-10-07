@@ -24,7 +24,7 @@ public class FishController {
     @NonNull
     private FishService fishService;
 
-    @PostMapping()
+    @PostMapping("/create")
         //endpoint users voi method POST, users đặt có s vì nó là invention trong việc đặt tên API
     ApiResponse<Fish> createFish(@RequestBody @Valid FishCreationRequest request) {
         ApiResponse<Fish> apiResponse = new ApiResponse<>();
@@ -36,5 +36,10 @@ public class FishController {
     ResponseEntity<List<Fish>> getFish(){
         return ResponseEntity.ok(fishService.getFishes());
     }
-    
+
+    @DeleteMapping("/{fishId}")
+    String deleteUser(@PathVariable String fishId) {
+        fishService.deleteFish(fishId);
+        return "Fish has been deleted";
+    }
 }

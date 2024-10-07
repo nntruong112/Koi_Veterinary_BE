@@ -12,12 +12,14 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
+@NonNull
 public class AppointmentService {
 
-
+    @NonNull
     private final AppointmentMapper appointmentMapper;
+    @NonNull
     private AppointmentRepository appointmentRepository; //giao tiếp với repos
-
+    @NonNull
     public Appointment createAppointment(AppointmentRequest request){
     
         @NonNull

@@ -17,5 +17,5 @@ public class InvoiceResponse {
     BigDecimal discount;
     String paymentStatus;
     String paymentMethod;
-    Appointment appointment;
+    String appointmentId;
 }

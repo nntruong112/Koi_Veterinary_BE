@@ -18,5 +18,5 @@ public class HealthRecordResponse {
     LocalDate appointmentDate;
     String diagnosis;
     String treatment;
-    Fish fish;
+    String fishId;
 }

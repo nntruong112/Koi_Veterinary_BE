@@ -17,5 +17,5 @@ public class VeterinarianScheduleResponse {
     LocalDate availableDate;
     LocalTime startTime;
     LocalTime endTime;
-    User veterinarian;
+    String veterinarianId;
 }

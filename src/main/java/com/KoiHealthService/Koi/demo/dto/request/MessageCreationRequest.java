@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MessageCreationRequest {
     String messageId;
-    Appointment appointment;
-    User sender;
+    String appointmentId;
+    String senderId;
     String messageText;
     LocalDateTime timestamp;
 }

@@ -19,5 +19,5 @@ public class InvoiceCreationRequest {
     BigDecimal discount;
     String paymentStatus;
     String paymentMethod;
-    Appointment appointment;
+    String appointmentId;
 }

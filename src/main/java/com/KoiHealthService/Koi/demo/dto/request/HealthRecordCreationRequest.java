@@ -16,5 +16,5 @@ public class HealthRecordCreationRequest {
     LocalDate appointmentDate;
     String diagnosis;
     String treatment;
-    Fish fish;
+    String fishId;
 }
