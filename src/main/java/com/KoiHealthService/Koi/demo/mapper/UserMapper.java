@@ -12,4 +12,5 @@ public interface UserMapper {
     User toUser(UserRequest userRequest);
     UserResponse toUserResponse(User user);
     void toUpdateUser(@MappingTarget User user, UpdateRequest updateRequest);
+    UserResponse toVerifyCodeResponse(String verificationCode);
 }

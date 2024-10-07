@@ -1,6 +1,8 @@
 package com.KoiHealthService.Koi.demo.service;
 
+import ch.qos.logback.classic.spi.IThrowableProxy;
 import com.KoiHealthService.Koi.demo.Enum.Role;
+import com.KoiHealthService.Koi.demo.Storage.UserStorage;
 import com.KoiHealthService.Koi.demo.dto.request.UpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.request.UserRequest;
 import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
@@ -16,6 +18,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -34,6 +37,9 @@ import java.util.*;
 public class UserService {
 
     @NonNull
+    UserStorage userStorage;
+
+    @NonNull
     UserRepository userRepository;
 
     @NonNull
@@ -49,7 +55,7 @@ public class UserService {
     // Register
     public UserResponse Register(UserRequest userRequest) {
 //        Find exist username
-        log.info("serivce");
+
         if (userRepository.existsByUsername(userRequest.getUsername())) {
             throw new AnotherException(ErrorCode.USER_EXISTED);
         }
@@ -61,7 +67,7 @@ public class UserService {
 
         // Set verification code expiration time (e.g., 30 minutes from now)
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.HOUR, 2); // adjust the expiration time as needed
+        calendar.add(Calendar.MINUTE, 1); // adjust the expiration time as needed
         user.setVerificationCodeExpiration(calendar.getTime());
 
         //get verify code
@@ -78,8 +84,12 @@ public class UserService {
         message.setText("Mã xác minh của bạn là :" + verificationCode);
         javaMailSender.send(message);
 
+        //Save info user and code into userStorage
+        userStorage.storeVerificationCode(verificationCode,user);
+        userStorage.storeEmail(userRequest.getEmail(),user);
 
-        return userMapper.toUserResponse(userRepository.save(user));
+
+        return userMapper.toUserResponse(user);
     }
 
 
@@ -100,6 +110,7 @@ public class UserService {
     }
 
 
+    //Get info user
     public UserResponse getMyInfo(){
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
@@ -109,14 +120,43 @@ public class UserService {
         return userMapper.toUserResponse(user);
     }
 
-    public boolean VerifyCode(String email, String verificationCode) {
-        User user = userRepository.findByEmailAndVerificationCode(email, verificationCode);
-        if (user != null) {
-            // Kiểm tra thời gian hết hạn của mã xác minh
-            return !user.getVerificationCodeExpiration().before(new Date()); // Mã xác minh đã hết hạn
-        }
-        return false;
+    //Verify Code
+    public UserResponse VerifyCode(String verificationCode) {
+          // Take the code from userStorage
+    User user = userStorage.getUserByVerificationCode(verificationCode);
+    if (user != null && new Date().before(user.getVerificationCodeExpiration()) ) {
+        // user will save into database if code is right
+        return userMapper.toUserResponse(userRepository.save(user));
+    } else
+        // if code wrong throw exception
+        throw  new AnotherException(ErrorCode.INVALID_CODE);
     }
+
+    //Send verify-code again
+//    public UserResponse sendVerifyCodeAgain(String email) {
+//    // Check if a verification code already exists for the user
+//    User user = userStorage.getUserEmail(email);
+//    if (user != null && user.getVerificationCode() != null && user.getVerificationCodeExpiration() != null) {
+//        Date currentTime = new Date();
+//        if (currentTime.before(user.getVerificationCodeExpiration())) {
+//            // Code is still valid, don't send a new one
+//            throw new AnotherException(ErrorCode.VERIFICATION_CODE_ALREADY_SENT);
+//        }
+//    }
+//
+//    // Generate a new verification code and send it
+//    String verificationCode = generateCode();
+//    SimpleMailMessage message = new SimpleMailMessage();
+//    message.setTo(email);
+//    message.setText("Mã xác minh của bạn là :" + verificationCode);
+//    javaMailSender.send(message);
+//    // Update the user's verification code and expiration time
+//    user.setVerificationCode(verificationCode);
+//    user.setVerificationCodeExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 1000)); // 5 minutes
+//    userRepository.save(user); //
+//
+//    return userMapper.toUserResponse(user);
+//}
 
     // Get User By Id
     @PostAuthorize("returnObject.username == authentication.name")
@@ -138,7 +178,9 @@ public class UserService {
         int code = random.nextInt(900000) + 100000; // generate a 6-digit number between 100000 and 999999
         return String.valueOf(code);
     }
+
 }
+
 
 
 

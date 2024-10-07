@@ -7,9 +7,11 @@ import com.KoiHealthService.Koi.demo.dto.request.UserRequest;
 import com.KoiHealthService.Koi.demo.dto.request.VerifyRequest;
 import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
 import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
+import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -26,12 +28,12 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class UserController {
 
+    @NonNull
     UserService userService;
 
     //Register
     @PostMapping("/register")
     ApiResponse<UserResponse> Register(@RequestBody @Valid UserRequest userRequest) {
-        log.info("controller");
 
         ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
 
@@ -42,14 +44,22 @@ public class UserController {
 
     //Test verify email
     @PostMapping("/verify")
-    public ResponseEntity<String> verifyCode(@RequestBody VerifyRequest verifyRequest){
-        boolean valid = userService.VerifyCode(verifyRequest.getEmail(), verifyRequest.getCode());
-        if(valid){
-            return ResponseEntity.ok("Mã xác minh hợp lệ");
-        }else {
-            return ResponseEntity.badRequest().body("Mã xác minh như không hợp lệ hoặc đã hết hạn");
-        }
+    public ApiResponse<UserResponse> verifyCode(@RequestBody VerifyRequest verifyRequest) {
+        ApiResponse apiResponse = new ApiResponse();
+
+        apiResponse.setResult(userService.VerifyCode(verifyRequest.getCode()));
+
+        return apiResponse;
     }
+
+//    @PostMapping("/re-verify")
+//    public ApiResponse<UserResponse> reVerifyCode(@RequestBody VerifyRequest verifyRequest){
+//        ApiResponse apiResponse = new ApiResponse();
+//
+//        apiResponse.setResult(userService.sendVerifyCodeAgain(verifyRequest.getEmail()));
+//
+//        return apiResponse;
+//    }
 
 
     // Get all user
