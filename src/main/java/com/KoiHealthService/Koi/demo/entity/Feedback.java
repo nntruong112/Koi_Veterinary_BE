@@ -2,31 +2,29 @@ package com.KoiHealthService.Koi.demo.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Entity
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter
-@Setter
 @Table(name = "feedbacks")
+@Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Feedback {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer feedbackId;
-
-    @Lob
-    private String comment;
-
-    private Integer rating;
-
+    @GeneratedValue(strategy = GenerationType.UUID)
+    String feedbackId;
+    String comment;
+    Integer rating;
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private User customer;
-
+    @JoinColumn(name = "customerId")
+    User customer;
     @ManyToOne
-    @JoinColumn(name = "appointment_id", nullable = false)
-    private Appointment appointment;
+    @JoinColumn(name = "appointmentId")
+    Appointment appointment;
+
+    
 }

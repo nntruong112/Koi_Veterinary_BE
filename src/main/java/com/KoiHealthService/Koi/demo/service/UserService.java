@@ -41,7 +41,7 @@ public class UserService {
         }
         User user = userMapper.toUser(userRequest);
 
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);  //mã hóa password
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
 
         return userMapper.toUserResponse(userRepository.save(user));
@@ -67,8 +67,6 @@ public class UserService {
     public UserResponse getById(String id){
         return userMapper.toUserResponse(userRepository.findById(id).orElseThrow(() -> new RuntimeException("Cannot find the id")));
     }
-
-
 
 
 }

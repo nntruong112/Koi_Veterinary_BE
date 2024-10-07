@@ -3,6 +3,8 @@ package com.KoiHealthService.Koi.demo.dto.response;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Set;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -10,8 +12,10 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserResponse {
     String id;
+    String firstname;
+    String lastname;
+    String name;
     String username;
-    String password;
     String email;
-    String phone;
+    Set<String> roles;
 }

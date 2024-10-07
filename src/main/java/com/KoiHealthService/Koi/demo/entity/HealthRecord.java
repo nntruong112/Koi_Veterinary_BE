@@ -2,36 +2,28 @@ package com.KoiHealthService.Koi.demo.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 
-@Entity
+@Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter
-@Setter
+@Entity
 @Table(name = "health_records")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class HealthRecord {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer healthRecordId;
+    @GeneratedValue(strategy = GenerationType.UUID)
 
-    private LocalDate appointmentDate;
-
-    @Lob
-    private String diagnosis;
-
-    @Lob
-    private String treatment;
-
+    String healthRecordId;
+    LocalDate appointmentDate;
+    String diagnosis;
+    String treatment;
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private User customer;
-
-    @ManyToOne
-    @JoinColumn(name = "fish_id", nullable = false)
-    private Fish fish;
+    @JoinColumn(name = "fishId")
+    Fish fish;
 }

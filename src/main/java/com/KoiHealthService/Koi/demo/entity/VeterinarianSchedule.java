@@ -2,31 +2,30 @@ package com.KoiHealthService.Koi.demo.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
+@Table(name = "veterinarian_schedules")
+@Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter
-@Setter
-@Table(name = "vet_schedules")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class VeterinarianSchedule {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer scheduleId;
-
-    private LocalDate availableDate;
-
-    private LocalTime startTime;
-
-    private LocalTime endTime;
-
+    @GeneratedValue(strategy = GenerationType.UUID)
+    String scheduleId;
+    LocalDate availableDate;
+    LocalTime startTime;
+    LocalTime endTime;
     @ManyToOne
-    @JoinColumn(name = "veterinarian_id", nullable = false)
-    private User veterinarian;
+    @JoinColumn(name = "veterinarianId")
+    User veterinarian;
+
+
 }
