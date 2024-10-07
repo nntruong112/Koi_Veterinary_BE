@@ -3,6 +3,7 @@ package com.KoiHealthService.Koi.demo.dto.response;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Data
@@ -17,5 +18,8 @@ public class UserResponse {
     String name;
     String username;
     String email;
+    String phone;
+    String address;
+    LocalDate dateOfBirth;
     Set<String> roles;
 }
