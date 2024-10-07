@@ -17,7 +17,6 @@ public class Fish {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     String fishId;
-    String name;
     String species;
     Integer age;
     @ManyToOne

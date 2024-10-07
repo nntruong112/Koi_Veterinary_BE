@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatusCode;
 
 @Getter
 public enum ErrorCode {
+    NO_CUSTOMER_FOUND(1000, "No customer found", HttpStatus.NOT_FOUND),
+    FISH_AGE_INVALID (2000, "Fish age invalid", HttpStatus.BAD_REQUEST),
     USER_UNACCEPTED(9999,"User is not accepted", HttpStatus.INTERNAL_SERVER_ERROR),
     USER_EXISTED( 1002, "User existed",HttpStatus.BAD_REQUEST),
     USERNAME_INVALID(1003,"Username must be at least 3 characters",HttpStatus.BAD_REQUEST),

@@ -1,6 +1,7 @@
 package com.KoiHealthService.Koi.demo.dto.response;
 
 
+import com.KoiHealthService.Koi.demo.entity.User;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -11,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FishResponse {
     String fishId;
-    String name;
     String species;
     Integer age;
+    String customerId;
 }

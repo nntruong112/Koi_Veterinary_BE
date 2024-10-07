@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @Builder
@@ -13,11 +14,14 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AppointmentResponse {
-    String id;
+    String appointmentId;
     LocalDate appointmentDate;
     String appointmentType;
-    User customer;
-    User veterinarian;
-    Fish fish;
+    String status;
+    String customerId;
+    String veterinarianId;
+    String fishId;
     String location;
+    LocalTime startTime;
+    LocalTime endTime;
 }

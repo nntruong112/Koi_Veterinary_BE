@@ -1,6 +1,7 @@
 package com.KoiHealthService.Koi.demo.dto.request;
 
 
+import com.KoiHealthService.Koi.demo.entity.User;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -10,7 +11,6 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FishUpdateRequest {
-    String name;
     String species;
-    Integer age;
+    int age;
 }

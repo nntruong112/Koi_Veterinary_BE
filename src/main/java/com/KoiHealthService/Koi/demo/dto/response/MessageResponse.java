@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MessageResponse {
     String messageId;
-    Appointment appointment;
-    User sender;
+    String appointmentId;
+    String senderId;
     String messageText;
     LocalDateTime timestamp;
 }

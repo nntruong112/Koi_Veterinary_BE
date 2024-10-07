@@ -16,6 +16,6 @@ public class FeedbackCreationRequest {
     String feedbackId;
     String comment;
     Integer rating;
-    User customer;
-    Appointment appointment;
+    String customerId;
+    String appointmentId;
 }

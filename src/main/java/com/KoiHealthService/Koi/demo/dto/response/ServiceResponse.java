@@ -18,6 +18,6 @@ public class ServiceResponse {
     String description;
     String category;
     BigDecimal price;
-    Appointment appointment;
-    User veterinarian;
+    String appointmentId;
+    String veterinarianId;
 }
