@@ -19,7 +19,9 @@ public enum ErrorCode {
     PASSWORD_MATCHES(1009, "Password are not matches",HttpStatus.BAD_REQUEST),
     PHONE_INVALID(1012,"Phone must be 10 number",HttpStatus.BAD_REQUEST),
     UNAUTHENTICATED(1006,"Unauthenticated",HttpStatus.UNAUTHORIZED),
-    UNAUTHORIZED(1007,"You do not have permission", HttpStatus.FORBIDDEN)
+    UNAUTHORIZED(1007,"You do not have permission", HttpStatus.FORBIDDEN),
+    INVALID_CODE(1008,"Invalid Code",HttpStatus.BAD_REQUEST),
+    VERIFICATION_CODE_ALREADY_SENT(1010,"Code have already sent",HttpStatus.BAD_REQUEST)
     ;
     @Setter
     private int code;

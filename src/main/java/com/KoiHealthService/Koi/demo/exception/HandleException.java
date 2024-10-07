@@ -31,15 +31,15 @@ public class HandleException {
         return ResponseEntity.badRequest().body(apiResponse);
     }
 
-    @ExceptionHandler(value = Exception.class)
-    ResponseEntity<ApiResponse> handlingException(Exception exception){
-        ApiResponse apiResponse = new ApiResponse();
-
-        apiResponse.setCode(ErrorCode.USER_UNACCEPTED.getCode());
-        apiResponse.setMessage(ErrorCode.USER_UNACCEPTED.getMessage());
-
-        return ResponseEntity.badRequest().body(apiResponse);
-    }
+//    @ExceptionHandler(value = Exception.class)
+//    ResponseEntity<ApiResponse> handlingException(Exception exception){
+//        ApiResponse apiResponse = new ApiResponse();
+//
+//        apiResponse.setCode(ErrorCode.USER_UNACCEPTED.getCode());
+//        apiResponse.setMessage(ErrorCode.USER_UNACCEPTED.getMessage());
+//
+//        return ResponseEntity.badRequest().body(apiResponse);
+//    }
 
     @ExceptionHandler(value = AnotherException.class)
     ResponseEntity<ApiResponse> handlingAnotherException(AnotherException exception){
