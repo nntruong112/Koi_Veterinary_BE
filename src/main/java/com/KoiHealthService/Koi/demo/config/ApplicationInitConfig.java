@@ -20,7 +20,7 @@ import java.util.HashSet;
 @Slf4j
 public class ApplicationInitConfig {
 
-    @NonNull
+
     PasswordEncoder passwordEncoder;
 
     @Bean

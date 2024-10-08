@@ -2,11 +2,14 @@ package com.KoiHealthService.Koi.demo.service;
 
 import com.KoiHealthService.Koi.demo.dto.request.AuthenticationRequest;
 import com.KoiHealthService.Koi.demo.dto.request.IntrospectRequest;
+import com.KoiHealthService.Koi.demo.dto.request.LogoutRequest;
 import com.KoiHealthService.Koi.demo.dto.response.AuthenticationResponse;
 import com.KoiHealthService.Koi.demo.dto.response.IntrospectResponse;
+import com.KoiHealthService.Koi.demo.entity.InvalidatedToken;
 import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;
 import com.KoiHealthService.Koi.demo.exception.ErrorCode;
+import com.KoiHealthService.Koi.demo.repository.InvalidatedTokenRepository;
 import com.KoiHealthService.Koi.demo.repository.UserRepository;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
@@ -37,6 +40,8 @@ import java.util.*;
 public class AuthenticateService {
     @NonNull
     UserRepository userRepository;
+    @NonNull
+    InvalidatedTokenRepository invalidatedTokenRepository;
 
     //Key to verify token
     @NonFinal
@@ -52,7 +57,7 @@ public class AuthenticateService {
         // Check password
         boolean authenticated = passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword());
         if (!authenticated) {
-            throw new AnotherException(ErrorCode.UNAUTHENTICATED);
+            throw new AnotherException(ErrorCode.LOGIN_FAILED);
         }
         //Generate Token
         var token = generateToken(user);
@@ -69,17 +74,14 @@ public class AuthenticateService {
     public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
         //Get token
         var token = request.getToken();
-        // Declare verifier
-        JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
-        //Parse token
-        SignedJWT signedJWT = SignedJWT.parse(token);
-        //Verify token
-        var verified = signedJWT.verify(verifier);
-        //Verify Expiration time
-        Date expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
-
+        boolean isValid = true;
+        try {
+            verifyToken(token);
+        }catch (AnotherException e){
+            isValid = false;
+        }
         return IntrospectResponse.builder()
-                .valid(verified && expiryTime.after(new Date()))
+                .valid(isValid)
                 .build();
 
     }
@@ -97,6 +99,7 @@ public class AuthenticateService {
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 ))
+                .jwtID(UUID.randomUUID().toString())
                 .claim("scope", BuildScope(user))
                 .build();
         // Payload
@@ -114,11 +117,45 @@ public class AuthenticateService {
 
     }
 
+    private SignedJWT verifyToken(String token) throws JOSEException, ParseException {
+        JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
+        //Parse token
+        SignedJWT signedJWT = SignedJWT.parse(token);
+        //Verify token
+        var verified = signedJWT.verify(verifier);
+        //Verify Expiration time
+        Date expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
+
+        if(!(verified && expiryTime.after(new Date()))){
+            throw new AnotherException(ErrorCode.UNAUTHENTICATED);
+        }
+
+        if(invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID())){
+            throw new AnotherException(ErrorCode.UNAUTHENTICATED);
+        }
+
+        return signedJWT;
+    }
+
+    public void logout(LogoutRequest request) throws ParseException, JOSEException {
+        var signToken = verifyToken(request.getToken());
+
+        String jwtID = signToken.getJWTClaimsSet().getJWTID();
+        Date expiryTime = signToken.getJWTClaimsSet().getExpirationTime();
+
+        InvalidatedToken invalidatedToken = InvalidatedToken.builder()
+                .id(jwtID)
+                .expiryTime(expiryTime)
+                .build();
+
+        invalidatedTokenRepository.save(invalidatedToken);
+    }
+
     private String BuildScope(User user) {
         StringJoiner stringJoiner = new StringJoiner(" ");
-        if (!CollectionUtils.isEmpty(user.getRoles())) {
-            user.getRoles().forEach(stringJoiner::add);
-        }
+//        if (!CollectionUtils.isEmpty(user.getRoles())) {
+//            user.getRoles().forEach(stringJoiner::add);
+//        }
         return  stringJoiner.toString();
     }
 }

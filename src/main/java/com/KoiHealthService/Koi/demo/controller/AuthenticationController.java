@@ -2,11 +2,13 @@ package com.KoiHealthService.Koi.demo.controller;
 
 import com.KoiHealthService.Koi.demo.dto.request.AuthenticationRequest;
 import com.KoiHealthService.Koi.demo.dto.request.IntrospectRequest;
+import com.KoiHealthService.Koi.demo.dto.request.LogoutRequest;
 import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
 import com.KoiHealthService.Koi.demo.dto.response.AuthenticationResponse;
 import com.KoiHealthService.Koi.demo.dto.response.IntrospectResponse;
 import com.KoiHealthService.Koi.demo.service.AuthenticateService;
 import com.nimbusds.jose.JOSEException;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -26,12 +28,23 @@ public class AuthenticationController {
 
     //Login
     @PostMapping("/login")
-    ApiResponse<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authenticationRequest) throws JOSEException {
+    ApiResponse<AuthenticationResponse> authenticate(@RequestBody @Valid AuthenticationRequest authenticationRequest) throws JOSEException {
         var result = authenticateService.authenticated(authenticationRequest);
 
         return ApiResponse.<AuthenticationResponse>builder()
                 .result(result)
                 .build();
+    }
+
+    //Logout
+
+    @PostMapping("/logout")
+    ApiResponse<String> logout(@RequestBody LogoutRequest request) throws ParseException, JOSEException {
+        authenticateService.logout(request);
+        return ApiResponse.<String>builder()
+                .result("Logout successfully")
+                .build();
+
     }
 
     //Verify Token
