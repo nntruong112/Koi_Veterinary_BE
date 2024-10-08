@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,17 +23,18 @@ public class AppointmentController {
     @NonNull
     private AppointmentService appointmentService;
 
-    @PostMapping() //endpoint đặt có s vì nó là invention trong việc đặt tên API
+    @PostMapping("/create") //endpoint đặt có s vì nó là invention trong việc đặt tên API
     ApiResponse<Appointment> createAppointment (@RequestBody @Valid AppointmentRequest request){
         ApiResponse<Appointment> apiResponse = new ApiResponse<>();
         apiResponse.setResult(appointmentService.createAppointment(request));
         return apiResponse;
     }
 
-//    @GetMapping()
-//    List<Appointment> getUsers(){
-//        return appointmentService.get();
-//    }
+    @GetMapping()
+    ResponseEntity<List<Appointment>> getAppointments(){
+        return ResponseEntity.ok(appointmentService.getAppointments());
+    }
+    
 
 
     
