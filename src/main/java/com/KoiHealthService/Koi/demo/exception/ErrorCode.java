@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatusCode;
 
 @Getter
 public enum ErrorCode {
+    NO_APPOINTMENT_FOUND(1200, "No appointment found", HttpStatus.NOT_FOUND),
+    NO_FISH_FOUND(1100, "No fish found", HttpStatus.NOT_FOUND),
+    NO_VETERINARIAN_FOUND(1000, "No veterinarian found", HttpStatus.NOT_FOUND),
     NO_CUSTOMER_FOUND(1000, "No customer found", HttpStatus.NOT_FOUND),
     FISH_AGE_INVALID (2000, "Fish age invalid", HttpStatus.BAD_REQUEST),
     USER_UNACCEPTED(9999,"User is not accepted", HttpStatus.INTERNAL_SERVER_ERROR),

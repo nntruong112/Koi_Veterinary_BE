@@ -1,6 +1,8 @@
 package com.KoiHealthService.Koi.demo.service;
 
 import com.KoiHealthService.Koi.demo.dto.request.FishCreationRequest;
+import com.KoiHealthService.Koi.demo.dto.request.FishUpdateRequest;
+import com.KoiHealthService.Koi.demo.dto.request.UpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.response.FishResponse;
 import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
 import com.KoiHealthService.Koi.demo.entity.Fish;
@@ -20,6 +22,7 @@ import java.util.List;
 
 @NonNull
 @Service
+@RequiredArgsConstructor
 public class FishService {
 
     @NonNull
@@ -27,14 +30,11 @@ public class FishService {
 
     @NonNull
     private final FishMapper fishMapper;
+
+    @NonNull
     private final UserRepository userRepository;
 
-    @Autowired
-    public FishService(FishRepository fishRepository, FishMapper fishMapper, UserRepository userRepository) {
-        this.fishRepository = fishRepository;
-        this.fishMapper = fishMapper;
-        this.userRepository = userRepository;
-    }
+    
     private User customer;
 
     private Fish fish;
@@ -63,5 +63,17 @@ public class FishService {
 
     public void deleteFish(String fishId) {
         fishRepository.deleteById(fishId);
+    }
+
+    //Update fish
+    public FishResponse updateFish(String id, FishUpdateRequest request){
+        Fish fish = fishRepository.findById(id).orElseThrow(() -> new RuntimeException("Fish is not found") );
+
+        fish = Fish.builder()
+                .age(request.getAge())
+                .species(request.getSpecies())
+                .build();
+
+        return null;
     }
 }

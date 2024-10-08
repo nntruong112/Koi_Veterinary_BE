@@ -9,10 +9,14 @@ import com.KoiHealthService.Koi.demo.mapper.ServiceMapper;
 import com.KoiHealthService.Koi.demo.repository.FishRepository;
 import com.KoiHealthService.Koi.demo.repository.ServiceRepository;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+
+@RequiredArgsConstructor
 @Service
 public class ServiceService {
 

@@ -38,7 +38,7 @@ public class FishController {
     }
 
     @DeleteMapping("/{fishId}")
-    String deleteUser(@PathVariable String fishId) {
+    String deleteFish(@PathVariable String fishId) {
         fishService.deleteFish(fishId);
         return "Fish has been deleted";
     }
