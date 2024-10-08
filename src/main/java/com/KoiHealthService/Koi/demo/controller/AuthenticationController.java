@@ -20,7 +20,8 @@ import java.text.ParseException;
 @RequiredArgsConstructor      //autowired các bean
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationController {
-    @NonNull
+
+
     AuthenticateService authenticateService;
 
 

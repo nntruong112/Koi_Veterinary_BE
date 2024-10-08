@@ -37,7 +37,7 @@ public class AuthenticateService {
 
         //Key to verify token
         @NonFinal
-        @Value("${jwt.signer_key}")
+        @Value("${JWT_SIGNING_KEY}")
         protected String SIGNER_KEY;
 
     public AuthenticationResponse authenticated(AuthenticationRequest authenticationRequest) throws JOSEException {

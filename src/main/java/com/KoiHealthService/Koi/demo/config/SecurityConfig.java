@@ -38,7 +38,7 @@ public class SecurityConfig {
             "/appointments/**",
             "/invoices/**"};
 
-    @Value("${jwt.signer_key}")
+    @Value("${JWT_SIGNING_KEY}")
     private String signerKey;
 
     @Bean
