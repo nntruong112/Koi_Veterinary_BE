@@ -1,13 +1,10 @@
 package com.KoiHealthService.Koi.demo.service;
 
-import com.KoiHealthService.Koi.demo.dto.request.FishCreationRequest;
-import com.KoiHealthService.Koi.demo.dto.response.FishResponse;
+import com.KoiHealthService.Koi.demo.dto.request.fish.FishCreationRequest;
 import com.KoiHealthService.Koi.demo.entity.Fish;
-import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.mapper.FishMapper;
 import com.KoiHealthService.Koi.demo.repository.FishRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,8 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 @ExtendWith(MockitoExtension.class)
@@ -78,7 +73,7 @@ class FishServiceTest {
 
         // Perform the service method and expect an exception
         Exception exception = assertThrows(RuntimeException.class, () -> {
-            fishService.getFish(fishCreateRequest.getFishId());
+            fishService.getByFish(fishCreateRequest.getFishId());
         });
 
         // Verify the exception message
