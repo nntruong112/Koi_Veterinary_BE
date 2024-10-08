@@ -66,14 +66,15 @@ public class FishService {
     }
 
     //Update fish
-    public FishResponse updateFish(String id, FishUpdateRequest request){
+    public Fish updateFish(String id, FishUpdateRequest request){
         Fish fish = fishRepository.findById(id).orElseThrow(() -> new RuntimeException("Fish is not found") );
 
         fish = Fish.builder()
                 .age(request.getAge())
                 .species(request.getSpecies())
+                .customer(customer)
                 .build();
 
-        return null;
+        return fishRepository.save(fish);
     }
 }

@@ -14,7 +14,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table (name = "Account")
+@Table (name = "accounts")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

@@ -15,7 +15,7 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 @Component
 @RequiredArgsConstructor
-@Slf4j // for login
+@Slf4j // for log
 public class WebSocketEventListener {
 
     private final SimpMessageSendingOperations messagingTemplate;
