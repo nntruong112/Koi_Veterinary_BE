@@ -1,7 +1,6 @@
-package com.KoiHealthService.Koi.demo.dto.request;
+package com.KoiHealthService.Koi.demo.dto.request.user;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

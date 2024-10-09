@@ -6,27 +6,29 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
-@Table(name = "services")
+@Table(name = "fish_specialties")
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Service {
+public class FishSpecialty {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    String serviceId;
-    String serviceName;
+    String fishSpecialtyId;
+    String fishSpecialtyName;
     String description;
     String category;
     BigDecimal price;
-    @ManyToOne
-    @JoinColumn(name = "appointmentId")
-    Appointment appointment;
-    @ManyToOne
-    @JoinColumn(name = "veterinarianId")
-    User veterinarian;
+    
+
+
+    @OneToMany(mappedBy = "fishSpecialty")
+    List<User> veterinarians; // List of veterinarians that can provide this service
 }
+    
+

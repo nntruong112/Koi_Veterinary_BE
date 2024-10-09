@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Min;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,4 +21,9 @@ public class FishCreationRequest {
     @Max(value = 40, message = "FISH_AGE_INVALID")
     Integer age;
     String customerId;
+    BigDecimal size;
+    BigDecimal weight;
+    String gender;
+    String color;
+    String image;
 }

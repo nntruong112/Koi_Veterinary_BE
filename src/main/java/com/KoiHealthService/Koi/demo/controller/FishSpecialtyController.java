@@ -1,17 +1,17 @@
 package com.KoiHealthService.Koi.demo.controller;
 
-import com.KoiHealthService.Koi.demo.service.ServiceService;
-import lombok.NonNull;
+import com.KoiHealthService.Koi.demo.service.FishSpecialtyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/services")
 @RequiredArgsConstructor
-public class ServiceController {
+public class FishSpecialtyController {
 
-    @NonNull
-    ServiceService serviceService;
+    //đừng để NonNull ở đây, tại sao cũng hong biết nữa, một là để nonnull, 2 là để final
+    private final FishSpecialtyService fishSpecialtyService;
+    
 
 //    @PostMapping("/create")
 //        //endpoint users voi method POST, users đặt có s vì nó là invention trong việc đặt tên API

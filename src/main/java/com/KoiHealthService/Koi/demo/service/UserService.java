@@ -1,10 +1,9 @@
 package com.KoiHealthService.Koi.demo.service;
 
-import ch.qos.logback.classic.spi.IThrowableProxy;
 import com.KoiHealthService.Koi.demo.Enum.Role;
 import com.KoiHealthService.Koi.demo.Storage.UserStorage;
-import com.KoiHealthService.Koi.demo.dto.request.UpdateRequest;
-import com.KoiHealthService.Koi.demo.dto.request.UserRequest;
+import com.KoiHealthService.Koi.demo.dto.request.user.UpdateRequest;
+import com.KoiHealthService.Koi.demo.dto.request.user.UserRequest;
 import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
 import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;
@@ -18,7 +17,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PostAuthorize;

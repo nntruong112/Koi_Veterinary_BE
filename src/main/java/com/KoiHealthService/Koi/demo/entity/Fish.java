@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "fishes")
 @Data
@@ -19,6 +21,11 @@ public class Fish {
     String fishId;
     String species;
     Integer age;
+    String gender;
+    String color;
+    BigDecimal size;
+    BigDecimal weight;
+    String image;
     @ManyToOne
     @JoinColumn(name = "customerId")
     User customer;

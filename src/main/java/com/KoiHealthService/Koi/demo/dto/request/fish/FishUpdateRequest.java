@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Min;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,4 +18,7 @@ public class FishUpdateRequest {
     @Min(value = 1, message = "FISH_AGE_INVALID")
     @Max(value = 40, message = "FISH_AGE_INVALID")
     int age;
+    BigDecimal size;
+    BigDecimal weight;
+    String image;
 }

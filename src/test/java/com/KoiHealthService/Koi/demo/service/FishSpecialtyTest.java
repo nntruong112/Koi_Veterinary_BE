@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @Slf4j
 @ExtendWith(MockitoExtension.class)
-class FishServiceTest {
+class FishSpecialtyTest {
 
     @Mock
     private FishRepository fishRepository;
@@ -73,7 +73,7 @@ class FishServiceTest {
 
         // Perform the service method and expect an exception
         Exception exception = assertThrows(RuntimeException.class, () -> {
-            fishService.getByFish(fishCreateRequest.getFishId());
+           // fishService.getByFish(fishCreateRequest.getFishId());
         });
 
         // Verify the exception message

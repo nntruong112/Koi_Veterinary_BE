@@ -31,6 +31,7 @@ public class Appointment {
     @ManyToOne
     @JoinColumn(name = "fishId")
     Fish fish;
+    
     String location;
     LocalTime startTime;
     LocalTime endTime;

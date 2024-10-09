@@ -1,7 +1,7 @@
 package com.KoiHealthService.Koi.demo.mapper;
 
 
-import com.KoiHealthService.Koi.demo.dto.request.AppointmentRequest;
+import com.KoiHealthService.Koi.demo.dto.request.appointment.AppointmentRequest;
 import com.KoiHealthService.Koi.demo.dto.response.AppointmentResponse;
 import com.KoiHealthService.Koi.demo.entity.Appointment;
 import lombok.NonNull;

@@ -37,7 +37,12 @@ public class SecurityConfig {
             "/users/**",
             "/fishes/**",
             "/appointments/**",
-            "/invoices/**"};
+            "/invoices/**",
+            "/health_records/**",
+            "/feedbacks/**",
+            "/messages/**",
+            "/veterinarian_schedules/**",
+    };
 
     @Value("${jwt.signer_key}")
     private String signerKey;

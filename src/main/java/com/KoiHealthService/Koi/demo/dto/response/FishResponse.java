@@ -5,6 +5,8 @@ import com.KoiHealthService.Koi.demo.entity.User;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,4 +17,7 @@ public class FishResponse {
     String species;
     Integer age;
     String customerId;
+    BigDecimal size;
+    BigDecimal weight;
+    String image;
 }

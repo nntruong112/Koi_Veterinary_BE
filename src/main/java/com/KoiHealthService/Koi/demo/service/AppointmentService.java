@@ -1,6 +1,6 @@
 package com.KoiHealthService.Koi.demo.service;
 
-import com.KoiHealthService.Koi.demo.dto.request.AppointmentRequest;
+import com.KoiHealthService.Koi.demo.dto.request.appointment.AppointmentRequest;
 import com.KoiHealthService.Koi.demo.entity.Appointment;
 import com.KoiHealthService.Koi.demo.entity.Fish;
 import com.KoiHealthService.Koi.demo.entity.User;
@@ -12,7 +12,6 @@ import com.KoiHealthService.Koi.demo.repository.FishRepository;
 import com.KoiHealthService.Koi.demo.repository.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,9 +23,13 @@ public class AppointmentService {
 
     @NonNull
     private final AppointmentMapper appointmentMapper;
+
+    @NonNull
     private final FishRepository fishRepository;
     @NonNull
     private final AppointmentRepository appointmentRepository; //giao tiếp với repos
+
+    @NonNull
     private final UserRepository userRepository;
 
     private Appointment appointment;

@@ -36,6 +36,8 @@ public class FishService {
 
     private Fish fish;
 
+
+    //create fish ============================================================================
     public Fish createFish(FishCreationRequest request) {
 
          customer = userRepository.findById(request.getCustomerId())
@@ -44,16 +46,23 @@ public class FishService {
         fish = Fish.builder()
                 .species(request.getSpecies())
                 .age(request.getAge())
-                .customer(customer)      //trong entity khai báo cho customer là dạng User
+                .image(request.getImage())
+                .weight(request.getWeight())
+                .size(request.getSize())
+                .color(request.getColor())
+                .gender(request.getGender())
+                .customer(customer)//trong entity khai báo cho customer là dạng User
                 .build();
 
         return fishRepository.save(fish);
     }
 
+    //get all fishes==================================================================================
     public List<Fish> getFishes() {
         return fishRepository.findAll();
     }
 
+    //get fish by id ===============================================================================
     public FishResponse getFishById(String id) {
         fish = fishRepository.findById(id).orElseThrow(() -> new RuntimeException("Fish is not found") );
 
@@ -63,25 +72,32 @@ public class FishService {
                 .fishId(fish.getFishId())
                 .age(fish.getAge())
                 .species(fish.getSpecies())
+                .image(fish.getImage())
+                .weight(fish.getWeight())
+                .size(fish.getSize())
                 .customerId(customer.getUserId())         //trong FishResponse khai báo là String
                 .build();
 
     }
+    //delete fish ====================================================================================
 
     public void deleteFish(String fishId) {
         fishRepository.deleteById(fishId);
     }
 
-    //Update fish
+
+
+    //Update fish    ======================================================================================
     public Fish updateFish(String id, FishUpdateRequest request){
         //fetch fish by id
         fish = fishRepository.findById(id).orElseThrow(() -> new RuntimeException("Fish is not found") );
 
         //update fish nè
-        fish = Fish.builder()
-                .age(request.getAge())
-                .species(request.getSpecies())
-                .build();
+        fish.setAge(request.getAge());
+        fish.setSpecies(request.getSpecies());
+        fish.setImage(request.getImage());
+        fish.setWeight(request.getWeight());
+        fish.setSize(request.getSize());
        
         return fishRepository.save(fish);
     }

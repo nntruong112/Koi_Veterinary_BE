@@ -1,15 +1,13 @@
 package com.KoiHealthService.Koi.demo.controller;
 
 
-import com.KoiHealthService.Koi.demo.dto.request.AppointmentRequest;
+import com.KoiHealthService.Koi.demo.dto.request.appointment.AppointmentRequest;
 import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
 import com.KoiHealthService.Koi.demo.entity.Appointment;
-import com.KoiHealthService.Koi.demo.entity.Fish;
 import com.KoiHealthService.Koi.demo.service.AppointmentService;
 import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package com.KoiHealthService.Koi.demo.dto.request;
+package com.KoiHealthService.Koi.demo.dto.request.user;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -17,4 +17,6 @@ public class UpdateRequest {
     String phone;
     String address;
     LocalDate dateOfBirth;
+    String gender;
+    String image;
 }

@@ -21,8 +21,9 @@ import java.util.List;
 @RequestMapping("/fishes")
 public class FishController {
 
-    @NonNull
-    private FishService fishService;
+
+    //đừng để NonNull ở đây, tại sao cũng hong biết nữa, một là để nonnull, 2 là để final
+    private final FishService fishService;
 
     @PostMapping("/create")
         //endpoint users voi method POST, users đặt có s vì nó là invention trong việc đặt tên API
@@ -39,7 +40,7 @@ public class FishController {
         return fishService.updateFish(fishId, updateRequest);
     }
 
-    // Get fish by Id
+    // Get fish by id
     @GetMapping("/{fishId}")
     FishResponse getFishById(@PathVariable("fishId") String fishId){
         return fishService.getFishById(fishId);
