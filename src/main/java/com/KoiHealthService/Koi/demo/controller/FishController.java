@@ -1,17 +1,14 @@
 package com.KoiHealthService.Koi.demo.controller;
 
-import com.KoiHealthService.Koi.demo.dto.request.FishCreationRequest;
-import com.KoiHealthService.Koi.demo.dto.request.FishUpdateRequest;
-import com.KoiHealthService.Koi.demo.dto.request.UpdateRequest;
+import com.KoiHealthService.Koi.demo.dto.request.fish.FishCreationRequest;
+import com.KoiHealthService.Koi.demo.dto.request.fish.FishUpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
 import com.KoiHealthService.Koi.demo.dto.response.FishResponse;
-import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
 import com.KoiHealthService.Koi.demo.entity.Fish;
 import com.KoiHealthService.Koi.demo.service.FishService;
 import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,9 +32,17 @@ public class FishController {
         return apiResponse;
     }
 
+
+
     @PutMapping("/{fishId}")
     Fish updateFish(@PathVariable ("fishId") String fishId, @RequestBody FishUpdateRequest updateRequest) {
         return fishService.updateFish(fishId, updateRequest);
+    }
+
+    // Get fish by Id
+    @GetMapping("/{fishId}")
+    FishResponse getFishById(@PathVariable("fishId") String fishId){
+        return fishService.getFishById(fishId);
     }
 
 

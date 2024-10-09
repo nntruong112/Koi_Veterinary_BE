@@ -1,10 +1,8 @@
 package com.KoiHealthService.Koi.demo.service;
 
-import com.KoiHealthService.Koi.demo.dto.request.FishCreationRequest;
-import com.KoiHealthService.Koi.demo.dto.request.FishUpdateRequest;
-import com.KoiHealthService.Koi.demo.dto.request.UpdateRequest;
+import com.KoiHealthService.Koi.demo.dto.request.fish.FishCreationRequest;
+import com.KoiHealthService.Koi.demo.dto.request.fish.FishUpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.response.FishResponse;
-import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
 import com.KoiHealthService.Koi.demo.entity.Fish;
 import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;
@@ -14,7 +12,6 @@ import com.KoiHealthService.Koi.demo.repository.FishRepository;
 import com.KoiHealthService.Koi.demo.repository.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,7 +44,7 @@ public class FishService {
         fish = Fish.builder()
                 .species(request.getSpecies())
                 .age(request.getAge())
-                .customer(customer)
+                .customer(customer)      //trong entity khai báo cho customer là dạng User
                 .build();
 
         return fishRepository.save(fish);
@@ -57,8 +54,18 @@ public class FishService {
         return fishRepository.findAll();
     }
 
-    public FishResponse getFish(String id) {
-        return fishMapper.toFishResponse(fishRepository.findById(id).orElseThrow(() -> new RuntimeException("Fish not found")));
+    public FishResponse getFishById(String id) {
+        fish = fishRepository.findById(id).orElseThrow(() -> new RuntimeException("Fish is not found") );
+
+        User customer = fish.getCustomer();
+
+        return FishResponse.builder()
+                .fishId(fish.getFishId())
+                .age(fish.getAge())
+                .species(fish.getSpecies())
+                .customerId(customer.getUserId())         //trong FishResponse khai báo là String
+                .build();
+
     }
 
     public void deleteFish(String fishId) {
@@ -67,14 +74,15 @@ public class FishService {
 
     //Update fish
     public Fish updateFish(String id, FishUpdateRequest request){
-        Fish fish = fishRepository.findById(id).orElseThrow(() -> new RuntimeException("Fish is not found") );
+        //fetch fish by id
+        fish = fishRepository.findById(id).orElseThrow(() -> new RuntimeException("Fish is not found") );
 
+        //update fish nè
         fish = Fish.builder()
                 .age(request.getAge())
                 .species(request.getSpecies())
-                .customer(customer)
                 .build();
-
+       
         return fishRepository.save(fish);
     }
 }

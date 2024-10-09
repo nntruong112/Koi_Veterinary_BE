@@ -1,20 +1,15 @@
 package com.KoiHealthService.Koi.demo.service;
 
-import com.KoiHealthService.Koi.demo.dto.request.FishCreationRequest;
 import com.KoiHealthService.Koi.demo.dto.request.InvoiceCreationRequest;
 import com.KoiHealthService.Koi.demo.entity.Appointment;
-import com.KoiHealthService.Koi.demo.entity.Fish;
 import com.KoiHealthService.Koi.demo.entity.Invoice;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;
 import com.KoiHealthService.Koi.demo.exception.ErrorCode;
-import com.KoiHealthService.Koi.demo.mapper.FishMapper;
 import com.KoiHealthService.Koi.demo.mapper.InvoiceMapper;
 import com.KoiHealthService.Koi.demo.repository.AppointmentRepository;
-import com.KoiHealthService.Koi.demo.repository.FishRepository;
 import com.KoiHealthService.Koi.demo.repository.InvoiceRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

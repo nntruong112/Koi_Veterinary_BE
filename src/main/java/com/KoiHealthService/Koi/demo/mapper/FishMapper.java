@@ -1,10 +1,9 @@
 package com.KoiHealthService.Koi.demo.mapper;
 
-import com.KoiHealthService.Koi.demo.dto.request.FishCreationRequest;
-import com.KoiHealthService.Koi.demo.dto.request.FishUpdateRequest;
+import com.KoiHealthService.Koi.demo.dto.request.fish.FishCreationRequest;
+import com.KoiHealthService.Koi.demo.dto.request.fish.FishUpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.response.FishResponse;
 import com.KoiHealthService.Koi.demo.entity.Fish;
-import lombok.NonNull;
 import org.mapstruct.*;
 
 
