@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 
-public interface ServiceRepository extends JpaRepository<FishSpecialty, String> {
+public interface FishSpecialtyRepository extends JpaRepository<FishSpecialty, String> {
 }

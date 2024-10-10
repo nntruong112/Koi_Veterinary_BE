@@ -24,11 +24,7 @@ public class FishSpecialty {
     String description;
     String category;
     BigDecimal price;
-    
 
-
-    @OneToMany(mappedBy = "fishSpecialty")
-    List<User> veterinarians; // List of veterinarians that can provide this service
 }
     
 

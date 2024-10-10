@@ -42,6 +42,7 @@ public class SecurityConfig {
             "/feedbacks/**",
             "/messages/**",
             "/veterinarian_schedules/**",
+            "/fish_specialties/**"
     };
 
     @Value("${jwt.signer_key}")

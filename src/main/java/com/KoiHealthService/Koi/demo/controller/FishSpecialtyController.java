@@ -1,24 +1,36 @@
 package com.KoiHealthService.Koi.demo.controller;
 
+import com.KoiHealthService.Koi.demo.dto.request.FishSpecialtyCreationRequest;
+import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
+import com.KoiHealthService.Koi.demo.entity.FishSpecialty;
 import com.KoiHealthService.Koi.demo.service.FishSpecialtyService;
+import jakarta.validation.Valid;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/services")
+@RequestMapping("/fish_specialties")
 @RequiredArgsConstructor
 public class FishSpecialtyController {
 
     //đừng để NonNull ở đây, tại sao cũng hong biết nữa, một là để nonnull, 2 là để final
+    @NonNull
     private final FishSpecialtyService fishSpecialtyService;
     
 
-//    @PostMapping("/create")
-//        //endpoint users voi method POST, users đặt có s vì nó là invention trong việc đặt tên API
-//    ApiResponse<Service> createService(@RequestBody @Valid ServiceCreationRequest request) {
-//        ApiResponse<Service> apiResponse = new ApiResponse<>();
-//        apiResponse.setResult(serviceService.createService(request));
-//        return apiResponse;
-//    }
+    @PostMapping("/create")
+        //endpoint users voi method POST, users đặt có s vì nó là invention trong việc đặt tên API
+    ApiResponse<FishSpecialty> createFishSpecialty(@RequestBody @Valid FishSpecialtyCreationRequest request) {
+        ApiResponse<FishSpecialty> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(fishSpecialtyService.createFishSpecialty(request));
+        return apiResponse;
+    }
+
+    @DeleteMapping("/{fishSpecialtyId}")
+    String deleteFishSpecialty(@PathVariable String fishSpecialtyId) {
+        fishSpecialtyService.deleteFishSpecialty(fishSpecialtyId);
+        return "Fish specialty has been deleted";
+    }
 
 }
