@@ -79,6 +79,15 @@ public class FishService {
                 .build();
 
     }
+    //Get fish by userId
+    public List<Fish> getFishByUserId(String userId) {
+
+        
+        return null;
+    }
+
+
+
     //delete fish ====================================================================================
 
     public void deleteFish(String fishId) {
