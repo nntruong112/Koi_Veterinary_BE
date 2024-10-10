@@ -46,7 +46,7 @@ public class FishController {
     }
 
 
-    @GetMapping()
+    @GetMapping("/my_fishes")
     ResponseEntity<List<Fish>> getFish(){
         return ResponseEntity.ok(fishService.getFishes());
     }

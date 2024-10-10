@@ -11,9 +11,8 @@ import org.mapstruct.MappingTarget;
 
 @Mapper (componentModel = "spring")
 public interface UserMapper {
-    @NonNull
     User toUser(UserRequest userRequest);
-    @NonNull
+    
     UserResponse toUserResponse(User user);
     void toUpdateUser(@MappingTarget User user, UpdateRequest updateRequest);
     UserResponse toVerifyCodeResponse(String verificationCode);
