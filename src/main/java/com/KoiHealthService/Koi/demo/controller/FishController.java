@@ -25,6 +25,8 @@ public class FishController {
     //đừng để NonNull ở đây, tại sao cũng hong biết nữa, một là để nonnull, 2 là để final
     private final FishService fishService;
 
+
+    //create fish==========================================================================================
     @PostMapping("/create")
         //endpoint users voi method POST, users đặt có s vì nó là invention trong việc đặt tên API
     ApiResponse<Fish> createFish(@RequestBody @Valid FishCreationRequest request) {
@@ -35,18 +37,27 @@ public class FishController {
 
 
 
+    //update fish ==========================================================================================
     @PutMapping("/{fishId}")
     Fish updateFish(@PathVariable ("fishId") String fishId, @RequestBody FishUpdateRequest updateRequest) {
         return fishService.updateFish(fishId, updateRequest);
     }
 
-    // Get fish by id
+    // Get fish by id==========================================================================================
     @GetMapping("/{fishId}")
     FishResponse getFishById(@PathVariable("fishId") String fishId){
         return fishService.getFishById(fishId);
     }
+    //Get fish by userId==========================================================================================
+
+    @GetMapping("/own_by_users_id/{customerId}")
+    public List<Fish> getFishByCustomerId(@PathVariable("customerId") String customerId) {
+        return fishService.getFishByCustomerId(customerId);
+    }
 
 
+    
+    //get all fish==========================================================================================
     @GetMapping()
     ResponseEntity<List<Fish>> getFish(){
         return ResponseEntity.ok(fishService.getFishes());

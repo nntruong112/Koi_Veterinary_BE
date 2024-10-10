@@ -79,11 +79,9 @@ public class FishService {
                 .build();
 
     }
-    //Get fish by userId
-    public List<Fish> getFishByUserId(String userId) {
-
-        
-        return null;
+    // Get fish by customerId
+    public List<Fish> getFishByCustomerId(String customerId) {
+        return fishRepository.findByCustomerId(customerId);
     }
 
 

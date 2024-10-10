@@ -25,6 +25,7 @@ public class Fish {
     String color;
     BigDecimal size;
     BigDecimal weight;
+    @Column(columnDefinition = "TEXT")
     String image;
     @ManyToOne
     @JoinColumn(name = "customerId")
