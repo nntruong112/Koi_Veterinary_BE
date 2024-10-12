@@ -88,9 +88,18 @@ public class AppointmentService {
     }
 
     //Get appointment by customerId
-    public List<AppointmentResponse> getAppointmentsByUserId(String customerId) {
+    public List<AppointmentResponse> getAppointmentsByCustomerId(String customerId) {
         customer = userRepository.findById(customerId).orElseThrow(() -> new RuntimeException("invalid user id"));
         List<Appointment> appointments = appointmentRepository.findAppointmentsByCustomerId(customerId);
+        return appointments.stream()
+                .map(appointmentMapper::toAppointmentResponse) // Map each appointment to AppointmentResponse
+                .collect(Collectors.toList()); // Collect results into a List
+    }
+
+    //Get appointment by veterinarianId
+    public List<AppointmentResponse> getAppointmentsByVetId(String vetId) {
+        veterinarian = userRepository.findById(vetId).orElseThrow(() -> new RuntimeException("invalid user id"));
+        List<Appointment> appointments = appointmentRepository.findAppointmentsByVetId(vetId);
         return appointments.stream()
                 .map(appointmentMapper::toAppointmentResponse) // Map each appointment to AppointmentResponse
                 .collect(Collectors.toList()); // Collect results into a List
