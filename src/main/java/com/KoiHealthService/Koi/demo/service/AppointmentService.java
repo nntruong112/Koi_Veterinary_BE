@@ -12,48 +12,37 @@ import com.KoiHealthService.Koi.demo.mapper.AppointmentMapper;
 import com.KoiHealthService.Koi.demo.repository.AppointmentRepository;
 import com.KoiHealthService.Koi.demo.repository.FishRepository;
 import com.KoiHealthService.Koi.demo.repository.UserRepository;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @Service
-@NonNull
 public class AppointmentService {
 
-    @NonNull
     private final AppointmentMapper appointmentMapper;
-
-    @NonNull
     private final FishRepository fishRepository;
-    @NonNull
-    private final AppointmentRepository appointmentRepository; //giao tiếp với repos
-
-    @NonNull
+    private final AppointmentRepository appointmentRepository;
     private final UserRepository userRepository;
 
-    private Appointment appointment;
-    private Fish fish;
-    private User customer;
-    private User veterinarian;
+    public AppointmentService(AppointmentMapper appointmentMapper, FishRepository fishRepository, AppointmentRepository appointmentRepository, UserRepository userRepository) {
+        this.appointmentMapper = appointmentMapper;
+        this.fishRepository = fishRepository;
+        this.appointmentRepository = appointmentRepository;
+        this.userRepository = userRepository;
+    }
 
-
-    //create appointment====================================================================================
-    public Appointment createAppointment(AppointmentRequest request){
-        customer = userRepository.findById(request.getCustomerId())                           
+    public Appointment createAppointment(AppointmentRequest request) {
+        User customer = userRepository.findById(request.getCustomerId())
                 .orElseThrow(() -> new AnotherException(ErrorCode.NO_CUSTOMER_FOUND));
-        
-        veterinarian = userRepository.findById(request.getVeterinarianId())
+        User veterinarian = userRepository.findById(request.getVeterinarianId())
                 .orElseThrow(() -> new AnotherException(ErrorCode.NO_VETERINARIAN_FOUND));
+        Fish fish = fishRepository.findById(request.getFishId())
+                .orElseThrow(() -> new AnotherException(ErrorCode.NO_FISH_FOUND));
 
-        fish = fishRepository.findById(request.getFishId())
-                .orElseThrow(()-> new AnotherException(ErrorCode.NO_FISH_FOUND));
-
-
-        appointment = Appointment.builder()
+        Appointment appointment = Appointment.builder()
                 .appointmentId(request.getAppointmentId())
                 .appointmentDate(request.getAppointmentDate())
                 .appointmentType(request.getAppointmentType())
@@ -67,43 +56,36 @@ public class AppointmentService {
                 .build();
 
         return appointmentRepository.save(appointment);
-        
     }
 
-    //Get all appointment=======================================================================================
     public List<Appointment> getAppointments() {
         return appointmentRepository.findAll();
     }
 
-    //Update appointment======================================================================================
+    public AppointmentResponse updateAppointment(String appointmentId, AppointmentUpdateRequest request) {
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new AnotherException(ErrorCode.NO_APPOINTMENT_FOUND));
 
-    public AppointmentResponse updateAppointment(String appointmentId ,AppointmentUpdateRequest request) {
-        //fetch appointment by id
-        appointment = appointmentRepository.findById(appointmentId).orElseThrow(()-> new AnotherException(ErrorCode.NO_APPOINTMENT_FOUND));
-        //
-        appointmentMapper.toUpdateAppointment(appointment,request);
-        //save
-        return  appointmentMapper.toAppointmentResponse(appointmentRepository.save(appointment));
-
+        appointmentMapper.toUpdateAppointment(appointment, request);
+        appointmentRepository.save(appointment);
+        return appointmentMapper.toAppointmentResponse(appointment);
     }
 
-    //Get appointment by customerId
+    public void deleteAppointment(String appointmentId) {
+        appointmentRepository.deleteById(appointmentId);
+    }
+
     public List<AppointmentResponse> getAppointmentsByCustomerId(String customerId) {
-        customer = userRepository.findById(customerId).orElseThrow(() -> new RuntimeException("invalid user id"));
         List<Appointment> appointments = appointmentRepository.findAppointmentsByCustomerId(customerId);
         return appointments.stream()
-                .map(appointmentMapper::toAppointmentResponse) // Map each appointment to AppointmentResponse
-                .collect(Collectors.toList()); // Collect results into a List
+                .map(appointmentMapper::toAppointmentResponse)
+                .collect(Collectors.toList());
     }
 
-    //Get appointment by veterinarianId
     public List<AppointmentResponse> getAppointmentsByVetId(String vetId) {
-        veterinarian = userRepository.findById(vetId).orElseThrow(() -> new RuntimeException("invalid user id"));
         List<Appointment> appointments = appointmentRepository.findAppointmentsByVetId(vetId);
         return appointments.stream()
-                .map(appointmentMapper::toAppointmentResponse) // Map each appointment to AppointmentResponse
-                .collect(Collectors.toList()); // Collect results into a List
+                .map(appointmentMapper::toAppointmentResponse)
+                .collect(Collectors.toList());
     }
-
-    
 }
