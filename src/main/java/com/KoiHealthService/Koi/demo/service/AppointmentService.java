@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class AppointmentService {
 
@@ -26,13 +26,7 @@ public class AppointmentService {
     private final FishRepository fishRepository;
     private final AppointmentRepository appointmentRepository;
     private final UserRepository userRepository;
-
-    public AppointmentService(AppointmentMapper appointmentMapper, FishRepository fishRepository, AppointmentRepository appointmentRepository, UserRepository userRepository) {
-        this.appointmentMapper = appointmentMapper;
-        this.fishRepository = fishRepository;
-        this.appointmentRepository = appointmentRepository;
-        this.userRepository = userRepository;
-    }
+    
 
     public Appointment createAppointment(AppointmentRequest request) {
         User customer = userRepository.findById(request.getCustomerId())
