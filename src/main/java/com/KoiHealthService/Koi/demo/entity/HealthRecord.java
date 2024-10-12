@@ -20,7 +20,7 @@ public class HealthRecord {
     @GeneratedValue(strategy = GenerationType.UUID)
 
     String healthRecordId;
-    LocalDate appointmentDate;
+    LocalDate createdDate;
     String diagnosis;
     String treatment;
     @ManyToOne

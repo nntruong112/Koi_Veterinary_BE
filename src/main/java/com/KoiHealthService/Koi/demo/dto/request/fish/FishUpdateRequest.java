@@ -21,4 +21,8 @@ public class FishUpdateRequest {
     BigDecimal size;
     BigDecimal weight;
     String image;
+    String gender;
+    String color;
+    String customerId;
+    String fishId;
 }

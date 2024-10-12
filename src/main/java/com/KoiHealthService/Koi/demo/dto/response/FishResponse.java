@@ -20,4 +20,7 @@ public class FishResponse {
     BigDecimal size;
     BigDecimal weight;
     String image;
+    String gender;
+    String color;
+    User customer;
 }

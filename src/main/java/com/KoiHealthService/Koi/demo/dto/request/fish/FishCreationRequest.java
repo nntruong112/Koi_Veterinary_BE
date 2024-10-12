@@ -26,4 +26,5 @@ public class FishCreationRequest {
     String gender;
     String color;
     String image;
+
 }

@@ -2,7 +2,9 @@ package com.KoiHealthService.Koi.demo.controller;
 
 
 import com.KoiHealthService.Koi.demo.dto.request.appointment.AppointmentRequest;
+import com.KoiHealthService.Koi.demo.dto.request.appointment.AppointmentUpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
+import com.KoiHealthService.Koi.demo.dto.response.AppointmentResponse;
 import com.KoiHealthService.Koi.demo.entity.Appointment;
 import com.KoiHealthService.Koi.demo.service.AppointmentService;
 import jakarta.validation.Valid;
@@ -31,6 +33,20 @@ public class AppointmentController {
     @GetMapping()
     ResponseEntity<List<Appointment>> getAppointments(){
         return ResponseEntity.ok(appointmentService.getAppointments());
+    }
+
+    //update Appointment===============================================================================================
+    @PutMapping("/{appointmentId}")
+    AppointmentResponse updateAppointment(@PathVariable("appointmentId")  String appointmentId, @RequestBody AppointmentUpdateRequest request){
+        return appointmentService.updateAppointment(appointmentId,request);
+
+        //return null;
+    }
+
+    //get appointment by customerId
+    @GetMapping("/belonged_to_customerId/{customerId}")
+    public List<AppointmentResponse>  getAppointmentByCustomerId(@PathVariable("customerId") String customerId){
+        return appointmentService.getAppointmentsByUserId(customerId);
     }
     
 

@@ -1,11 +1,18 @@
 package com.KoiHealthService.Koi.demo.service;
 
-import com.KoiHealthService.Koi.demo.dto.request.FishSpecialtyCreationRequest;
+import com.KoiHealthService.Koi.demo.dto.request.fishSpecialty.FishSpecialtyCreationRequest;
+import com.KoiHealthService.Koi.demo.dto.request.fishSpecialty.FishSpecialtyUpdateRequest;
+import com.KoiHealthService.Koi.demo.dto.response.FishSpecialtyResponse;
 import com.KoiHealthService.Koi.demo.entity.FishSpecialty;
 import com.KoiHealthService.Koi.demo.entity.User;
+import com.KoiHealthService.Koi.demo.mapper.FishSpecialtyMapper;
 import com.KoiHealthService.Koi.demo.repository.FishSpecialtyRepository;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.lang.annotation.Native;
 
 
 @RequiredArgsConstructor
@@ -13,6 +20,10 @@ import org.springframework.stereotype.Service;
 public class FishSpecialtyService {
 
     private final FishSpecialtyRepository fishSpecialtyRepository;
+
+
+    @Autowired
+    private FishSpecialtyMapper fishSpecialtyMapper;
 
     private FishSpecialty fishSpecialty;
 
@@ -35,9 +46,20 @@ public class FishSpecialtyService {
         return fish;    
     }
 
-    //delete fish ====================================================================================
+    //delete fish specialty ====================================================================================
     public void deleteFishSpecialty(String fishSpecialtyId) {
         fishSpecialtyRepository.deleteById(fishSpecialtyId);
+    }
+
+    //update fish specialty
+    public FishSpecialtyResponse updateFishSpecialty(String fishSpecialtyId, FishSpecialtyUpdateRequest request) {
+        fishSpecialty  = fishSpecialtyRepository.findById(fishSpecialtyId).orElseThrow(() -> new RuntimeException("Fish specialty is not found"));
+
+        fishSpecialtyMapper.toUpdateFishSpecialty(fishSpecialty, request);
+
+        FishSpecialtyResponse response = fishSpecialtyMapper.toFishSpecialtyResponse(fishSpecialtyRepository.save(fishSpecialty));
+
+        return response;
     }
 
 

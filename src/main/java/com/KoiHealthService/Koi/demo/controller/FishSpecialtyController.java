@@ -1,7 +1,9 @@
 package com.KoiHealthService.Koi.demo.controller;
 
-import com.KoiHealthService.Koi.demo.dto.request.FishSpecialtyCreationRequest;
+import com.KoiHealthService.Koi.demo.dto.request.fishSpecialty.FishSpecialtyCreationRequest;
+import com.KoiHealthService.Koi.demo.dto.request.fishSpecialty.FishSpecialtyUpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
+import com.KoiHealthService.Koi.demo.dto.response.FishSpecialtyResponse;
 import com.KoiHealthService.Koi.demo.entity.FishSpecialty;
 import com.KoiHealthService.Koi.demo.service.FishSpecialtyService;
 import jakarta.validation.Valid;
@@ -25,6 +27,11 @@ public class FishSpecialtyController {
         ApiResponse<FishSpecialty> apiResponse = new ApiResponse<>();
         apiResponse.setResult(fishSpecialtyService.createFishSpecialty(request));
         return apiResponse;
+    }
+
+    @PutMapping("/{fishSpecialtyId}")
+    FishSpecialtyResponse updateFishSpecialty(@PathVariable ("fishSpecialtyId")String fishSpecialtyId, @RequestBody @Valid FishSpecialtyUpdateRequest request) {
+        return fishSpecialtyService.updateFishSpecialty(fishSpecialtyId, request)  ;
     }
 
     @DeleteMapping("/{fishSpecialtyId}")

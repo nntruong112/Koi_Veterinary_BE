@@ -34,7 +34,7 @@ public class HealthRecordService {
 
         healthRecord = HealthRecord.builder()
                 .healthRecordId(request.getHealthRecordId())
-                .appointmentDate(request.getAppointmentDate())
+                .createdDate(request.getCreatedDate())
                 .diagnosis(request.getDiagnosis())
                 .fish(fish)
                 .treatment(request.getTreatment())

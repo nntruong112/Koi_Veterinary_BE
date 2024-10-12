@@ -22,18 +22,23 @@ public class Appointment {
     LocalDate appointmentDate;
     String appointmentType;
     String status;
+    LocalTime startTime;
+    LocalTime endTime;
+    String location;
+
     @ManyToOne
     @JoinColumn(name = "customerId")
     User customer;
+
     @ManyToOne
     @JoinColumn(name = "veterinarianId")
     User veterinarian;
+
     @ManyToOne
     @JoinColumn(name = "fishId")
     Fish fish;
-    
-    String location;
-    LocalTime startTime;
-    LocalTime endTime;
+
+
+
 
 }

@@ -12,29 +12,32 @@ import com.KoiHealthService.Koi.demo.repository.FishRepository;
 import com.KoiHealthService.Koi.demo.repository.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
-@NonNull
+
 @Service
 @RequiredArgsConstructor
 public class FishService {
 
-    @NonNull
+
     private final FishRepository fishRepository;
 
-    @NonNull
-    private final FishMapper fishMapper;
+    @Autowired
+    private FishMapper fishMapper;
 
-    @NonNull
+
     private final UserRepository userRepository;
 
     
     private User customer;
 
     private Fish fish;
+
+    private FishResponse fishResponse;
 
 
     //create fish ============================================================================
@@ -95,17 +98,32 @@ public class FishService {
 
 
     //Update fish    ======================================================================================
-    public Fish updateFish(String id, FishUpdateRequest request){
+    public FishResponse updateFish(String id, FishUpdateRequest request){
         //fetch fish by id
         fish = fishRepository.findById(id).orElseThrow(() -> new RuntimeException("Fish is not found") );
 
         //update fish nè
-        fish.setAge(request.getAge());
-        fish.setSpecies(request.getSpecies());
-        fish.setImage(request.getImage());
-        fish.setWeight(request.getWeight());
-        fish.setSize(request.getSize());
-       
-        return fishRepository.save(fish);
+//        fish.setAge(request.getAge());
+//        fish.setSpecies(request.getSpecies());
+//        fish.setImage(request.getImage());
+//        fish.setWeight(request.getWeight());
+//        fish.setSize(request.getSize());
+        fishMapper.updateFish(fish, request);
+
+        //Fish updatedFish = fishRepository.save(fish);
+
+        FishResponse fishResponse = fishMapper.toFishResponse(fishRepository.save(fish));
+        return fishResponse;
+
+//        return FishResponse.builder()
+//                .size(updatedFish.getSize())
+//                .weight(updatedFish.getWeight())
+//                .species(updatedFish.getSpecies())
+//                .age(updatedFish.getAge())
+//                .image(updatedFish.getImage())
+//                .fishId(updatedFish.getFishId())
+//                .customerId(updatedFish.getCustomer().getUserId())
+//                .build();
+
     }
 }

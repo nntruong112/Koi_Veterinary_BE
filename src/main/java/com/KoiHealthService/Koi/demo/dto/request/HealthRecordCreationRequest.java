@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class HealthRecordCreationRequest {
     String healthRecordId;
-    LocalDate appointmentDate;
+    LocalDate createdDate;
     String diagnosis;
     String treatment;
     String fishId;

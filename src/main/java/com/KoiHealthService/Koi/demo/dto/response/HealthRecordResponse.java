@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class HealthRecordResponse {
     String healthRecordId;
-    LocalDate appointmentDate;
+    LocalDate createdDate;
     String diagnosis;
     String treatment;
     String fishId;

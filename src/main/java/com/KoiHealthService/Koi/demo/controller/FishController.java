@@ -39,8 +39,17 @@ public class FishController {
 
     //update fish ==========================================================================================
     @PutMapping("/{fishId}")
-    Fish updateFish(@PathVariable ("fishId") String fishId, @RequestBody FishUpdateRequest updateRequest) {
-        return fishService.updateFish(fishId, updateRequest);
+    ApiResponse<FishResponse> updateFish(@PathVariable ("fishId") String fishId, @RequestBody FishUpdateRequest updateRequest) {
+        ApiResponse<FishResponse> apiResponse = new ApiResponse<>();
+        //call service layer
+        FishResponse fishResponse = fishService.updateFish(fishId,updateRequest);
+
+        //set result in api response
+        apiResponse.setResult(fishResponse);
+
+        apiResponse.setMessage("Fish has been updated");
+
+        return apiResponse;
     }
 
     // Get fish by id==========================================================================================
