@@ -3,6 +3,7 @@ package com.KoiHealthService.Koi.demo.controller;
 
 import com.KoiHealthService.Koi.demo.dto.request.HealthRecordCreationRequest;
 import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
+import com.KoiHealthService.Koi.demo.dto.response.HealthRecordResponse;
 import com.KoiHealthService.Koi.demo.entity.HealthRecord;
 import com.KoiHealthService.Koi.demo.service.FishService;
 import com.KoiHealthService.Koi.demo.service.HealthRecordService;
@@ -39,5 +40,14 @@ public class HealthRecordController {
     String deleteHealthRecord(@PathVariable String healthRecordId) {
         healthRecordService.deleteHealthRecord(healthRecordId);
         return "HealthRecord has been deleted";
+    }
+
+    //Get healthRecord by fishId
+    @GetMapping("/belonged_to_fishId/{fishId}")
+//    ResponseEntity<List<HealthRecordResponse>> getHealthRecordByFishId(@PathVariable ("fishId") String fishId){
+//        return ResponseEntity.ok(healthRecordService.getHealthRecordsByFishId(fishId));
+//    }
+    List<HealthRecordResponse> getHealthRecordByFishId(@PathVariable ("fishId") String fishId){
+        return healthRecordService.getHealthRecordsByFishId(fishId);
     }
 }
