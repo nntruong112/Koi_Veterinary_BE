@@ -21,6 +21,6 @@ public class Feedback {
     String comment;
     int rating;
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "userId")
     User customer;
 }

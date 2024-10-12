@@ -36,7 +36,7 @@ public class SecurityConfig {
             "/auth/**"
             ,"/users/**"
             ,"/feedback/**"
-            ,"/permissions/**"};
+            ,"/payments/**"};
 
     @Autowired
     private CustomJwtDecoder customJwtDecoder;
@@ -46,9 +46,9 @@ public class SecurityConfig {
 
         httpSecurity.cors(cors -> cors.configurationSource(corsConfigurationSource())).authorizeHttpRequests(request ->
                 request.requestMatchers(PUBLIC_ENDPOINTS).permitAll()
-                        .anyRequest().authenticated());
+                        .anyRequest().authenticated())
+                        .csrf(AbstractHttpConfigurer::disable);
 
-        httpSecurity.csrf(AbstractHttpConfigurer::disable);
 
 
         httpSecurity.oauth2ResourceServer(oauth2 ->

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
@@ -15,11 +16,11 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table (name = "Account")
-public class User {
+@Table (name = "users")
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    String id;
+    String userId;
     String firstname;
     String lastname;
     String username;

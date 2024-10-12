@@ -101,7 +101,6 @@ public class UserService {
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
-
     // Get All User
     @PreAuthorize("hasRole('ADMIN')")
     public List<UserResponse> getUsers() {
@@ -129,12 +128,12 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.save(user));
     } else
         // if code wrong throw exception
-        throw  new AnotherException(ErrorCode.INVALID_CODE);
+        throw new AnotherException(ErrorCode.INVALID_CODE);
     }
 
 
     // Get User By Id
-    @PostAuthorize("returnObject.username == authentication.name")
+    @PreAuthorize("hasRole('USER')")
     public UserResponse getById(String id) {
         log.info("In method get user by id");
         return userMapper.toUserResponse(userRepository.findById(id).orElseThrow(() -> new RuntimeException("Cannot find the id")));

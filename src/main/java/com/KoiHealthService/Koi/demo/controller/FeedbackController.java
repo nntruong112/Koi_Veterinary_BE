@@ -1,6 +1,7 @@
 package com.KoiHealthService.Koi.demo.controller;
 
 import com.KoiHealthService.Koi.demo.dto.request.FeedbackRequest;
+import com.KoiHealthService.Koi.demo.dto.request.UpdateFeedbackRequest;
 import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
 import com.KoiHealthService.Koi.demo.dto.response.FeedbackResponse;
 import com.KoiHealthService.Koi.demo.entity.Feedback;
@@ -25,9 +26,18 @@ public class FeedbackController {
                 .result(feedbackService.createFeedback(feedbackRequest))
                 .build();
     }
-
     @GetMapping("/{feedbackId}")
-    public Feedback getById(@PathVariable ("feedbackId") String feedbackId){
-        return feedbackService.getById(feedbackId);
+    public FeedbackResponse getById(@PathVariable ("feedbackId") String feedbackId){
+        return feedbackService.getFeedbackById(feedbackId);
+    }
+
+    @PutMapping()
+    public void updateFeedback(@PathVariable String feedbackId, @RequestBody UpdateFeedbackRequest feedbackRequest){
+        feedbackService.updateFeedback(feedbackId,feedbackRequest);
+    }
+
+    @DeleteMapping("/{feedbackId}")
+    public void deleteFeedbackById(@PathVariable String feedbackId){
+        feedbackService.deleteFeedback(feedbackId);
     }
 }

@@ -12,6 +12,6 @@ import lombok.experimental.FieldDefaults;
 public class FeedbackResponse {
     String feedbackId;
     String comment;
-    String rating ;
-    UserResponse user;
+    int rating ;
+    String userId;
 }

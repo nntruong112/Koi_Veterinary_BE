@@ -1,6 +1,7 @@
 package com.KoiHealthService.Koi.demo.service;
 
 import com.KoiHealthService.Koi.demo.dto.request.FeedbackRequest;
+import com.KoiHealthService.Koi.demo.dto.request.UpdateFeedbackRequest;
 import com.KoiHealthService.Koi.demo.dto.response.FeedbackResponse;
 import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
 import com.KoiHealthService.Koi.demo.entity.Feedback;
@@ -39,7 +40,7 @@ public class FeedbackService {
     UserRepository userRepository;
 
     public Feedback createFeedback(FeedbackRequest  feedbackRequest){
-        User user = userRepository.findById(feedbackRequest.getId())
+        User user = userRepository.findById(feedbackRequest.getUserId())
                 .orElseThrow(() -> new AnotherException(ErrorCode.USER_NOT_EXISTED));
 
 
@@ -57,7 +58,29 @@ public class FeedbackService {
         return feedbackRepository.findAll();
     }
 
-    public Feedback getById(String feedbackId){
-        return feedbackRepository.getById(feedbackId);
+    public FeedbackResponse getFeedbackById(String feedbackId){
+        Feedback feedback = feedbackRepository.findById(feedbackId).orElseThrow(() -> new RuntimeException("Feedback cannot found"));
+
+        User user = feedback.getCustomer();
+
+        return FeedbackResponse.builder()
+                .feedbackId(feedback.getFeedbackId())
+                .comment(feedback.getComment())
+                .rating(feedback.getRating())
+                .userId(user.getUserId())
+                .build();
+    }
+
+    public void deleteFeedback(String id){
+        feedbackRepository.deleteById(id);
+    }
+
+    public Feedback updateFeedback(String feedbackId, UpdateFeedbackRequest feedbackRequest){
+         Feedback feedback = feedbackRepository.findById(feedbackId).orElseThrow(() -> new RuntimeException("Feedback cannot found"));
+
+         feedback.setComment(feedbackRequest.getComment());
+         feedback.setRating(feedbackRequest.getRating());
+
+         return feedbackRepository.save(feedback);
     }
 }
