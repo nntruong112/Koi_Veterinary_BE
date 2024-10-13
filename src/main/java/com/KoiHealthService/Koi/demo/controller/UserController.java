@@ -7,6 +7,7 @@ import com.KoiHealthService.Koi.demo.dto.request.user.UserRequest;
 import com.KoiHealthService.Koi.demo.dto.request.VerifyRequest;
 import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
 import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
+import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -62,7 +63,7 @@ public class UserController {
     }
 
     // Get all user
-     @GetMapping("/get-user")
+    @GetMapping("/get-user")
     ApiResponse<List<UserResponse>> getAllUser() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -116,6 +117,3 @@ public class UserController {
 
 
 }
-
-
-
