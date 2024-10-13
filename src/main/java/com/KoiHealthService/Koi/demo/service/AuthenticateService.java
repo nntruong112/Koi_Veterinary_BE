@@ -100,7 +100,7 @@ public class AuthenticateService {
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 ))
                 .jwtID(UUID.randomUUID().toString())
-                .claim("scope", BuildScope(user))
+                .claim("scope", user.getRoles())
                 .build();
         // Payload
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
@@ -151,11 +151,11 @@ public class AuthenticateService {
         invalidatedTokenRepository.save(invalidatedToken);
     }
 
-    private String BuildScope(User user) {
-        StringJoiner stringJoiner = new StringJoiner(" ");
-        if (!CollectionUtils.isEmpty(user.getRoles())) {
-            user.getRoles().forEach(stringJoiner::add);
-        }
-        return  stringJoiner.toString();
-    }
+//    private String BuildScope(User user) {
+//        StringJoiner stringJoiner = new StringJoiner(" ");
+//        if (!CollectionUtils.isEmpty(user.getRoles())) {
+//            user.getRoles().forEach(stringJoiner::add);
+//        }
+//        return  stringJoiner.toString();
+//    }
 }
