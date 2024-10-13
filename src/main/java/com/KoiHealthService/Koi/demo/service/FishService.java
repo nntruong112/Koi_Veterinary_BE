@@ -84,6 +84,7 @@ public class FishService {
     }
     // Get fish by customerId
     public List<Fish> getFishByCustomerId(String customerId) {
+        customer = userRepository.findById(customerId).orElseThrow(() -> new AnotherException(ErrorCode.NO_CUSTOMER_FOUND));
         return fishRepository.findByCustomerId(customerId);
     }
 

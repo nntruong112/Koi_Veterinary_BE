@@ -28,6 +28,7 @@ public class AppointmentService {
     private final UserRepository userRepository;
     
 
+    //create new Appointment ========================================================================================
     public Appointment createAppointment(AppointmentRequest request) {
         User customer = userRepository.findById(request.getCustomerId())
                 .orElseThrow(() -> new AnotherException(ErrorCode.NO_CUSTOMER_FOUND));
@@ -52,10 +53,13 @@ public class AppointmentService {
         return appointmentRepository.save(appointment);
     }
 
+    //get all Appointment ========================================================================================
     public List<Appointment> getAppointments() {
         return appointmentRepository.findAll();
     }
 
+
+    //update Appointment ========================================================================================
     public AppointmentResponse updateAppointment(String appointmentId, AppointmentUpdateRequest request) {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new AnotherException(ErrorCode.NO_APPOINTMENT_FOUND));
@@ -65,18 +69,23 @@ public class AppointmentService {
         return appointmentMapper.toAppointmentResponse(appointment);
     }
 
+    //delete Appointment ========================================================================================
     public void deleteAppointment(String appointmentId) {
         appointmentRepository.deleteById(appointmentId);
     }
 
+    //get Appointment by customer Id ========================================================================================
     public List<AppointmentResponse> getAppointmentsByCustomerId(String customerId) {
+        User customer = userRepository.findById(customerId).orElseThrow(() -> new AnotherException(ErrorCode.NO_CUSTOMER_FOUND));
         List<Appointment> appointments = appointmentRepository.findAppointmentsByCustomerId(customerId);
         return appointments.stream()
                 .map(appointmentMapper::toAppointmentResponse)
                 .collect(Collectors.toList());
     }
 
+    //get appointment by vetId ========================================================================================
     public List<AppointmentResponse> getAppointmentsByVetId(String vetId) {
+        User veterinarian = userRepository.findById(vetId).orElseThrow(() -> new AnotherException(ErrorCode.NO_VETERINARIAN_FOUND));
         List<Appointment> appointments = appointmentRepository.findAppointmentsByVetId(vetId);
         return appointments.stream()
                 .map(appointmentMapper::toAppointmentResponse)
