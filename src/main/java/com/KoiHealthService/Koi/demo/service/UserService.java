@@ -1,9 +1,8 @@
 package com.KoiHealthService.Koi.demo.service;
 
-//import com.KoiHealthService.Koi.demo.Enum.Role;
 import com.KoiHealthService.Koi.demo.Storage.UserStorage;
-import com.KoiHealthService.Koi.demo.dto.request.user.UpdateRequest;
-import com.KoiHealthService.Koi.demo.dto.request.user.UserRequest;
+import com.KoiHealthService.Koi.demo.dto.request.UpdateRequest;
+import com.KoiHealthService.Koi.demo.dto.request.UserRequest;
 import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
 import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;
@@ -17,6 +16,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -26,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -177,18 +178,10 @@ public class UserService {
     }
 
     //Get user by Role
-//    public List<UserResponse> getByRole(String roles){
-//        if(roles != null) {
-//            return userMapper.toUserResponse(userRepository.findByRoles(roles));
-//        }else
-//            throw new RuntimeException("Cannot find role");
-//
-//    }
-
-    //Get user by Role
-    public UserResponse getByRole(String roles){
+    public List<User> getByRole(String roles){
         if(roles != null) {
-            return userMapper.toUserResponse(userRepository.findByRoles(roles));
+            List<User> users = userRepository.findByRoles(roles);
+            return users;
         }else
             throw new RuntimeException("Cannot find role");
 
