@@ -48,15 +48,20 @@ public class UserController {
                 .build();
     }
 
-//    @PostMapping("/re-verify")
-//    public ApiResponse<UserResponse> reVerifyCode(@RequestBody VerifyRequest verifyRequest){
-//        ApiResponse apiResponse = new ApiResponse();
-//
-//        apiResponse.setResult(userService.sendVerifyCodeAgain(verifyRequest.getEmail()));
-//
-//        return apiResponse;
-//    }
+    //Create Role STAFF
+    @PostMapping("/create/staff")
+    public ApiResponse<UserResponse>  createRoleStaff(@RequestBody UserRequest userRequest){
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.createStaff(userRequest))
+                .build();
+    }
 
+    @PostMapping("/create/vet")
+    public ApiResponse<UserResponse>  createRoleVet(@RequestBody UserRequest userRequest){
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.createVet(userRequest))
+                .build();
+    }
 
     // Get all user
      @GetMapping("/get-user")
@@ -102,6 +107,13 @@ public class UserController {
     String DeleteAll(){
         userService.deleteAll();
         return "Delete thành công";
+    }
+
+    @GetMapping("/role/{roles}")
+    public ApiResponse<UserResponse> getByRole(@PathVariable String roles){
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.getByRole(roles))
+                .build();
     }
 
 

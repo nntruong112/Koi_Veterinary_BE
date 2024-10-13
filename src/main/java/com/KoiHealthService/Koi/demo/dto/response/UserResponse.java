@@ -20,5 +20,5 @@ public class UserResponse {
     String phone;
     String address;
     LocalDate dateOfBirth;
-    Set<String> roles;
+    String roles;
 }

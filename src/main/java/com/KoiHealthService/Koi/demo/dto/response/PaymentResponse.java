@@ -1,5 +1,6 @@
 package com.KoiHealthService.Koi.demo.dto.response;
 
+import com.KoiHealthService.Koi.demo.entity.User;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -11,4 +12,5 @@ import lombok.experimental.FieldDefaults;
 public class PaymentResponse {
     String message;
     String paymentUrl;
+    User user;
 }

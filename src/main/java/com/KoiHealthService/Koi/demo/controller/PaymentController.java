@@ -20,9 +20,8 @@ public class PaymentController {
     PaymentService paymentService;
 
 
-    @GetMapping("/create-payment")
-    public ResponseEntity<?> createPayment(HttpServletRequest request) throws UnsupportedEncodingException {
-        return paymentService.createPayment(request);
-
+    @PostMapping("/create-payment")
+    public PaymentResponse createPayment(HttpServletRequest request, @RequestBody PaymentRequest paymentRequest) throws UnsupportedEncodingException {
+        return paymentService.createPayment(request, paymentRequest);
     }
 }

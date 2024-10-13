@@ -31,5 +31,5 @@ public class User implements Serializable {
     LocalDate dateOfBirth;
     String verificationCode;
     Date verificationCodeExpiration;
-    Set<String> roles;
+    String roles;
 }
