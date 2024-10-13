@@ -3,7 +3,12 @@ package com.KoiHealthService.Koi.demo.service;
 import com.KoiHealthService.Koi.demo.config.VNPayConfig;
 import com.KoiHealthService.Koi.demo.dto.request.PaymentRequest;
 import com.KoiHealthService.Koi.demo.dto.response.PaymentResponse;
+import com.KoiHealthService.Koi.demo.entity.User;
+import com.KoiHealthService.Koi.demo.exception.AnotherException;
+import com.KoiHealthService.Koi.demo.exception.ErrorCode;
+import com.KoiHealthService.Koi.demo.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +25,14 @@ import java.util.*;
 public class PaymentService {
     VNPayConfig vnPayConfig;
 
-   public ResponseEntity<?> createPayment(HttpServletRequest request) throws UnsupportedEncodingException {
+    @NonNull
+    UserRepository userRepository;
+
+   public PaymentResponse  createPayment(HttpServletRequest request, PaymentRequest paymentRequest) throws UnsupportedEncodingException {
+
 
     String orderType = "other";
-    long amountValue = 100000 * 100L ;
+    long amountValue = paymentRequest.getAmount() * 100 ;
     String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
     String vnp_IpAddr = VNPayConfig.getIpAddress(request);
 
@@ -92,11 +101,13 @@ public class PaymentService {
     queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
     String paymentUrl = VNPayConfig.vnp_PayUrl + "?" + queryUrl;
 
-    PaymentResponse paymentResponse = new PaymentResponse();
-    paymentResponse.setMessage("success");
-    paymentResponse.setPaymentUrl(paymentUrl);
+       User user = userRepository.findById(paymentRequest.getUserId()).orElseThrow(() -> new AnotherException(ErrorCode.USER_NOT_EXISTED));
 
-    return ResponseEntity.status(HttpStatus.OK).body(paymentResponse);
+    return PaymentResponse.builder()
+            .message("success")
+            .paymentUrl(paymentUrl)
+            .user(user)
+            .build();
 }
   
 }

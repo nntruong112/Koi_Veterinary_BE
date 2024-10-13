@@ -22,5 +22,5 @@ public class UserResponse {
     String gender;
     String image;
     LocalDate dateOfBirth;
-    Set<String> roles;
+    String roles;
 }

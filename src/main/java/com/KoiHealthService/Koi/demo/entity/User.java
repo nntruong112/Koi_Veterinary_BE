@@ -33,7 +33,8 @@ public class User implements Serializable {
     LocalDate dateOfBirth;
     String verificationCode;
     Date verificationCodeExpiration;
-    Set<String> roles;
+    String roles;
+
 
     @ManyToOne
     @JoinColumn(name = "specialtyId") // Foreign key column name

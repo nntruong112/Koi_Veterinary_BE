@@ -73,9 +73,7 @@ public class UserService {
         user.setVerificationCode(verificationCode);
 
         //Set Role
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.USER.name());
-        user.setRoles(roles);
+        user.setRoles("USER");
         //Send Mail
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(userRequest.getEmail());
@@ -89,6 +87,33 @@ public class UserService {
 
         return userMapper.toUserResponse(user);
     }
+
+    // Role VET
+    public UserResponse createVet(UserRequest userRequest){
+        if (userRepository.existsByUsername(userRequest.getUsername())) {
+            throw new AnotherException(ErrorCode.USER_EXISTED);
+        }
+
+        User user = userMapper.toUser(userRequest);
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        user.setRoles("VET");
+
+        return userMapper.toUserResponse(userRepository.save(user));
+    }
+
+    // Role Staff
+    public UserResponse createStaff(UserRequest userRequest){
+        if (userRepository.existsByUsername(userRequest.getUsername())) {
+            throw new AnotherException(ErrorCode.USER_EXISTED);
+        }
+
+        User user = userMapper.toUser(userRequest);
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        user.setRoles("STAFF");
+
+        return userMapper.toUserResponse(userRepository.save(user));
+    }
+
 
 
     //Update User
@@ -150,6 +175,16 @@ public class UserService {
         int code = random.nextInt(900000) + 100000; // generate a 6-digit number between 100000 and 999999
         return String.valueOf(code);
     }
+
+    //Get user by Role
+    public UserResponse getByRole(String roles){
+        if(roles != null) {
+            return userMapper.toUserResponse(userRepository.findByRoles(roles));
+        }else
+            throw new RuntimeException("Cannot find role");
+
+    }
+
 
 }
 
