@@ -1,6 +1,6 @@
 package com.KoiHealthService.Koi.demo.service;
 
-import com.KoiHealthService.Koi.demo.Enum.Role;
+//import com.KoiHealthService.Koi.demo.Enum.Role;
 import com.KoiHealthService.Koi.demo.Storage.UserStorage;
 import com.KoiHealthService.Koi.demo.dto.request.user.UpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.request.user.UserRequest;
@@ -175,6 +175,15 @@ public class UserService {
         int code = random.nextInt(900000) + 100000; // generate a 6-digit number between 100000 and 999999
         return String.valueOf(code);
     }
+
+    //Get user by Role
+//    public List<UserResponse> getByRole(String roles){
+//        if(roles != null) {
+//            return userMapper.toUserResponse(userRepository.findByRoles(roles));
+//        }else
+//            throw new RuntimeException("Cannot find role");
+//
+//    }
 
     //Get user by Role
     public UserResponse getByRole(String roles){

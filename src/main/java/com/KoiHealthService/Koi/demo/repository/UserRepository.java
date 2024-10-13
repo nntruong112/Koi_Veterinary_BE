@@ -4,6 +4,7 @@ import com.KoiHealthService.Koi.demo.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -13,6 +14,7 @@ public interface UserRepository extends JpaRepository<User,String> {
     Optional<User> findByUsername(String username);
     Optional<User> findByUserId(String userId);
     User findByEmailAndVerificationCode(String email, String verificationCode);
+    //User findByRoles(String roles);
     User findByRoles(String roles);
 
 }
