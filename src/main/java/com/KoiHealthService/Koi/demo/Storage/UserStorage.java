@@ -19,6 +19,9 @@ public class UserStorage {
     public void storeVerificationCode(String code, User user) {
         verificationCodes.put(code,user);
     }
+    public void storeVerificationEmail(String email, User user){
+        verificationCodes.put(email,user);
+    }
 
     public User getUserByVerificationCode(String code) {
         return verificationCodes.get(code);

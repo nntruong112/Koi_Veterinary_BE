@@ -33,21 +33,17 @@ public class UserController {
     @PostMapping("/register")
     ApiResponse<UserResponse> Register(@RequestBody @Valid UserRequest userRequest) {
 
-        ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
-
-        apiResponse.setResult(userService.Register(userRequest));
-
-        return apiResponse;
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.register(userRequest))
+                .build();
     }
 
     //Test verify email
     @PostMapping("/verify")
     public ApiResponse<UserResponse> verifyCode(@RequestBody VerifyRequest verifyRequest) {
-        ApiResponse apiResponse = new ApiResponse();
-
-        apiResponse.setResult(userService.VerifyCode(verifyRequest.getCode()));
-
-        return apiResponse;
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.verifyCode(verifyRequest.getCode()))
+                .build();
     }
 
 //    @PostMapping("/re-verify")
@@ -88,14 +84,14 @@ public class UserController {
 
     // Update user by Id
     @PutMapping ("/{id}")
-    UserResponse UpdateUser(@PathVariable ("id") String id, @RequestBody UpdateRequest updateRequest){
-        return userService.UpdateUser(id,updateRequest);
+    UserResponse updateUser(@PathVariable ("id") String id, @RequestBody UpdateRequest updateRequest){
+        return userService.updateUser(id,updateRequest);
     }
 
     // Delete User by ID
     @DeleteMapping("/{id}")
     String deleteUser(@PathVariable String id) {
-        userService.DeleterUserByID(id);
+        userService.deleterUserByID(id);
         return "user has been deleted";
     }
 

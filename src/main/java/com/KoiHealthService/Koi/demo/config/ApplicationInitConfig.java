@@ -22,8 +22,8 @@ import java.util.HashSet;
 @Builder
 public class ApplicationInitConfig {
 
-    @NonNull
-    PasswordEncoder passwordEncoder;
+
+    final PasswordEncoder passwordEncoder;
 
     @Bean
     ApplicationRunner applicationRunner(UserRepository userRepository){

@@ -51,7 +51,7 @@ public class UserService {
     String SENDER_EMAIL;
 
     // Register
-    public UserResponse Register(UserRequest userRequest) {
+    public UserResponse register(UserRequest userRequest) {
 //        Find exist username
 
         if (userRepository.existsByUsername(userRequest.getUsername())) {
@@ -92,14 +92,13 @@ public class UserService {
 
 
     //Update User
-    public UserResponse UpdateUser(String id, UpdateRequest updateRequest){
+    public UserResponse updateUser(String id, UpdateRequest updateRequest){
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User is not found") );
 
         userMapper.toUpdateUser(user,updateRequest);
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
-
     // Get All User
     @PreAuthorize("hasRole('ADMIN')")
     public List<UserResponse> getUsers() {
@@ -119,7 +118,7 @@ public class UserService {
     }
 
     //Verify Code
-    public UserResponse VerifyCode(String verificationCode) {
+    public UserResponse verifyCode(String verificationCode) {
           // Take the code from userStorage
     User user = userStorage.getUserByVerificationCode(verificationCode);
     if (user != null && new Date().before(user.getVerificationCodeExpiration()) ) {
@@ -127,37 +126,12 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.save(user));
     } else
         // if code wrong throw exception
-        throw  new AnotherException(ErrorCode.INVALID_CODE);
+        throw new AnotherException(ErrorCode.INVALID_CODE);
     }
 
-    //Send verify-code again
-//    public UserResponse sendVerifyCodeAgain(String email) {
-//    // Check if a verification code already exists for the user
-//    User user = userStorage.getUserEmail(email);
-//    if (user != null && user.getVerificationCode() != null && user.getVerificationCodeExpiration() != null) {
-//        Date currentTime = new Date();
-//        if (currentTime.before(user.getVerificationCodeExpiration())) {
-//            // Code is still valid, don't send a new one
-//            throw new AnotherException(ErrorCode.VERIFICATION_CODE_ALREADY_SENT);
-//        }
-//    }
-//
-//    // Generate a new verification code and send it
-//    String verificationCode = generateCode();
-//    SimpleMailMessage message = new SimpleMailMessage();
-//    message.setTo(email);
-//    message.setText("Mã xác minh của bạn là :" + verificationCode);
-//    javaMailSender.send(message);
-//    // Update the user's verification code and expiration time
-//    user.setVerificationCode(verificationCode);
-//    user.setVerificationCodeExpiration(new Date(System.currentTimeMillis() + 5 * 60 * 1000)); // 5 minutes
-//    userRepository.save(user); //
-//
-//    return userMapper.toUserResponse(user);
-//}
 
     // Get User By Id
-    @PostAuthorize("returnObject.username == authentication.name")
+    @PreAuthorize("hasRole('USER')")
     public UserResponse getById(String id) {
         log.info("In method get user by id");
         return userMapper.toUserResponse(userRepository.findById(id).orElseThrow(() -> new RuntimeException("Cannot find the id")));
@@ -167,7 +141,7 @@ public class UserService {
         userRepository.deleteAll();
     }
 
-    public void DeleterUserByID(String id) {
+    public void deleterUserByID(String id) {
         userRepository.deleteById(id);
     }
 
