@@ -110,8 +110,8 @@ public class UserController {
     }
 
     @GetMapping("/role/{roles}")
-    public ApiResponse<UserResponse> getByRole(@PathVariable String roles){
-        return ApiResponse.<UserResponse>builder()
+    public ApiResponse<List<User>> getByRole(@PathVariable String roles){
+        return ApiResponse.<List<User>>builder()
                 .result(userService.getByRole(roles))
                 .build();
     }

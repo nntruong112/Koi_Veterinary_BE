@@ -1,7 +1,5 @@
 package com.KoiHealthService.Koi.demo.service;
 
-import ch.qos.logback.classic.spi.IThrowableProxy;
-import com.KoiHealthService.Koi.demo.Enum.Role;
 import com.KoiHealthService.Koi.demo.Storage.UserStorage;
 import com.KoiHealthService.Koi.demo.dto.request.UpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.request.UserRequest;
@@ -28,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -179,9 +178,10 @@ public class UserService {
     }
 
     //Get user by Role
-    public UserResponse getByRole(String roles){
+    public List<User> getByRole(String roles){
         if(roles != null) {
-            return userMapper.toUserResponse(userRepository.findByRoles(roles));
+            List<User> users = userRepository.findByRoles(roles);
+            return users;
         }else
             throw new RuntimeException("Cannot find role");
 
