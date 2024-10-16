@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class FishSpecialtyController {
 
-    //đừng để NonNull ở đây, tại sao cũng hong biết nữa, một là để nonnull, 2 là để final
-    @NonNull
-    private final FishSpecialtyService fishSpecialtyService;
+    
+    //@NonNull
+    private final FishSpecialtyService fishSpecialtyService;           //must be final
     
 
     @PostMapping("/create")
-        //endpoint users voi method POST, users đặt có s vì nó là invention trong việc đặt tên API
+        //endpoint voi method POST,  đặt có s vì nó là invention trong việc đặt tên API
     ApiResponse<FishSpecialty> createFishSpecialty(@RequestBody @Valid FishSpecialtyCreationRequest request) {
         ApiResponse<FishSpecialty> apiResponse = new ApiResponse<>();
         apiResponse.setResult(fishSpecialtyService.createFishSpecialty(request));

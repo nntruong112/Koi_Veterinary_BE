@@ -48,4 +48,6 @@ public class VeterinarianScheduleController {
     public ResponseEntity<List<VeterinarianScheduleResponse>> getScheduleByVetId(@PathVariable("vetId") String vetId) {
         return ResponseEntity.ok(veterinarianScheduleService.getScheduleByVeterinarianId(vetId));
     }
+
+    
 }

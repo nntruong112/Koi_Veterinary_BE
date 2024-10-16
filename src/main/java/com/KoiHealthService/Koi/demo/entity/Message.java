@@ -18,12 +18,15 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     String messageId;
+
     @ManyToOne
     @JoinColumn(name = "appointmentId")
     Appointment appointment;
+    
     @ManyToOne
     @JoinColumn(name = "senderId")
     User sender;
+    
     String messageText;
     LocalDateTime timestamp;
     MessageType type;

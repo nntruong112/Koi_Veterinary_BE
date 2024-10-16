@@ -29,11 +29,14 @@ public class AppointmentController {
         return ResponseEntity.ok(apiResponse);
     }
 
+
+    //Get all appointment
     @GetMapping
     public ResponseEntity<List<Appointment>> getAppointments() {
         return ResponseEntity.ok(appointmentService.getAppointments());
     }
 
+    //get appointment by Id
     @PutMapping("/{appointmentId}")
     public ResponseEntity<AppointmentResponse> updateAppointment(
             @PathVariable("appointmentId") String appointmentId,
@@ -42,17 +45,20 @@ public class AppointmentController {
         return ResponseEntity.ok(response);
     }
 
+    //delete
     @DeleteMapping("/{appointmentId}")
     public ResponseEntity<Void> deleteAppointment(@PathVariable("appointmentId") String appointmentId) {
         appointmentService.deleteAppointment(appointmentId);
         return ResponseEntity.noContent().build();
     }
 
+    //get appointment by customerId
     @GetMapping("/belonged_to_customerId/{customerId}")
     public ResponseEntity<List<AppointmentResponse>> getAppointmentByCustomerId(@PathVariable("customerId") String customerId) {
         return ResponseEntity.ok(appointmentService.getAppointmentsByCustomerId(customerId));
     }
 
+    //get appointment by vetId
     @GetMapping("/belonged_to_vetId/{vetId}")
     public ResponseEntity<List<AppointmentResponse>> getAppointmentByVetId(@PathVariable("vetId") String vetId) {
         return ResponseEntity.ok(appointmentService.getAppointmentsByVetId(vetId));
