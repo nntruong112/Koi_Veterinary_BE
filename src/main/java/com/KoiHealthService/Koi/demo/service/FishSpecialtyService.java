@@ -21,8 +21,7 @@ public class FishSpecialtyService {
 
     private final FishSpecialtyRepository fishSpecialtyRepository;
 
-
-    @Autowired
+    
     private FishSpecialtyMapper fishSpecialtyMapper;
 
     private FishSpecialty fishSpecialty;

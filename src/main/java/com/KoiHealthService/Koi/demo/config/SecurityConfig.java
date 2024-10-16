@@ -44,7 +44,6 @@ public class SecurityConfig {
             "/messages/**",
             "/veterinarian_schedules/**",
             "/fish_specialties/**",
-
             "/auth/**"
             ,"/users/**"
             ,"/feedback/**"

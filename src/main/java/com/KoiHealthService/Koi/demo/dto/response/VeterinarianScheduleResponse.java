@@ -1,5 +1,6 @@
 package com.KoiHealthService.Koi.demo.dto.response;
 
+import com.KoiHealthService.Koi.demo.entity.FishSpecialty;
 import com.KoiHealthService.Koi.demo.entity.User;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -14,9 +15,8 @@ import java.time.LocalTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class VeterinarianScheduleResponse {
     String scheduleId;
-    LocalDate availableDate;
+    String availableDate;
     LocalTime startTime;
     LocalTime endTime;
     String veterinarianId;
-    //
 }

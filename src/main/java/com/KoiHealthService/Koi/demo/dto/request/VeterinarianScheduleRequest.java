@@ -1,11 +1,17 @@
 package com.KoiHealthService.Koi.demo.dto.request;
 
+import com.KoiHealthService.Koi.demo.entity.FishSpecialty;
 import com.KoiHealthService.Koi.demo.entity.User;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -14,7 +20,7 @@ import java.time.LocalTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class VeterinarianScheduleRequest {
     String scheduleId;
-    LocalDate availableDate;
+    String availableDate;
     LocalTime startTime;
     LocalTime endTime;
     String veterinarianId;

@@ -23,7 +23,12 @@ public class HealthRecord {
     LocalDate createdDate;
     String diagnosis;
     String treatment;
+    String medicine;
     @ManyToOne
     @JoinColumn(name = "fishId")
     Fish fish;
+
+    @ManyToOne
+    @JoinColumn(name = "created_by") // Foreign key referencing the veterinarian who created this record
+    private User veterinarian;
 }
