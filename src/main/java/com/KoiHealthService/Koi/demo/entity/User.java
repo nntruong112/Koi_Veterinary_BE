@@ -54,4 +54,8 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     List<VeterinarianProfile> veterinarianProfiles;
 
+    @ManyToOne
+    @JoinColumn(name = "specialtyId") // Foreign key column name
+    FishSpecialty fishSpecialty;
+
 }
