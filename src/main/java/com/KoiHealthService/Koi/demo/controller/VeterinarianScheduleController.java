@@ -25,12 +25,13 @@ public class VeterinarianScheduleController {
     private final VeterinarianScheduleService veterinarianScheduleService;
 
     //create
+    // Create a new schedule for a veterinarian profile
     @PostMapping("/create")
-    //endpoint users voi method POST, users đặt có s vì nó là invention trong việc đặt tên API
-    ApiResponse<VeterinarianSchedule> createVeterinarianSchedule(@RequestBody @Valid VeterinarianScheduleRequest request) {
-        ApiResponse<VeterinarianSchedule> apiResponse = new ApiResponse<>();
-        apiResponse.setResult(veterinarianScheduleService.createVeterinarianSchedule(request));
-        return apiResponse;
+    public ResponseEntity<VeterinarianSchedule> createSchedule(
+            @RequestBody VeterinarianScheduleRequest request) {
+        // Gọi service để tạo lịch
+        VeterinarianSchedule schedule = veterinarianScheduleService.createSchedule(request);
+        return ResponseEntity.ok(schedule);
     }
 
     @GetMapping
@@ -48,6 +49,15 @@ public class VeterinarianScheduleController {
 //    public ResponseEntity<List<VeterinarianScheduleResponse>> getScheduleByVetId(@PathVariable("vetId") String vetId) {
 //        return ResponseEntity.ok(veterinarianScheduleService.getScheduleByVeterinarianId(vetId));
 //    }
+
+    @GetMapping("/schedules/{veterinarianId}")
+    public ResponseEntity<List<VeterinarianSchedule>> getScheduleByVeterinarianId(@PathVariable String veterinarianId) {
+        List<VeterinarianSchedule> schedules = veterinarianScheduleService.getScheduleByVeterinarianId(veterinarianId);
+        return ResponseEntity.ok(schedules);
+    }
+
+
+
 
     
 }

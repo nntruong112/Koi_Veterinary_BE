@@ -24,10 +24,7 @@ public class FishSpecialty {
     String description;
     String category;
     BigDecimal price;
-
-    // One-to-many with VeterinarianProfile
-    @OneToMany(mappedBy = "fishSpecialty", cascade = CascadeType.ALL)
-    List<VeterinarianProfile> veterinarianProfiles;
+    
 }
     
 

@@ -1,5 +1,6 @@
 package com.KoiHealthService.Koi.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,7 +40,22 @@ public class User implements Serializable {
 
 
 
-    // Many-to-many relationship with WorkSchedule, only for Veterinarian users
+
+
+
+    // One-to-many with VeterinarianProfile
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    List<VeterinarianProfile> veterinarianProfiles;
+
+    @ManyToOne
+    @JoinColumn(name = "specialtyId") // Foreign key column name
+    @JsonBackReference
+    FishSpecialty fishSpecialty;
+
+}
+
+// Many-to-many relationship with WorkSchedule, only for Veterinarian users
 //    @ManyToMany (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //    @JoinTable(
 //            name = "veterinarian_profile", // name of the join table
@@ -48,14 +64,3 @@ public class User implements Serializable {
 //    )
 //    @JsonManagedReference
 //    private List<VeterinarianSchedule> veterinarianSchedules;
-
-
-    // One-to-many with VeterinarianProfile
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    List<VeterinarianProfile> veterinarianProfiles;
-
-    @ManyToOne
-    @JoinColumn(name = "specialtyId") // Foreign key column name
-    FishSpecialty fishSpecialty;
-
-}

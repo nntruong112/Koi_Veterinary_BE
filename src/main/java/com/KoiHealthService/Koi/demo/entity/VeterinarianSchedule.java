@@ -2,6 +2,7 @@ package com.KoiHealthService.Koi.demo.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -34,8 +35,8 @@ public class VeterinarianSchedule {
 //    private List<User> veterinarians;
 
     // Many-to-one with VeterinarianProfile (join table for User and FishSpecialty)
-    @ManyToOne
-    @JoinColumn(name = "veterinarianProfileId", referencedColumnName = "veterinarianProfilesId")
-    VeterinarianProfile veterinarianProfile;
+    @OneToMany(mappedBy = "veterinarianSchedule", cascade = CascadeType.ALL)
+    @JsonManagedReference //tránh việc vòng lặp lúc call test API
+    List<VeterinarianProfile> veterinarianProfiles;
     
 }

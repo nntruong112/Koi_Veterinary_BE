@@ -93,7 +93,7 @@ public class FishService {
     //delete fish ====================================================================================
 
     public void deleteFish(String fishId) {
-        fishRepository.deleteById(fishId);
+        fishRepository.deleteFishById(fishId);
     }
 
 

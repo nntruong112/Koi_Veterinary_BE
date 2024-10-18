@@ -6,10 +6,13 @@ import com.KoiHealthService.Koi.demo.dto.request.user.UpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.request.user.UserRequest;
 import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
 import com.KoiHealthService.Koi.demo.entity.User;
+import com.KoiHealthService.Koi.demo.entity.VeterinarianProfile;
+import com.KoiHealthService.Koi.demo.entity.VeterinarianSchedule;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;
 import com.KoiHealthService.Koi.demo.exception.ErrorCode;
 import com.KoiHealthService.Koi.demo.mapper.UserMapper;
 import com.KoiHealthService.Koi.demo.repository.UserRepository;
+import com.KoiHealthService.Koi.demo.repository.VeterinarianProfileRepository;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +38,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class UserService {
+
+    final VeterinarianProfileRepository veterinarianProfileRepository;
+
 
     @NonNull
     UserStorage userStorage;
@@ -185,6 +191,20 @@ public class UserService {
             return users;
         }else
             throw new RuntimeException("Cannot find role");
+    }
+
+    public List<VeterinarianSchedule> getVeterinarianSchedules(String userId) {
+        // Tìm User dựa trên userId
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User không tồn tại"));
+
+        // Lấy danh sách các VeterinarianProfile của User
+        List<VeterinarianProfile> veterinarianProfiles = veterinarianProfileRepository.findByUser(user);
+
+        // Từ danh sách VeterinarianProfile, trích xuất danh sách VeterinarianSchedule
+        return veterinarianProfiles.stream()
+                .map(VeterinarianProfile::getVeterinarianSchedule) // Sửa từ getVeterinarianSchedules thành getVeterinarianSchedule
+                .collect(Collectors.toList());
     }
 
     

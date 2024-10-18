@@ -1,23 +1,40 @@
 package com.KoiHealthService.Koi.demo.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.mapstruct.Builder;
 
 import java.util.List;
 
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "veterinarian_profiles")
 public class VeterinarianProfile {
+
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    String veterinarianProfilesId;
+
+    // Many-to-One với User (nhiều profile có thể thuộc về một User)
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    @JsonBackReference
+    User user;
+
+    // Many-to-One với VeterinarianSchedule (nhiều profile có thể liên kết với một lịch)
+    @ManyToOne
+    @JoinColumn(name = "veterinarian_schedule_id", referencedColumnName = "scheduleId")
+    @JsonBackReference
+    VeterinarianSchedule veterinarianSchedule;
+}
 
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.UUID)
@@ -32,21 +49,3 @@ public class VeterinarianProfile {
 //    @ManyToOne
 //    @JoinColumn(name = "fish_specialty_id", referencedColumnName = "fishSpecialtyId")
 //    FishSpecialty fishSpecialty;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    String veterinarianProfilesId;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "userId")
-    User user;
-
-    @ManyToOne
-    @JoinColumn(name = "fishSpecialtyId", referencedColumnName = "fishSpecialtyId")
-    FishSpecialty fishSpecialty;
-
-    // One-to-many with VeterinarianSchedule
-    @OneToMany(mappedBy = "veterinarianProfile", cascade = CascadeType.ALL)
-    List<VeterinarianSchedule> veterinarianSchedules;
-    
-}
