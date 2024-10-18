@@ -56,7 +56,6 @@ public class VeterinarianScheduleService {
         VeterinarianSchedule veterinarianSchedule = VeterinarianSchedule.builder()
                 .scheduleId(request.getScheduleId())
                 .availableDate(request.getAvailableDate())
-                .veterinarians(Collections.singletonList(veterinarian)) // Ensure this is a list with one veterinarian
                 .startTime(request.getStartTime())
                 .endTime(request.getEndTime())
                 .build();
@@ -74,25 +73,24 @@ public class VeterinarianScheduleService {
     public VeterinarianSchedule getScheduleById(String id) {
         VeterinarianSchedule veterinarianSchedule = veterinarianScheduleRepository.findById(id).orElseThrow(() -> new RuntimeException("Fish is not found") );
 
-        List<User> veterinarian = veterinarianSchedule.getVeterinarians();
+       // List<User> veterinarian = veterinarianSchedule.getVeterinarians();
 
         return VeterinarianSchedule.builder()
                 .availableDate(veterinarianSchedule.getAvailableDate())
                 .startTime(veterinarianSchedule.getStartTime())
                 .endTime(veterinarianSchedule.getEndTime())
-                .veterinarians(veterinarian)
                 .scheduleId(veterinarianSchedule.getScheduleId())
                 .build();
 
     }
 
-    public List<VeterinarianScheduleResponse> getScheduleByVeterinarianId(String veterinarianId) {
-        User veterinarian = userRepository.findById(veterinarianId).orElseThrow(() -> new AnotherException(ErrorCode.NO_VETERINARIAN_FOUND));
-        List<VeterinarianSchedule> schedules = veterinarianScheduleRepository.findScheduleByVeterinarianId(veterinarianId);
-        return schedules.stream()
-                .map(veterinarianScheduleMapper::toVeterinarianResponse)
-                .collect(Collectors.toList());
-    }
+//    public List<VeterinarianScheduleResponse> getScheduleByVeterinarianId(String veterinarianId) {
+//        User veterinarian = userRepository.findById(veterinarianId).orElseThrow(() -> new AnotherException(ErrorCode.NO_VETERINARIAN_FOUND));
+//        List<VeterinarianSchedule> schedules = veterinarianScheduleRepository.findScheduleByVeterinarianId(veterinarianId);
+//        return schedules.stream()
+//                .map(veterinarianScheduleMapper::toVeterinarianResponse)
+//                .collect(Collectors.toList());
+//    }
 
     
 

@@ -29,8 +29,13 @@ public class VeterinarianSchedule {
     LocalTime endTime;
     
     // Many-to-many relationship with User (as Veterinarians)
-    @ManyToMany(mappedBy = "veterinarianSchedules", fetch = FetchType.LAZY)   //map cái biến veterinarianSchedules bên User
-    @JsonBackReference
-    private List<User> veterinarians;
+//    @ManyToMany(mappedBy = "veterinarianSchedules", fetch = FetchType.LAZY)   //map cái biến veterinarianSchedules bên User
+//    @JsonBackReference
+//    private List<User> veterinarians;
+
+    // Many-to-one with VeterinarianProfile (join table for User and FishSpecialty)
+    @ManyToOne
+    @JoinColumn(name = "veterinarianProfileId", referencedColumnName = "veterinarianProfilesId")
+    VeterinarianProfile veterinarianProfile;
     
 }

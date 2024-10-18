@@ -40,13 +40,18 @@ public class User implements Serializable {
 
 
     // Many-to-many relationship with WorkSchedule, only for Veterinarian users
-    @ManyToMany (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "veterinarian_profile", // name of the join table
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "schedule_id")
-    )
-    @JsonManagedReference
-    private List<VeterinarianSchedule> veterinarianSchedules;
+//    @ManyToMany (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinTable(
+//            name = "veterinarian_profile", // name of the join table
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "schedule_id")
+//    )
+//    @JsonManagedReference
+//    private List<VeterinarianSchedule> veterinarianSchedules;
+
+
+    // One-to-many with VeterinarianProfile
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    List<VeterinarianProfile> veterinarianProfiles;
 
 }

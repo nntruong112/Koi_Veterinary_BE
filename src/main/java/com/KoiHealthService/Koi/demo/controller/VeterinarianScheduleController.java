@@ -44,10 +44,10 @@ public class VeterinarianScheduleController {
         return veterinarianScheduleService.getScheduleById(veterinarian_schedulesId);
     }
 
-    @GetMapping("/belonged_to_vetId/{vetId}")
-    public ResponseEntity<List<VeterinarianScheduleResponse>> getScheduleByVetId(@PathVariable("vetId") String vetId) {
-        return ResponseEntity.ok(veterinarianScheduleService.getScheduleByVeterinarianId(vetId));
-    }
+//    @GetMapping("/belonged_to_vetId/{vetId}")
+//    public ResponseEntity<List<VeterinarianScheduleResponse>> getScheduleByVetId(@PathVariable("vetId") String vetId) {
+//        return ResponseEntity.ok(veterinarianScheduleService.getScheduleByVeterinarianId(vetId));
+//    }
 
     
 }
