@@ -3,15 +3,19 @@ package com.KoiHealthService.Koi.demo.service;
 import com.KoiHealthService.Koi.demo.config.VNPayConfig;
 import com.KoiHealthService.Koi.demo.dto.request.PaymentRequest;
 import com.KoiHealthService.Koi.demo.dto.response.PaymentResponse;
+import com.KoiHealthService.Koi.demo.entity.Payment;
 import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;
 import com.KoiHealthService.Koi.demo.exception.ErrorCode;
+import com.KoiHealthService.Koi.demo.repository.PaymentRepository;
 import com.KoiHealthService.Koi.demo.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -28,11 +32,14 @@ public class PaymentService {
     @NonNull
     UserRepository userRepository;
 
+    @NonNull
+    PaymentRepository paymentRepository;
+
    public PaymentResponse  createPayment(HttpServletRequest request, PaymentRequest paymentRequest) throws UnsupportedEncodingException {
+   User user = userRepository.findById(paymentRequest.getUserId()).orElseThrow(() -> new AnotherException(ErrorCode.USER_NOT_EXISTED));
 
-
-    String orderType = "other";
-    long amountValue = paymentRequest.getAmount() * 100 ;
+    String orderType = "Thanh Toan Dich Vu KoiHealthService";
+    long amountValue = paymentRequest.getAmountValue() * 100 ;
     String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
     String vnp_IpAddr = VNPayConfig.getIpAddress(request);
 
@@ -52,7 +59,7 @@ public class PaymentService {
 //        vnp_Params.put("vnp_BankCode", bankCode);
 //    }
     vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
-    vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
+    vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + user.getUserId());
     vnp_Params.put("vnp_OrderType", orderType);
     vnp_Params.put("vnp_Locale", "vn");
 
@@ -101,13 +108,37 @@ public class PaymentService {
     queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
     String paymentUrl = VNPayConfig.vnp_PayUrl + "?" + queryUrl;
 
-       User user = userRepository.findById(paymentRequest.getUserId()).orElseThrow(() -> new AnotherException(ErrorCode.USER_NOT_EXISTED));
 
-    return PaymentResponse.builder()
+
+      Payment payment = Payment.builder()
+             .orderType(orderType)
+             .amountValue(paymentRequest.getAmountValue())
+             .vnp_CreateDate(vnp_CreateDate)
+              .vnp_ExpireDate(vnp_ExpireDate)
+              .user(user)
+             .build();
+
+      paymentRepository.save(payment);
+
+//      SimpleMailMessage message = new SimpleMailMessage();
+//      message.setTo(user.getEmail());
+//      message.setSubject("Thanh Toán hóa đơn thành công");
+//      message.setText();
+
+       return PaymentResponse.builder()
             .message("success")
             .paymentUrl(paymentUrl)
+            .amountValue(paymentRequest.getAmountValue())
+            .orderType(orderType)
+            .vnp_CreateDate(vnp_CreateDate)
+            .vnp_ExpireDate(vnp_ExpireDate)
             .user(user)
             .build();
+
+
+
 }
-  
+    public Payment getPayment(String paymentId){
+       return paymentRepository.findById(paymentId).orElseThrow(() -> new RuntimeException("Cannot found"));
+    }
 }

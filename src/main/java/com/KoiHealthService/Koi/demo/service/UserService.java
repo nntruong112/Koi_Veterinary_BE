@@ -71,7 +71,7 @@ public class UserService {
         //Encryption password
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
 
-        // Set verification code expiration time (e.g., 30 minutes from now)
+        // Set verification code expiration time
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, 1); // adjust the expiration time as needed
         user.setVerificationCodeExpiration(calendar.getTime());
@@ -92,7 +92,6 @@ public class UserService {
         userStorage.storeVerificationCode(verificationCode,user);
         userStorage.storeEmail(userRequest.getEmail(),user);
 
-
         return userMapper.toUserResponse(user);
     }
 
@@ -101,7 +100,6 @@ public class UserService {
         if (userRepository.existsByUsername(userRequest.getUsername())) {
             throw new AnotherException(ErrorCode.USER_EXISTED);
         }
-
         User user = userMapper.toUser(userRequest);
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         user.setRoles("VET");

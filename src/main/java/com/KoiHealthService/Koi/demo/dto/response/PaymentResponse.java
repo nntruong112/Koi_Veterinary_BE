@@ -12,5 +12,11 @@ import lombok.experimental.FieldDefaults;
 public class PaymentResponse {
     String message;
     String paymentUrl;
+    String paymentId;
+    String orderType;
+    Long amountValue;
+    String vnp_CreateDate;
+    String vnp_ExpireDate;
     User user;
+
 }

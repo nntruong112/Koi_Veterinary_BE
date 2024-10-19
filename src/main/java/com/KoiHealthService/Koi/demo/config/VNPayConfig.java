@@ -8,8 +8,12 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.KoiHealthService.Koi.demo.entity.Payment;
+import com.KoiHealthService.Koi.demo.repository.PaymentRepository;
+import com.KoiHealthService.Koi.demo.service.PaymentService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -19,7 +23,7 @@ public class VNPayConfig {
     public static String vnp_Version = "2.1.0";
     public static String vnp_Command = "pay";
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_ReturnUrl = "http://localhost:8080/vnpay_jsp/vnpay_return.jsp";
+    public static String vnp_ReturnUrl = "http://localhost:8080/payments/get-payment/{paymentId}";
     public static String vnp_TmnCode = "R93Q3QYE";
     public static String secretKey = "2QJQQ4YHZ8Q6U7TZLCIKXSSJSGKL01OO";
     public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
