@@ -4,12 +4,14 @@ import com.KoiHealthService.Koi.demo.dto.request.appointment.AppointmentRequest;
 import com.KoiHealthService.Koi.demo.dto.request.appointment.AppointmentUpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.response.AppointmentResponse;
 import com.KoiHealthService.Koi.demo.entity.Appointment;
+import com.KoiHealthService.Koi.demo.entity.AppointmentType;
 import com.KoiHealthService.Koi.demo.entity.Fish;
 import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;
 import com.KoiHealthService.Koi.demo.exception.ErrorCode;
 import com.KoiHealthService.Koi.demo.mapper.AppointmentMapper;
 import com.KoiHealthService.Koi.demo.repository.AppointmentRepository;
+import com.KoiHealthService.Koi.demo.repository.AppointmentTypeRepository;
 import com.KoiHealthService.Koi.demo.repository.FishRepository;
 import com.KoiHealthService.Koi.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ public class AppointmentService {
     private final FishRepository fishRepository;
     private final AppointmentRepository appointmentRepository;
     private final UserRepository userRepository;
+    private final AppointmentTypeRepository appointmentTypeRepository;
     
 
     //create new Appointment ========================================================================================
@@ -37,10 +40,14 @@ public class AppointmentService {
         Fish fish = fishRepository.findById(request.getFishId())
                 .orElseThrow(() -> new AnotherException(ErrorCode.NO_FISH_FOUND));
 
+        // Manually fetch AppointmentType from repository
+        AppointmentType appointmentType = appointmentTypeRepository.findById(request.getAppointmentTypeId())
+                .orElseThrow(() -> new AnotherException(ErrorCode.NO_APPOINTMENT_TYPE_FOUND));
+
         Appointment appointment = Appointment.builder()
                 .appointmentId(request.getAppointmentId())
                 .appointmentDate(request.getAppointmentDate())
-                .appointmentType(request.getAppointmentType())
+                .appointmentType(appointmentType)
                 .endTime(request.getEndTime())
                 .location(request.getLocation())
                 .startTime(request.getStartTime())

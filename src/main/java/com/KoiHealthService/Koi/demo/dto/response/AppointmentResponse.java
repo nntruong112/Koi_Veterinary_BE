@@ -16,7 +16,6 @@ import java.time.LocalTime;
 public class AppointmentResponse {
     String appointmentId;
     LocalDate appointmentDate;
-    String appointmentType;
     String status;
     String customerId;
     String veterinarianId;
@@ -24,4 +23,5 @@ public class AppointmentResponse {
     String location;
     LocalTime startTime;
     LocalTime endTime;
+    String appointmentTypeId;
 }

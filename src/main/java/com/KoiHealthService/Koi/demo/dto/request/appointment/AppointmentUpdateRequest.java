@@ -14,7 +14,7 @@ import java.time.LocalTime;
 public class AppointmentUpdateRequest {
     String appointmentId;
     LocalDate appointmentDate;
-    String appointmentType;
+    String appointmentTypeId;
     String status;
     String location;
     LocalTime startTime;

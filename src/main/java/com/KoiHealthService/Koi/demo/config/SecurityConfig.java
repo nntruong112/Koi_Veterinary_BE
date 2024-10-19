@@ -44,6 +44,7 @@ public class SecurityConfig {
             "/users/**",
             "/fishes/**",
             "/appointments/**",
+            "/appointment_types/**",
             "/invoices/**",
             "/health_records/**",
             "/feedbacks/**",
@@ -55,6 +56,7 @@ public class SecurityConfig {
             ,"/feedback/**"
             ,"/payments/**"
             ,"/googles/**"};
+
 
     @Autowired
     private CustomJwtDecoder customJwtDecoder;

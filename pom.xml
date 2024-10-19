@@ -54,10 +54,7 @@
 
 
 
-		<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-oauth2-client</artifactId>
-</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -133,11 +130,7 @@
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-jwt -->
 		<!-- https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt -->
-		<dependency>
-			<groupId>com.nimbusds</groupId>
-			<artifactId>nimbus-jose-jwt</artifactId>
-			<version>9.41.2</version>
-		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-jose -->
 		<dependency>

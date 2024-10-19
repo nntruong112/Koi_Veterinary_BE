@@ -17,4 +17,6 @@ public interface AppointmentMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void toUpdateAppointment(@MappingTarget Appointment appointment, AppointmentUpdateRequest updateRequest);
+
+        
 }

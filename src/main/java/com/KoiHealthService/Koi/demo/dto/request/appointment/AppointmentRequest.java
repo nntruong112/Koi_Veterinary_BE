@@ -40,7 +40,6 @@ import java.time.LocalTime;
 public class AppointmentRequest {
     String appointmentId;
     LocalDate appointmentDate;
-    String appointmentType;
     String status;
     String customerId;
     String veterinarianId;
@@ -48,4 +47,5 @@ public class AppointmentRequest {
     String location;
     LocalTime startTime;
     LocalTime endTime;
+    String appointmentTypeId;
 }

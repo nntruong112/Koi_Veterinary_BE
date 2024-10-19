@@ -20,7 +20,11 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.UUID)
     String appointmentId;
     LocalDate appointmentDate;
-    String appointmentType;
+
+    @ManyToOne
+    @JoinColumn(name = "appointmentTypeId")
+    AppointmentType appointmentType;
+    
     String status;
     LocalTime startTime;
     LocalTime endTime;
