@@ -46,8 +46,8 @@ public class EmailConfig {
         // Create HTML content for the email body
         StringBuilder body = new StringBuilder();
         body.append("<html><body>")
-            .append("<h2>Hóa đơn #" + payment.getPaymentId() + "</h2>")
-            .append("<p>Đây là hóa đơn cho đơn hàng #" + payment.getPaymentId() + ".</p>")
+            .append("<h2>Hóa đơn của : " + payment.getName()+ "</h2>")
+            .append("<p>Đây là hóa đơn cho đơn hàng # " + payment.getPaymentId() + ".</p>")
             .append("<table style='border-collapse: collapse; width: 100%;'>")
             .append("<tr style='background-color: #f2f2f2;'>")
             .append("<th style='border: 1px solid #dddddd; text-align: left; padding: 8px;'>Mặt hàng</th>")
