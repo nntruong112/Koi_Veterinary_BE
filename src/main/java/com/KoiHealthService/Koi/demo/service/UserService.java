@@ -54,7 +54,6 @@ public class UserService {
     // Register
     public UserResponse register(UserRequest userRequest) {
 //        Find exist username
-
         if (userRepository.existsByUsername(userRequest.getUsername())) {
             throw new AnotherException(ErrorCode.USER_EXISTED);
         }
@@ -112,9 +111,6 @@ public class UserService {
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
-
-
-
     //Update User
     public UserResponse updateUser(String id, UpdateRequest updateRequest){
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User is not found") );
@@ -178,8 +174,7 @@ public class UserService {
     //Get user by Role
     public List<User> getByRole(String roles){
         if(roles != null) {
-            List<User> users = userRepository.findByRoles(roles);
-            return users;
+            return userRepository.findByRoles(roles);
         }else
             throw new RuntimeException("Cannot find role");
 

@@ -32,4 +32,5 @@ public class User implements Serializable {
     String verificationCode;
     Date verificationCodeExpiration;
     String roles;
+    boolean checkLoginGoogle;
 }

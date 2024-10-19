@@ -108,8 +108,6 @@ public class PaymentService {
     queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
     String paymentUrl = VNPayConfig.vnp_PayUrl + "?" + queryUrl;
 
-
-
       Payment payment = Payment.builder()
              .orderType(orderType)
              .amountValue(paymentRequest.getAmountValue())
@@ -119,12 +117,10 @@ public class PaymentService {
              .build();
 
       paymentRepository.save(payment);
-
 //      SimpleMailMessage message = new SimpleMailMessage();
 //      message.setTo(user.getEmail());
 //      message.setSubject("Thanh Toán hóa đơn thành công");
 //      message.setText();
-
        return PaymentResponse.builder()
             .message("success")
             .paymentUrl(paymentUrl)
@@ -134,11 +130,9 @@ public class PaymentService {
             .vnp_ExpireDate(vnp_ExpireDate)
             .user(user)
             .build();
-
-
-
 }
     public Payment getPayment(String paymentId){
        return paymentRepository.findById(paymentId).orElseThrow(() -> new RuntimeException("Cannot found"));
     }
+
 }
