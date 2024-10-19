@@ -1,6 +1,7 @@
 package com.KoiHealthService.Koi.demo.service;
 
 import com.KoiHealthService.Koi.demo.Storage.UserStorage;
+import com.KoiHealthService.Koi.demo.config.EmailConfig;
 import com.KoiHealthService.Koi.demo.dto.request.UpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.request.UserRequest;
 import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
@@ -34,6 +35,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class UserService {
+
+    @NonNull
+    EmailConfig emailConfig;
 
     @NonNull
     UserStorage userStorage;
@@ -75,10 +79,11 @@ public class UserService {
         //Set Role
         user.setRoles("USER");
         //Send Mail
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(userRequest.getEmail());
-        message.setText("Mã xác minh của bạn là :" + verificationCode);
-        javaMailSender.send(message);
+//        SimpleMailMessage message = new SimpleMailMessage();
+//        message.setTo(userRequest.getEmail());
+//        message.setText("Mã xác minh của bạn là :" + verificationCode);
+//        javaMailSender.send(message);
+        emailConfig.sendCode(userRequest.getEmail(),"KoiHealthSerivce@gmail.com" ,"Mã xác minh của bạn là : " + verificationCode);
 
         //Save info user and code into userStorage
         userStorage.storeVerificationCode(verificationCode,user);

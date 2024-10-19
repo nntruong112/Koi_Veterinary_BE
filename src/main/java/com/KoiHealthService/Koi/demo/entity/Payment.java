@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
@@ -31,4 +33,13 @@ public class Payment {
     @ManyToOne
     @JoinColumn(name = "user_id")
      User user;
+
+    @Column(nullable = false)
+    String email;
+
+    @Column(nullable = false)
+    String name;
+//  Nếu cần, có thể thêm danh sách các Item liên quan đến Payment
+     @OneToMany(mappedBy = "payment")
+     List<Item> items ;
 }

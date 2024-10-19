@@ -57,8 +57,6 @@ public class SecurityConfig {
                 .oauth2Login(OAuth2LoginConfigurer -> OAuth2LoginConfigurer.successHandler((request, response, authentication) -> response.sendRedirect("/googles/login-google")))
                         .csrf(AbstractHttpConfigurer::disable);
 
-
-
         httpSecurity.oauth2ResourceServer(oauth2 ->
                 oauth2.jwt(jwtConfigurer ->
                         jwtConfigurer.decoder(customJwtDecoder)
