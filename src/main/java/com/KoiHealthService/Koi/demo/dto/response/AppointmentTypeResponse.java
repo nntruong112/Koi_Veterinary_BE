@@ -4,6 +4,8 @@ package com.KoiHealthService.Koi.demo.dto.response;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -12,5 +14,5 @@ import lombok.experimental.FieldDefaults;
 public class AppointmentTypeResponse {
     String appointmentTypeId;
     String appointmentService;
-    Double price;
+    BigDecimal price;
 }
