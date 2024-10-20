@@ -1,18 +1,15 @@
 package com.KoiHealthService.Koi.demo.service;
 
 import com.KoiHealthService.Koi.demo.Storage.UserStorage;
-
-import com.KoiHealthService.Koi.demo.dto.request.user.UpdateRequest;
-import com.KoiHealthService.Koi.demo.dto.request.user.UserRequest;
+import com.KoiHealthService.Koi.demo.config.EmailConfig;
+import com.KoiHealthService.Koi.demo.dto.request.UpdateRequest;
+import com.KoiHealthService.Koi.demo.dto.request.UserRequest;
 import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
 import com.KoiHealthService.Koi.demo.entity.User;
-import com.KoiHealthService.Koi.demo.entity.VeterinarianProfile;
-import com.KoiHealthService.Koi.demo.entity.VeterinarianSchedule;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;
 import com.KoiHealthService.Koi.demo.exception.ErrorCode;
 import com.KoiHealthService.Koi.demo.mapper.UserMapper;
 import com.KoiHealthService.Koi.demo.repository.UserRepository;
-import com.KoiHealthService.Koi.demo.repository.VeterinarianProfileRepository;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +36,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class UserService {
 
-    final VeterinarianProfileRepository veterinarianProfileRepository;
-
+    @NonNull
+    EmailConfig emailConfig;
 
     @NonNull
     UserStorage userStorage;
@@ -61,7 +58,6 @@ public class UserService {
     // Register
     public UserResponse register(UserRequest userRequest) {
 //        Find exist username
-
         if (userRepository.existsByUsername(userRequest.getUsername())) {
             throw new AnotherException(ErrorCode.USER_EXISTED);
         }
@@ -83,10 +79,11 @@ public class UserService {
         //Set Role
         user.setRoles("USER");
         //Send Mail
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(userRequest.getEmail());
-        message.setText("Mã xác minh của bạn là :" + verificationCode);
-        javaMailSender.send(message);
+//        SimpleMailMessage message = new SimpleMailMessage();
+//        message.setTo(userRequest.getEmail());
+//        message.setText("Mã xác minh của bạn là :" + verificationCode);
+//        javaMailSender.send(message);
+        emailConfig.sendCode(userRequest.getEmail(),"KoiHealthSerivce@gmail.com" ,"Mã xác minh của bạn là : " + verificationCode);
 
         //Save info user and code into userStorage
         userStorage.storeVerificationCode(verificationCode,user);
@@ -119,9 +116,6 @@ public class UserService {
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
-
-
-
     //Update User
     public UserResponse updateUser(String id, UpdateRequest updateRequest){
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User is not found") );
@@ -185,27 +179,12 @@ public class UserService {
     //Get user by Role
     public List<User> getByRole(String roles){
         if(roles != null) {
-            List<User> users = userRepository.findByRoles(roles);
-            return users;
+            return userRepository.findByRoles(roles);
         }else
             throw new RuntimeException("Cannot find role");
+
     }
 
-    public List<VeterinarianSchedule> getVeterinarianSchedules(String userId) {
-        // Tìm User dựa trên userId
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User không tồn tại"));
-
-        // Lấy danh sách các VeterinarianProfile của User
-        List<VeterinarianProfile> veterinarianProfiles = veterinarianProfileRepository.findByUser(user);
-
-        // Từ danh sách VeterinarianProfile, trích xuất danh sách VeterinarianSchedule
-        return veterinarianProfiles.stream()
-                .map(VeterinarianProfile::getVeterinarianSchedule) // Sửa từ getVeterinarianSchedules thành getVeterinarianSchedule
-                .collect(Collectors.toList());
-    }
-
-    
 
 }
 
