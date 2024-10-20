@@ -1,9 +1,5 @@
-package com.KoiHealthService.Koi.demo.dto.request;
+package com.KoiHealthService.Koi.demo.dto.request.feedback;
 
-import com.KoiHealthService.Koi.demo.entity.Appointment;
-import com.KoiHealthService.Koi.demo.entity.User;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

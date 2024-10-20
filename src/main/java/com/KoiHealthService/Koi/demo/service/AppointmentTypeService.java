@@ -1,12 +1,11 @@
 package com.KoiHealthService.Koi.demo.service;
 
 
-import com.KoiHealthService.Koi.demo.dto.request.AppointmentTypeCreationRequest;
+import com.KoiHealthService.Koi.demo.dto.request.appointmentType.AppointmentTypeCreationRequest;
 import com.KoiHealthService.Koi.demo.dto.response.AppointmentTypeResponse;
 import com.KoiHealthService.Koi.demo.entity.AppointmentType;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;
 import com.KoiHealthService.Koi.demo.exception.ErrorCode;
-import com.KoiHealthService.Koi.demo.mapper.AppointmentTypeMapper;
 import com.KoiHealthService.Koi.demo.repository.AppointmentTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

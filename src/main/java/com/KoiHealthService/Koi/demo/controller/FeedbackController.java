@@ -1,17 +1,18 @@
 package com.KoiHealthService.Koi.demo.controller;
 
 
-import com.KoiHealthService.Koi.demo.dto.request.FeedbackCreationRequest;
+import com.KoiHealthService.Koi.demo.dto.request.feedback.FeedbackCreationRequest;
+import com.KoiHealthService.Koi.demo.dto.request.feedback.FeedbackUpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
 import com.KoiHealthService.Koi.demo.entity.Feedback;
 import com.KoiHealthService.Koi.demo.service.FeedbackService;
 import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -29,5 +30,34 @@ public class FeedbackController {
         apiResponse.setResult(feedbackService.createFeedback(request));
         return apiResponse;
     }
+
+    @GetMapping
+    public ResponseEntity<List<Feedback>> getAllFeedbacks() {
+        List<Feedback> feedbacks = feedbackService.getAllFeedbacks();
+        return ResponseEntity.ok(feedbacks);
+    }
+
+    @GetMapping("/{feedbackId}")
+    public ResponseEntity<Feedback> getFeedbackById(@PathVariable String feedbackId) {
+        return feedbackService.getFeedbackById(feedbackId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{feedbackId}")
+    public ResponseEntity<Feedback> updateFeedback(
+            @PathVariable String feedbackId,
+            @RequestBody FeedbackUpdateRequest request) {
+        Feedback updatedFeedback = feedbackService.updateFeedback(feedbackId, request);
+        return ResponseEntity.ok(updatedFeedback);
+    }
+
+    @DeleteMapping("/{feedbackId}")
+    public ResponseEntity<Void> deleteFeedback(@PathVariable String feedbackId) {
+        feedbackService.deleteFeedback(feedbackId);
+        return ResponseEntity.noContent().build();
+    }
+
+
 
 }

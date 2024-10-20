@@ -1,16 +1,10 @@
 package com.KoiHealthService.Koi.demo.controller;
 
-import com.KoiHealthService.Koi.demo.dto.request.AppointmentTypeCreationRequest;
-import com.KoiHealthService.Koi.demo.dto.request.appointment.AppointmentRequest;
-import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
+import com.KoiHealthService.Koi.demo.dto.request.appointmentType.AppointmentTypeCreationRequest;
 import com.KoiHealthService.Koi.demo.dto.response.AppointmentTypeResponse;
-import com.KoiHealthService.Koi.demo.dto.response.FishResponse;
-import com.KoiHealthService.Koi.demo.entity.Appointment;
-import com.KoiHealthService.Koi.demo.entity.AppointmentType;
 import com.KoiHealthService.Koi.demo.service.AppointmentTypeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

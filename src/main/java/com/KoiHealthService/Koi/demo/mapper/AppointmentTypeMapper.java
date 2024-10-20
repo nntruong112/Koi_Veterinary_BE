@@ -1,6 +1,6 @@
 package com.KoiHealthService.Koi.demo.mapper;
 
-import com.KoiHealthService.Koi.demo.dto.request.AppointmentTypeCreationRequest;
+import com.KoiHealthService.Koi.demo.dto.request.appointmentType.AppointmentTypeCreationRequest;
 import com.KoiHealthService.Koi.demo.dto.response.AppointmentTypeResponse;
 import com.KoiHealthService.Koi.demo.entity.AppointmentType;
 import org.mapstruct.Mapper;

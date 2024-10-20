@@ -1,18 +1,23 @@
 package com.KoiHealthService.Koi.demo.service;
 
 
-import com.KoiHealthService.Koi.demo.dto.request.FeedbackCreationRequest;
+import com.KoiHealthService.Koi.demo.dto.request.feedback.FeedbackCreationRequest;
+import com.KoiHealthService.Koi.demo.dto.request.feedback.FeedbackUpdateRequest;
+import com.KoiHealthService.Koi.demo.dto.response.FeedbackResponse;
 import com.KoiHealthService.Koi.demo.entity.Appointment;
 import com.KoiHealthService.Koi.demo.entity.Feedback;
 import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;
 import com.KoiHealthService.Koi.demo.exception.ErrorCode;
+import com.KoiHealthService.Koi.demo.mapper.FeedbackMapper;
 import com.KoiHealthService.Koi.demo.repository.AppointmentRepository;
 import com.KoiHealthService.Koi.demo.repository.FeedbackRepository;
 import com.KoiHealthService.Koi.demo.repository.UserRepository;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -20,6 +25,8 @@ public class FeedbackService {
 
 
     private final FeedbackRepository feedbackRepository;
+
+    private final FeedbackMapper feedbackMapper;
 
 
     private final UserRepository userRepository;
@@ -53,5 +60,28 @@ public class FeedbackService {
 
         return feedbackRepository.save(feedback);
     }
-                
+
+    public List<Feedback> getAllFeedbacks() {
+        return feedbackRepository.findAll();
+    }
+
+    public Optional<Feedback> getFeedbackById(String feedbackId) {
+        return feedbackRepository.findById(feedbackId);
+    }
+
+    public Feedback updateFeedback(String feedbackId, FeedbackUpdateRequest request) {
+        Feedback feedback = feedbackRepository.findById(feedbackId)
+                .orElseThrow(() -> new RuntimeException("Feedback not found"));
+
+        FeedbackResponse feedbackResponse = feedbackMapper.toFeedbackResponse(feedback);
+        
+
+        return feedbackRepository.save(feedback);
+    }
+
+    public void deleteFeedback(String feedbackId) {
+        feedbackRepository.deleteById(feedbackId);
+    }
+
+
 }

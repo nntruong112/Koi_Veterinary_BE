@@ -11,8 +11,6 @@ import org.mapstruct.Mapping;
 public interface HealthRecordMapper{
     
     HealthRecord toHealthRecord(HealthRecordCreationRequest request);
-
-    
     HealthRecordResponse toHealthResponse(HealthRecord healthRecord);
 
     
