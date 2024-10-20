@@ -147,9 +147,8 @@ public class PaymentService {
         if (payment != null) {
             emailConfig.sendInvoiceEmail(payment.getEmail(), payment);
         } else {
-            throw new RuntimeException("Suuuu");
+            throw new RuntimeException("Cannot find paymentId");
         }
         return payment;
     }
-
 }
