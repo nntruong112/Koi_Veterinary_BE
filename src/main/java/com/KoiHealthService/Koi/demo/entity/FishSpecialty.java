@@ -16,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class FishSpecialty {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     String fishSpecialtyId;
@@ -24,7 +23,6 @@ public class FishSpecialty {
     String description;
     String category;
     BigDecimal price;
-    
 }
     
 

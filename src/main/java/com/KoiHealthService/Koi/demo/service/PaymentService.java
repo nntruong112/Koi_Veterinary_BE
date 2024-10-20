@@ -4,10 +4,12 @@ import com.KoiHealthService.Koi.demo.config.EmailConfig;
 import com.KoiHealthService.Koi.demo.config.VNPayConfig;
 import com.KoiHealthService.Koi.demo.dto.request.PaymentRequest;
 import com.KoiHealthService.Koi.demo.dto.response.PaymentResponse;
+import com.KoiHealthService.Koi.demo.entity.Appointment;
 import com.KoiHealthService.Koi.demo.entity.Payment;
 import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;
 import com.KoiHealthService.Koi.demo.exception.ErrorCode;
+import com.KoiHealthService.Koi.demo.repository.AppointmentRepository;
 import com.KoiHealthService.Koi.demo.repository.PaymentRepository;
 import com.KoiHealthService.Koi.demo.repository.UserRepository;
 import jakarta.mail.MessagingException;
@@ -33,6 +35,7 @@ public class PaymentService {
 
     final EmailConfig emailConfig;
 
+    final AppointmentRepository appointmentRepository;
 
     @NonNull
     UserRepository userRepository;
@@ -42,9 +45,10 @@ public class PaymentService {
 
     public PaymentResponse createPayment(HttpServletRequest request, PaymentRequest paymentRequest) throws UnsupportedEncodingException {
         User user = userRepository.findById(paymentRequest.getUserId()).orElseThrow(() -> new AnotherException(ErrorCode.USER_NOT_EXISTED));
+        Appointment appointment = appointmentRepository.findById(paymentRequest.getAppointmentId()).orElseThrow(() -> new AnotherException(ErrorCode.NO_APPOINTMENT_FOUND));
 
-        String orderType = "Thanh Toan Dich Vu KoiHealthService";
-        long amountValue = paymentRequest.getAmountValue() * 100;
+        String orderType = appointment.getAppointmentType().getAppointmentService();
+        long amountValue = (long) (appointment.getAppointmentType().getPrice() * 100);
         String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
         String vnp_IpAddr = VNPayConfig.getIpAddress(request);
 
@@ -117,7 +121,7 @@ public class PaymentService {
                 .orderType(orderType)
                 .name(user.getUsername())
                 .email(user.getEmail())
-                .amountValue(paymentRequest.getAmountValue())
+                .amountValue(appointment.getAppointmentType().getPrice())
                 .vnp_CreateDate(vnp_CreateDate)
                 .vnp_ExpireDate(vnp_ExpireDate)
                 .user(user)
@@ -130,7 +134,7 @@ public class PaymentService {
                 .message("success")
                 .paymentId(payment.getPaymentId())
                 .paymentUrl(paymentUrl)
-                .amountValue(paymentRequest.getAmountValue())
+                .amountValue(appointment.getAppointmentType().getPrice())
                 .orderType(orderType)
                 .vnp_CreateDate(vnp_CreateDate)
                 .vnp_ExpireDate(vnp_ExpireDate)
@@ -140,13 +144,11 @@ public class PaymentService {
 
     public Payment getPayment(String paymentId) {
         Payment payment = paymentRepository.findById(paymentId).orElseThrow(() -> new RuntimeException("Cannot found"));
-
         if (payment != null) {
             emailConfig.sendInvoiceEmail(payment.getEmail(), payment);
         } else {
             throw new RuntimeException("Suuuu");
         }
-
         return payment;
     }
 

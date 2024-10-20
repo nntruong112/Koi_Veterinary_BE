@@ -11,5 +11,5 @@ import lombok.experimental.FieldDefaults;
 public class AppointmentTypeCreationRequest {
     String appointmentTypeId;
     String appointmentService;
-    Double price;
+    Long price;
 }

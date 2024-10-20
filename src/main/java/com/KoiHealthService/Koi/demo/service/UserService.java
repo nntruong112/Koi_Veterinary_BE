@@ -2,8 +2,8 @@ package com.KoiHealthService.Koi.demo.service;
 
 import com.KoiHealthService.Koi.demo.Storage.UserStorage;
 import com.KoiHealthService.Koi.demo.config.EmailConfig;
-import com.KoiHealthService.Koi.demo.dto.request.UpdateRequest;
-import com.KoiHealthService.Koi.demo.dto.request.UserRequest;
+import com.KoiHealthService.Koi.demo.dto.request.user.UpdateRequest;
+import com.KoiHealthService.Koi.demo.dto.request.user.UserRequest;
 import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
 import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;

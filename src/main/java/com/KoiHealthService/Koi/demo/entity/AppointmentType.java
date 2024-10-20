@@ -17,6 +17,5 @@ public class AppointmentType {
     @GeneratedValue(strategy = GenerationType.UUID)
     String appointmentTypeId;
     String appointmentService;
-    Double price;
-
+    Long price;
 }
