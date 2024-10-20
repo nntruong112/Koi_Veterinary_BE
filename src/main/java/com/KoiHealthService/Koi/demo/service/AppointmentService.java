@@ -101,49 +101,21 @@ public class AppointmentService {
 //                .collect(Collectors.toList());
 //    }
 
-    public List<AppointmentResponse> getAppointmentsByCustomerId(String customerId) {
-        // Fetch appointments by customerId
-        List<Appointment> appointments = appointmentRepository.findAppointmentsByCustomerId(customerId);
-
-        // Map to response DTOs using the builder pattern directly
-        return appointments.stream()
-                .map(appointment -> AppointmentResponse.builder()
-                        .appointmentId(appointment.getAppointmentId())
-                        .appointmentDate(appointment.getAppointmentDate())
-                        .status(appointment.getStatus())
-                        .location(appointment.getLocation())
-                        .startTime(appointment.getStartTime())
-                        .endTime(appointment.getEndTime())
-                        // Map related entities
-                        .customerId(appointment.getCustomer() != null ? appointment.getCustomer().getUserId() : null)
-                        .veterinarianId(appointment.getVeterinarian() != null ? appointment.getVeterinarian().getUserId() : null)
-                        .fishId(appointment.getFish() != null ? appointment.getFish().getFishId() : null)
-                        .appointmentTypeId(appointment.getAppointmentType() != null ? appointment.getAppointmentType().getAppointmentTypeId() : null)
-                        .build()
-                )
-                .collect(Collectors.toList());
+    public List<Appointment> getAppointmentsByCustomerId(String customerId) {
+        // Fetch appointments by customerId and return the Appointment entity directly
+        User customer = userRepository.findById(customerId)
+                .orElseThrow(() -> new AnotherException(ErrorCode.NO_CUSTOMER_FOUND));
+        // Fetch appointments directly from the repository
+        return appointmentRepository.findAppointmentsByCustomerId(customerId);
     }
 
-    public List<AppointmentResponse> getAppointmentsByVeterinarianId(String veterinarianId) {
-        // Fetch appointments by veterinarianId
-        List<Appointment> appointments = appointmentRepository.findAppointmentsByVeterinarianId(veterinarianId);
 
-        // Map to response DTOs using the builder pattern directly
-        return appointments.stream()
-                .map(appointment -> AppointmentResponse.builder()
-                        .appointmentId(appointment.getAppointmentId())
-                        .appointmentDate(appointment.getAppointmentDate())
-                        .status(appointment.getStatus())
-                        .location(appointment.getLocation())
-                        .startTime(appointment.getStartTime())
-                        .endTime(appointment.getEndTime())
-                        // Map related entities
-                        .customerId(appointment.getCustomer() != null ? appointment.getCustomer().getUserId() : null)
-                        .veterinarianId(appointment.getVeterinarian() != null ? appointment.getVeterinarian().getUserId() : null)
-                        .fishId(appointment.getFish() != null ? appointment.getFish().getFishId() : null)
-                        .appointmentTypeId(appointment.getAppointmentType() != null ? appointment.getAppointmentType().getAppointmentTypeId() : null)
-                        .build()
-                )
-                .collect(Collectors.toList());
+
+    public List<Appointment> getAppointmentsByVeterinarianId(String veterinarianId) {
+        // Fetch appointments by vetId and return the Appointment entity directly
+        User veterinarian = userRepository.findById(veterinarianId)
+                .orElseThrow(() -> new AnotherException(ErrorCode.NO_CUSTOMER_FOUND));
+        // Fetch appointments directly from the repository
+        return appointmentRepository.findAppointmentsByVeterinarianId(veterinarianId);
     }
 }

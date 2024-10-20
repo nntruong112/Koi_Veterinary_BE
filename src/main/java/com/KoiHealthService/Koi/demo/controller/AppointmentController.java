@@ -54,13 +54,13 @@ public class AppointmentController {
 
     //get appointment by customerId
     @GetMapping("/belonged_to_customerId/{customerId}")
-    public ResponseEntity<List<AppointmentResponse>> getAppointmentByCustomerId(@PathVariable("customerId") String customerId) {
+    public ResponseEntity<List<Appointment>> getAppointmentByCustomerId(@PathVariable("customerId") String customerId) {
         return ResponseEntity.ok(appointmentService.getAppointmentsByCustomerId(customerId));
     }
 
     //get appointment by vetId
     @GetMapping("/belonged_to_vetId/{vetId}")
-    public ResponseEntity<List<AppointmentResponse>> getAppointmentByVetId(@PathVariable("vetId") String vetId) {
+    public ResponseEntity<List<Appointment>> getAppointmentByVetId(@PathVariable("vetId") String vetId) {
         return ResponseEntity.ok(appointmentService.getAppointmentsByVeterinarianId(vetId));
     }
 }
