@@ -55,6 +55,7 @@ public class AppointmentService {
                 .customer(customer)
                 .fish(fish)
                 .veterinarian(veterinarian)
+                .paymentStatus(request.getPaymentStatus())
                 .build();
 
         return appointmentRepository.save(appointment);

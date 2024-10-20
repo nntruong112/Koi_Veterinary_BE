@@ -41,5 +41,6 @@ public class Appointment {
     @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "fishId") 
     Fish fish;
+    String paymentStatus;
 
 }

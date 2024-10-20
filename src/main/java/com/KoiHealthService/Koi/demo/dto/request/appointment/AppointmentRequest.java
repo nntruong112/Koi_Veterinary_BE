@@ -48,4 +48,5 @@ public class AppointmentRequest {
     LocalTime startTime;
     LocalTime endTime;
     String appointmentTypeId;
+    String paymentStatus;
 }

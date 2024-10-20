@@ -19,6 +19,7 @@ public class AppointmentUpdateRequest {
     String location;
     LocalTime startTime;
     LocalTime endTime;
+    String paymentStatus;
 
 
 }
