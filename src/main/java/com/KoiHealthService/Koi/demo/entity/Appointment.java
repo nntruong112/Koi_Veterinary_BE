@@ -21,7 +21,7 @@ public class Appointment {
     String appointmentId;
     LocalDate appointmentDate;
 
-    @ManyToOne
+    @ManyToOne  (fetch = FetchType.EAGER)
     @JoinColumn(name = "appointmentTypeId")
     AppointmentType appointmentType;
     
@@ -30,16 +30,16 @@ public class Appointment {
     LocalTime endTime;
     String location;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "customerId")
     User customer;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "veterinarianId")
     User veterinarian;
 
-    @ManyToOne
-    @JoinColumn(name = "fishId")
+    @ManyToOne (fetch = FetchType.EAGER)
+    @JoinColumn(name = "fishId") 
     Fish fish;
 
 }

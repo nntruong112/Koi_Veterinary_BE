@@ -61,6 +61,6 @@ public class AppointmentController {
     //get appointment by vetId
     @GetMapping("/belonged_to_vetId/{vetId}")
     public ResponseEntity<List<AppointmentResponse>> getAppointmentByVetId(@PathVariable("vetId") String vetId) {
-        return ResponseEntity.ok(appointmentService.getAppointmentsByVetId(vetId));
+        return ResponseEntity.ok(appointmentService.getAppointmentsByVeterinarianId(vetId));
     }
 }

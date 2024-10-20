@@ -81,21 +81,69 @@ public class AppointmentService {
         appointmentRepository.deleteById(appointmentId);
     }
 
-    //get Appointment by customer Id ========================================================================================
+//    //get Appointment by customer Id ========================================================================================
+//    public List<AppointmentResponse> getAppointmentsByCustomerId(String customerId) {
+//        // Fetch appointments by customerId
+//        List<Appointment> appointments = appointmentRepository.findAppointmentsByCustomerId(customerId);
+//
+//
+//        // Print out appointment data for debugging
+//        appointments.forEach(a -> {
+//            System.out.println("Appointment ID: " + a.getAppointmentId());
+//            System.out.println("Customer ID: " + (a.getCustomer() != null ? a.getCustomer().getUserId() : "null"));
+//            System.out.println("Veterinarian ID: " + (a.getVeterinarian() != null ? a.getVeterinarian().getUserId() : "null"));
+//            System.out.println("Fish ID: " + (a.getFish() != null ? a.getFish().getFishId() : "null"));
+//            System.out.println("Appointment Type ID: " + (a.getAppointmentType() != null ? a.getAppointmentType().getAppointmentTypeId() : "null"));
+//        });
+//        // Map to response DTOs
+//        return appointments.stream()
+//                .map(appointmentMapper::toAppointmentResponse)
+//                .collect(Collectors.toList());
+//    }
+
     public List<AppointmentResponse> getAppointmentsByCustomerId(String customerId) {
-        User customer = userRepository.findById(customerId).orElseThrow(() -> new AnotherException(ErrorCode.NO_CUSTOMER_FOUND));
+        // Fetch appointments by customerId
         List<Appointment> appointments = appointmentRepository.findAppointmentsByCustomerId(customerId);
+
+        // Map to response DTOs using the builder pattern directly
         return appointments.stream()
-                .map(appointmentMapper::toAppointmentResponse)
+                .map(appointment -> AppointmentResponse.builder()
+                        .appointmentId(appointment.getAppointmentId())
+                        .appointmentDate(appointment.getAppointmentDate())
+                        .status(appointment.getStatus())
+                        .location(appointment.getLocation())
+                        .startTime(appointment.getStartTime())
+                        .endTime(appointment.getEndTime())
+                        // Map related entities
+                        .customerId(appointment.getCustomer() != null ? appointment.getCustomer().getUserId() : null)
+                        .veterinarianId(appointment.getVeterinarian() != null ? appointment.getVeterinarian().getUserId() : null)
+                        .fishId(appointment.getFish() != null ? appointment.getFish().getFishId() : null)
+                        .appointmentTypeId(appointment.getAppointmentType() != null ? appointment.getAppointmentType().getAppointmentTypeId() : null)
+                        .build()
+                )
                 .collect(Collectors.toList());
     }
 
-    //get appointment by vetId ========================================================================================
-    public List<AppointmentResponse> getAppointmentsByVetId(String vetId) {
-        User veterinarian = userRepository.findById(vetId).orElseThrow(() -> new AnotherException(ErrorCode.NO_VETERINARIAN_FOUND));
-        List<Appointment> appointments = appointmentRepository.findAppointmentsByVetId(vetId);
+    public List<AppointmentResponse> getAppointmentsByVeterinarianId(String veterinarianId) {
+        // Fetch appointments by veterinarianId
+        List<Appointment> appointments = appointmentRepository.findAppointmentsByVeterinarianId(veterinarianId);
+
+        // Map to response DTOs using the builder pattern directly
         return appointments.stream()
-                .map(appointmentMapper::toAppointmentResponse)
+                .map(appointment -> AppointmentResponse.builder()
+                        .appointmentId(appointment.getAppointmentId())
+                        .appointmentDate(appointment.getAppointmentDate())
+                        .status(appointment.getStatus())
+                        .location(appointment.getLocation())
+                        .startTime(appointment.getStartTime())
+                        .endTime(appointment.getEndTime())
+                        // Map related entities
+                        .customerId(appointment.getCustomer() != null ? appointment.getCustomer().getUserId() : null)
+                        .veterinarianId(appointment.getVeterinarian() != null ? appointment.getVeterinarian().getUserId() : null)
+                        .fishId(appointment.getFish() != null ? appointment.getFish().getFishId() : null)
+                        .appointmentTypeId(appointment.getAppointmentType() != null ? appointment.getAppointmentType().getAppointmentTypeId() : null)
+                        .build()
+                )
                 .collect(Collectors.toList());
     }
 }

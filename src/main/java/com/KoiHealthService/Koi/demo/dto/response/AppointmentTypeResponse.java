@@ -14,5 +14,5 @@ import java.math.BigDecimal;
 public class AppointmentTypeResponse {
     String appointmentTypeId;
     String appointmentService;
-    BigDecimal price;
+    Long price;
 }
