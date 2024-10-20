@@ -4,11 +4,13 @@ import com.KoiHealthService.Koi.demo.dto.request.HealthRecordCreationRequest;
 import com.KoiHealthService.Koi.demo.dto.response.HealthRecordResponse;
 import com.KoiHealthService.Koi.demo.entity.Fish;
 import com.KoiHealthService.Koi.demo.entity.HealthRecord;
+import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;
 import com.KoiHealthService.Koi.demo.exception.ErrorCode;
 import com.KoiHealthService.Koi.demo.mapper.HealthRecordMapper;
 import com.KoiHealthService.Koi.demo.repository.FishRepository;
 import com.KoiHealthService.Koi.demo.repository.HealthRecordRepository;
+import com.KoiHealthService.Koi.demo.repository.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ public class HealthRecordService {
 
     @Autowired
     private final FishRepository fishRepository;
+
+    private final UserRepository userRepository;
     @NonNull
     private  HealthRecordRepository healthRecordRepository;
 
@@ -36,10 +40,15 @@ public class HealthRecordService {
 
     private Fish fish;
 
+    private User veterinarian;
+
     public HealthRecord createHealthRecord(HealthRecordCreationRequest request) {
 
         fish = fishRepository.findById(request.getFishId())
                 .orElseThrow(() -> new RuntimeException("Fish is not found")); //gán giá trị cho cá, nếu hong có thì exception
+
+        veterinarian = userRepository.findById(request.getVeterinarianId())
+                .orElseThrow(() -> new RuntimeException("Veterinarian is not found"));
 
         healthRecord = HealthRecord.builder()
                 .healthRecordId(request.getHealthRecordId())
@@ -47,6 +56,7 @@ public class HealthRecordService {
                 .diagnosis(request.getDiagnosis())
                 .fish(fish)
                 .treatment(request.getTreatment())
+                .veterinarian(veterinarian)
                 .build();
 
         return healthRecordRepository.save(healthRecord);

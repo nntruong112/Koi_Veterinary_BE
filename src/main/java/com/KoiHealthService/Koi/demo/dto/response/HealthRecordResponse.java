@@ -19,4 +19,5 @@ public class HealthRecordResponse {
     String diagnosis;
     String treatment;
     String fishId;
+    String veterinarianId;
 }
