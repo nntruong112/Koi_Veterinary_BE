@@ -3,8 +3,6 @@ package com.KoiHealthService.Koi.demo.dto.request.appointmentType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.math.BigDecimal;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -13,5 +11,5 @@ import java.math.BigDecimal;
 public class AppointmentTypeCreationRequest {
     String appointmentTypeId;
     String appointmentService;
-    BigDecimal price;
+    Long price;
 }

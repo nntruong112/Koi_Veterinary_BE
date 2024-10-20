@@ -42,7 +42,4 @@ public class Appointment {
     @JoinColumn(name = "fishId")
     Fish fish;
 
-
-
-
 }

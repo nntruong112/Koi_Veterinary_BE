@@ -5,6 +5,7 @@ import com.KoiHealthService.Koi.demo.dto.request.IntrospectRequest;
 import com.KoiHealthService.Koi.demo.dto.request.LogoutRequest;
 import com.KoiHealthService.Koi.demo.dto.response.AuthenticationResponse;
 import com.KoiHealthService.Koi.demo.dto.response.IntrospectResponse;
+import com.KoiHealthService.Koi.demo.dto.response.LoginResponse;
 import com.KoiHealthService.Koi.demo.entity.InvalidatedToken;
 import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;
@@ -68,6 +69,17 @@ public class AuthenticateService {
                 .build();
 
     }
+
+//    public LoginResponse loginGoogle(String email){
+//        Optional<User> user =  userRepository.findByEmail(email);
+//
+//        if(user.isPresent() && user.get().isCheckLoginGoogle() ){
+//            return User ;
+//        }
+//
+//
+//
+//    }
 
 
     //Verify Token
@@ -136,7 +148,6 @@ public class AuthenticateService {
 
         return signedJWT;
     }
-
     public void logout(LogoutRequest request) throws ParseException, JOSEException {
         var signToken = verifyToken(request.getToken());
 
@@ -151,11 +162,5 @@ public class AuthenticateService {
         invalidatedTokenRepository.save(invalidatedToken);
     }
 
-//    private String BuildScope(User user) {
-//        StringJoiner stringJoiner = new StringJoiner(" ");
-//        if (!CollectionUtils.isEmpty(user.getRoles())) {
-//            user.getRoles().forEach(stringJoiner::add);
-//        }
-//        return  stringJoiner.toString();
-//    }
+
 }

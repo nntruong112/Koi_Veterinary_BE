@@ -67,7 +67,6 @@ public class SecurityConfig {
         httpSecurity.cors(cors -> cors.configurationSource(corsConfigurationSource())).authorizeHttpRequests(request ->
                 request.requestMatchers(PUBLIC_ENDPOINTS).permitAll()
                         .anyRequest().authenticated())
-                .oauth2Login(OAuth2LoginConfigurer -> OAuth2LoginConfigurer.successHandler((request, response, authentication) -> response.sendRedirect("/googles/login-google")))
                         .csrf(AbstractHttpConfigurer::disable);
 
         //httpSecurity.csrf(AbstractHttpConfigurer::disable);

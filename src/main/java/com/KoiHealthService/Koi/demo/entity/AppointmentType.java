@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.math.BigDecimal;
-
 @Entity
 @Table(name = "appointment_types")
 @Data
@@ -19,6 +17,5 @@ public class AppointmentType {
     @GeneratedValue(strategy = GenerationType.UUID)
     String appointmentTypeId;
     String appointmentService;
-    BigDecimal price;
-
+    Long price;
 }

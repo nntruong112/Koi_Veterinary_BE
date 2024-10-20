@@ -33,7 +33,7 @@ public class AppointmentTypeService {
         return AppointmentTypeResponse.builder()
                 .appointmentTypeId(savedAppointmentType.getAppointmentTypeId())
                 .appointmentService(savedAppointmentType.getAppointmentService())
-                .price(savedAppointmentType.getPrice())
+                .price(Double.valueOf(savedAppointmentType.getPrice()))
                 .build();
     }
 
@@ -45,7 +45,7 @@ public class AppointmentTypeService {
                 .map(appointmentType -> AppointmentTypeResponse.builder()
                         .appointmentTypeId(appointmentType.getAppointmentTypeId())
                         .appointmentService(appointmentType.getAppointmentService())
-                        .price(appointmentType.getPrice())
+                        .price(Double.valueOf(appointmentType.getPrice()))
                         .build())
                 .collect(Collectors.toList());
     }
@@ -60,7 +60,7 @@ public class AppointmentTypeService {
         return AppointmentTypeResponse.builder()
                 .appointmentTypeId(appointmentType.getAppointmentTypeId())
                 .appointmentService(appointmentType.getAppointmentService())
-                .price(appointmentType.getPrice())
+                .price(Double.valueOf(appointmentType.getPrice()))
                 .build();
     }
 
