@@ -26,6 +26,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -122,11 +123,10 @@ public class PaymentService {
                 .name(user.getUsername())
                 .email(user.getEmail())
                 .amountValue(appointment.getAppointmentType().getPrice())
-                .vnp_CreateDate(vnp_CreateDate)
-                .vnp_ExpireDate(vnp_ExpireDate)
+                .vnp_CreateDate((vnp_CreateDate))
+                .vnp_ExpireDate((vnp_ExpireDate))
                 .user(user)
                 .build();
-
 
         paymentRepository.save(payment);
 
