@@ -27,10 +27,10 @@ public class VeterinarianScheduleController {
     //create
     // Create a new schedule for a veterinarian profile
     @PostMapping("/create")
-    public ResponseEntity<VeterinarianSchedule> createSchedule(
+    public ResponseEntity<VeterinarianScheduleResponse> createSchedule(
             @RequestBody VeterinarianScheduleRequest request) {
         // Gọi service để tạo lịch
-        VeterinarianSchedule schedule = veterinarianScheduleService.createSchedule(request);
+        VeterinarianScheduleResponse schedule = veterinarianScheduleService.createSchedule(request);
         return ResponseEntity.ok(schedule);
     }
 

@@ -2,6 +2,7 @@ package com.KoiHealthService.Koi.demo.dto.request;
 
 import com.KoiHealthService.Koi.demo.entity.FishSpecialty;
 import com.KoiHealthService.Koi.demo.entity.User;
+import com.KoiHealthService.Koi.demo.entity.VeterinarianProfile;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;

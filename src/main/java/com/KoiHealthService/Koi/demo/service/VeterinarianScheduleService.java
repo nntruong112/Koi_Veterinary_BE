@@ -44,32 +44,37 @@ public class VeterinarianScheduleService {
     UserMapper userMapper;
 
 
-    public VeterinarianSchedule createSchedule(VeterinarianScheduleRequest request) {
-        // Tìm User (bác sĩ thú y) dựa trên veterinarianId trong request
+    public VeterinarianScheduleResponse createSchedule(VeterinarianScheduleRequest request) {
         User veterinarian = userRepository.findById(request.getVeterinarianId())
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy User"));
 
-        // Tạo VeterinarianSchedule
         VeterinarianSchedule schedule = VeterinarianSchedule.builder()
                 .availableDate(request.getAvailableDate())
                 .startTime(request.getStartTime())
                 .endTime(request.getEndTime())
                 .build();
 
-        // Lưu lịch vào cơ sở dữ liệu trước
         veterinarianScheduleRepository.save(schedule);
 
-        // Tạo VeterinarianProfile sử dụng Builder
         VeterinarianProfile veterinarianProfile = VeterinarianProfile.builder()
                 .user(veterinarian)
                 .veterinarianSchedule(schedule)
                 .build();
 
-        // Lưu VeterinarianProfile
         veterinarianProfileRepository.save(veterinarianProfile);
 
-        return schedule;
+        // Create and return the response DTO
+        VeterinarianScheduleResponse response = new VeterinarianScheduleResponse();
+        response.setScheduleId(schedule.getScheduleId());
+        response.setAvailableDate(schedule.getAvailableDate());
+        response.setStartTime(schedule.getStartTime());
+        response.setEndTime(schedule.getEndTime());
+        response.setVeterinarianName(veterinarian.getFirstname() + " " + veterinarian.getLastname());
+
+        return response;
     }
+
+
     public List<VeterinarianSchedule> getAllVeterinarianSchedules() {
         return veterinarianScheduleRepository.findAll();
     }

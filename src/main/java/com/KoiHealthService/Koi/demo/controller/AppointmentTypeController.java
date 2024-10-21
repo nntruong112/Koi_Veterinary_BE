@@ -2,6 +2,7 @@ package com.KoiHealthService.Koi.demo.controller;
 
 import com.KoiHealthService.Koi.demo.dto.request.appointmentType.AppointmentTypeCreationRequest;
 import com.KoiHealthService.Koi.demo.dto.response.AppointmentTypeResponse;
+import com.KoiHealthService.Koi.demo.entity.AppointmentType;
 import com.KoiHealthService.Koi.demo.service.AppointmentTypeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -43,5 +44,13 @@ public class AppointmentTypeController {
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();  // Returns 404 Not Found if not found
         }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AppointmentType> updateAppointmentType(
+            @PathVariable(value = "id") String appointmentTypeId,
+            @RequestBody AppointmentType appointmentTypeDetails) {
+        AppointmentType updatedAppointmentType = appointmentTypeService.updateAppointmentType(appointmentTypeId, appointmentTypeDetails);
+        return ResponseEntity.ok(updatedAppointmentType);
     }
 }

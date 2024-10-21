@@ -88,4 +88,18 @@ public class AppointmentTypeService {
         // Delete the appointment type by ID
         appointmentTypeRepository.deleteById(id);
     }
+
+    public AppointmentType updateAppointmentType(String id, AppointmentType appointmentTypeDetails) {
+        AppointmentType existingAppointmentType = appointmentTypeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("AppointmentType not found for this id :: " + id));
+
+        // Use Builder to create a new instance with updated values
+        AppointmentType updatedAppointmentType = AppointmentType.builder()
+                .appointmentTypeId(existingAppointmentType.getAppointmentTypeId()) // Keep the original ID
+                .appointmentService(appointmentTypeDetails.getAppointmentService())
+                .price(appointmentTypeDetails.getPrice())
+                .build();
+
+        return appointmentTypeRepository.save(updatedAppointmentType);
+    }
 }

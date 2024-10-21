@@ -35,7 +35,7 @@ public class VeterinarianSchedule {
 //    private List<User> veterinarians;
 
     // Many-to-one with VeterinarianProfile (join table for User and FishSpecialty)
-    @OneToMany(mappedBy = "veterinarianSchedule", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "veterinarianSchedule", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference //tránh việc vòng lặp lúc call test API
     List<VeterinarianProfile> veterinarianProfiles;
     
