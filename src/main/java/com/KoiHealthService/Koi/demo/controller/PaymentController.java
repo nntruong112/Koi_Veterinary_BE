@@ -21,7 +21,6 @@ import java.io.UnsupportedEncodingException;
 public class PaymentController {
     PaymentService paymentService;
 
-
     @PostMapping("/create-payment")
     public PaymentResponse createPayment(HttpServletRequest request, @RequestBody PaymentRequest paymentRequest) throws UnsupportedEncodingException {
         return paymentService.createPayment(request, paymentRequest);

@@ -6,6 +6,7 @@ import com.KoiHealthService.Koi.demo.service.AuthenticateService;
 import com.nimbusds.jose.JOSEException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -33,13 +34,12 @@ public class CustomJwtDecoder implements JwtDecoder {
            var response = authenticateService.introspect(IntrospectRequest.builder()
                     .token(token)
                     .build());
-           if(!response.isValid()){
-               throw new JwtException("Token invalid");
-           }
+//           if(!response.isValid()){
+//               throw new JwtException("Token invalid");
+//           }
         }catch (JOSEException | ParseException e){
             throw new JwtException(e.getMessage());
         }
-
         if(Objects.isNull(nimbusJwtDecoder)){
             SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(),"HS512");
             nimbusJwtDecoder = NimbusJwtDecoder.
@@ -49,4 +49,5 @@ public class CustomJwtDecoder implements JwtDecoder {
         }
         return nimbusJwtDecoder.decode(token);
     }
+
 }

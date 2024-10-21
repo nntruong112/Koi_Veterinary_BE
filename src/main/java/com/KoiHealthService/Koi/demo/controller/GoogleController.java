@@ -22,47 +22,40 @@ public class GoogleController {
         this.userRepository = userRepository;
     }
 
-    @PostMapping ("/login-google")
-    public ResponseEntity<Map<String, String>> loginGoogle(@RequestBody String accessToken) {
-        String userInfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo";
+   @PostMapping("/login-google")
+public ResponseEntity<Map<String, String>> loginGoogle(@RequestBody Map<String, String> requestBody) {
+    String accessToken = requestBody.get("accessToken");
+    String userInfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo";
 
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(accessToken); // Set the Bearer token in the headers
+    RestTemplate restTemplate = new RestTemplate();
+    HttpHeaders headers = new HttpHeaders();
+    headers.setBearerAuth(accessToken); // Set the Bearer token in the headers
 
-        HttpEntity<String> entity = new HttpEntity<>(headers);
+    HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        try {
-            // Make the API request to Google
-            ResponseEntity<Map> response = restTemplate.exchange(userInfoEndpoint, HttpMethod.GET, entity, Map.class);
+    try {
+        // Make the API request to Google
+        ResponseEntity<Map> response = restTemplate.exchange(userInfoEndpoint, HttpMethod.GET, entity, Map.class);
 
-            if (response.getStatusCode() == HttpStatus.OK) {
-                Map<String, Object> userInfo = response.getBody();
+        if (response.getStatusCode() == HttpStatus.OK) {
+            Map<String, Object> userInfo = response.getBody();
 
-                // Extract name and email from response
-                String name = (String) userInfo.get("name");
-                String email = (String) userInfo.get("email");
+            // Extract name and email from response
+            String name = (String) userInfo.get("name");
+            String email = (String) userInfo.get("email");
 
-                // Check if user already exists, if not save to DB
-                User user = userRepository.findByEmail(email);
-                if (user == null) {
-                    user = new User();
-                    user.setUsername(name);
-                    user.setEmail(email);
-                    userRepository.save(user);
-                }
 
-                // Create a response map to return as JSON
-                Map<String, String> responseMap = new HashMap<>();
-                responseMap.put("name", name);
-                responseMap.put("email", email);
+            // Create a response map to return as JSON
+            Map<String, String> responseMap = new HashMap<>();
+            responseMap.put("name", name);
+            responseMap.put("email", email);
 
-                return ResponseEntity.ok(responseMap);
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-            }
-        } catch (RestClientException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.ok(responseMap);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
+    } catch (RestClientException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
+}
 }
