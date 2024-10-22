@@ -7,6 +7,7 @@ import com.KoiHealthService.Koi.demo.dto.response.FeedbackResponse;
 import com.KoiHealthService.Koi.demo.entity.Feedback;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.Mapper;
 
 
 @Mapper(componentModel = "spring")

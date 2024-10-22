@@ -14,9 +14,9 @@ public class PaymentResponse {
     String paymentUrl;
     String paymentId;
     String orderType;
+    String userId;
+    String email;
+    String payDate;
     Long amountValue;
-    String vnp_CreateDate;
-    String vnp_ExpireDate;
-    User user;
-
+    String username;
 }

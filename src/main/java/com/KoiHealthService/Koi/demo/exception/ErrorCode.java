@@ -32,7 +32,8 @@ public enum ErrorCode {
     INVALID_CODE(1008,"Invalid Code",HttpStatus.BAD_REQUEST),
     VERIFICATION_CODE_ALREADY_SENT(1010,"Code have already sent",HttpStatus.BAD_REQUEST),
     LOGIN_FAILED(1011,"Invalid username or password",HttpStatus.BAD_REQUEST),
-    EXISTED_EMAIL(1012,"Email is existed ",HttpStatus.BAD_REQUEST)
+    EXISTED_EMAIL(1012,"Email is existed ",HttpStatus.BAD_REQUEST),
+    EMAIL_NOT_EXISTED(1013,"Email not existed",HttpStatus.BAD_REQUEST)
     ;
     @Setter
     private int code;
