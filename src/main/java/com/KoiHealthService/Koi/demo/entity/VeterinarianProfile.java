@@ -24,16 +24,16 @@ public class VeterinarianProfile {
     String veterinarianProfilesId;
 
     // Many-to-One với User (nhiều profile có thể thuộc về một User)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "userId")
     @JsonBackReference
     User user;
 
     // Many-to-One với VeterinarianSchedule (nhiều profile có thể liên kết với một lịch)
-    @ManyToOne
-    @JoinColumn(name = "veterinarian_schedule_id", referencedColumnName = "scheduleId")
-    @JsonBackReference
-    VeterinarianSchedule veterinarianSchedule;
+        @ManyToOne(fetch = FetchType.EAGER)
+        @JoinColumn(name = "veterinarian_schedule_id", referencedColumnName = "scheduleId")
+        @JsonBackReference
+        VeterinarianSchedule veterinarianSchedule;
 }
 
 //    @Id
