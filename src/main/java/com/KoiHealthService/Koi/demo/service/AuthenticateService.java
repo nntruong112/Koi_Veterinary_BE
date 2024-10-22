@@ -2,6 +2,7 @@ package com.KoiHealthService.Koi.demo.service;
 
 import com.KoiHealthService.Koi.demo.dto.request.AuthenticationRequest;
 import com.KoiHealthService.Koi.demo.dto.request.IntrospectRequest;
+import com.KoiHealthService.Koi.demo.dto.request.LoginRequest;
 import com.KoiHealthService.Koi.demo.dto.request.LogoutRequest;
 import com.KoiHealthService.Koi.demo.dto.response.AuthenticationResponse;
 import com.KoiHealthService.Koi.demo.dto.response.IntrospectResponse;
@@ -98,6 +99,21 @@ public class AuthenticateService {
 
     }
 
+    public AuthenticationResponse loginGoogle(String email) throws JOSEException {
+        var user = userRepository.findByEmail(email);
+
+        if(user != null){
+            user.setRoles("USER");
+            user.setPassword("12345");
+            var token = generateToken(user);
+            return AuthenticationResponse.builder()
+                .token(token)
+                .build();
+        }else {
+            throw new AnotherException(ErrorCode.EMAIL_NOT_EXISTED);
+        }
+
+    }
     //Generate token
     private String generateToken(User user) throws JOSEException {
 

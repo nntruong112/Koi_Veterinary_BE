@@ -54,7 +54,6 @@ public class PaymentService {
         String vnp_IpAddr = VNPayConfig.getIpAddress(request);
 
         String vnp_TmnCode = VNPayConfig.vnp_TmnCode;
-
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", VNPayConfig.vnp_Version);
         vnp_Params.put("vnp_Command", VNPayConfig.vnp_Command);
@@ -64,22 +63,12 @@ public class PaymentService {
         vnp_Params.put("vnp_BankCode", "NCB");
         vnp_Params.put("vnp_ReturnUrl", VNPayConfig.vnp_ReturnUrl);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
-
-//    if (bankCode != null && !bankCode.isEmpty()) {
-//        vnp_Params.put("vnp_BankCode", bankCode);
-//    }
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
-        vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + user.getUserId());
+        vnp_Params.put("vnp_OrderInfo", String.format("%s|%s|%s|%s|%s",
+            user.getUserId(), user.getUsername(), user.getEmail(), appointment.getAppointmentId(), orderType));
         vnp_Params.put("vnp_OrderType", orderType);
         vnp_Params.put("vnp_Locale", "vn");
 
-//    if (language != null && !language.isEmpty()) {
-//        vnp_Params.put("vnp_Locale", language);
-//    } else {
-//        vnp_Params.put("vnp_Locale", "vn");
-//    }
-//    vnp_Params.put("vnp_ReturnUrl", vnPayConfig.vnp_ReturnUrl);
-//    vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -118,37 +107,26 @@ public class PaymentService {
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = VNPayConfig.vnp_PayUrl + "?" + queryUrl;
 
-        Payment payment = Payment.builder()
-                .orderType(orderType)
-                .name(user.getUsername())
-                .email(user.getEmail())
-                .amountValue(appointment.getAppointmentType().getPrice())
-                .vnp_CreateDate((vnp_CreateDate))
-                .vnp_ExpireDate((vnp_ExpireDate))
-                .user(user)
-                .build();
-
-        paymentRepository.save(payment);
+//        Payment payment = Payment.builder()
+//                .orderType(orderType)
+//                .name(user.getUsername())
+//                .email(user.getEmail())
+//                .amountValue(appointment.getAppointmentType().getPrice())
+//                .vnp_CreateDate((vnp_CreateDate))
+//                .vnp_ExpireDate((vnp_ExpireDate))
+//                .user(user)
+//                .vnp_TxnRef(vnp_TxnRef)
+//                .build();
+//
+//        paymentRepository.save(payment);
 
         return PaymentResponse.builder()
                 .message("success")
-                .paymentId(payment.getPaymentId())
                 .paymentUrl(paymentUrl)
-                .amountValue(appointment.getAppointmentType().getPrice())
-                .orderType(orderType)
-                .vnp_CreateDate(vnp_CreateDate)
-                .vnp_ExpireDate(vnp_ExpireDate)
-                .user(user)
                 .build();
     }
 
-    public Payment getPayment(String paymentId) {
-        Payment payment = paymentRepository.findById(paymentId).orElseThrow(() -> new RuntimeException("Cannot found"));
-        if (payment != null) {
-            emailConfig.sendInvoiceEmail(payment.getEmail(), payment);
-        } else {
-            throw new RuntimeException("Cannot find paymentId");
-        }
-        return payment;
+    public Payment getPayment(String paymentId){
+        return paymentRepository.findById(paymentId).orElseThrow(() -> new RuntimeException("ảo lồn"));
     }
 }

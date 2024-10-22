@@ -1,6 +1,5 @@
 package com.KoiHealthService.Koi.demo.config;
 
-import com.KoiHealthService.Koi.demo.entity.Item;
 import com.KoiHealthService.Koi.demo.entity.Payment;
 import com.KoiHealthService.Koi.demo.repository.PaymentRepository;
 import jakarta.mail.MessagingException;
@@ -56,11 +55,9 @@ public class EmailConfig {
     // Chuyển đổi chuỗi ngày thành đối tượng Date
     SimpleDateFormat sdfInput = new SimpleDateFormat("yyyyMMddHHmmss");
     SimpleDateFormat sdfOutput = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-    Date createDate = null;
-    Date expireDate = null;
+    Date payDate = null;
     try {
-        createDate = sdfInput.parse(payment.getVnp_CreateDate());
-        expireDate = sdfInput.parse(payment.getVnp_ExpireDate());
+        payDate = sdfInput.parse(payment.getVnp_PayDate());
     } catch (ParseException e) {
         System.err.println("Error parsing date: " + e.getMessage());
     }
@@ -69,11 +66,11 @@ public class EmailConfig {
     StringBuilder body = new StringBuilder();
     body.append("<html><body style='font-family: Arial, sans-serif; margin: 20px;'>")
         .append("<h2 style='color: #4CAF50;'>Hóa đơn của: " + payment.getName() + "</h2>")
-        .append("<p>Đây là hóa đơn cho đơn hàng # <strong>" + payment.getPaymentId() + "</strong>.</p>")
+        .append("<p>Đây là hóa đơn cho đơn hàng # <strong>" + payment.getVnp_TxnRef() + "</strong>.</p>")
         .append("<table style='width: 100%; border-collapse: collapse;'>")
         .append("<tr>")
         .append("<td style='border: 1px solid #ddd; padding: 8px; width: 50%;'><strong>Loại dịch vụ:</strong></td>")
-        .append("<td style='border: 1px solid #ddd; padding: 8px; width: 50%;'>" + payment.getOrderType() + "</td>")
+        .append("<td style='border: 1px solid #ddd; padding: 8px; width: 50%;'>" + payment.getOrderType()+ "</td>")
         .append("</tr>")
         .append("<tr>")
         .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Giá trị thanh toán:</strong></td>")
@@ -81,11 +78,7 @@ public class EmailConfig {
         .append("</tr>")
         .append("<tr>")
         .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Ngày tạo:</strong></td>")
-        .append("<td style='border: 1px solid #ddd; padding: 8px;'>" + sdfOutput.format(createDate) + "</td>")
-        .append("</tr>")
-        .append("<tr>")
-        .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Ngày hết hạn:</strong></td>")
-        .append("<td style='border: 1px solid #ddd; padding: 8px;'>" + sdfOutput.format(expireDate) + "</td>")
+        .append("<td style='border: 1px solid #ddd; padding: 8px;'>" + sdfOutput.format(payDate) + "</td>")
         .append("</tr>")
         .append("<tr>")
         .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Email:</strong></td>")

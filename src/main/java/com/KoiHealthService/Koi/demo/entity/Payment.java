@@ -17,19 +17,13 @@ import java.util.List;
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-     String paymentId;
-
-    @Column(nullable = false)
-    String orderType;
+    String paymentId;
 
     @Column(nullable = false)
     Long amountValue;
 
     @Column(nullable = false)
-     String vnp_CreateDate;
-
-    @Column(nullable = false)
-    String vnp_ExpireDate;
+     String vnp_PayDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -43,8 +37,12 @@ public class Payment {
     String email;
 
     @Column(nullable = false)
+    String orderType;
+
+    @Column(nullable = false)
+    String vnp_TxnRef;
+
+    @Column(nullable = false)
     String name;
-//  Nếu cần, có thể thêm danh sách các Item liên quan đến Payment
-     @OneToMany(mappedBy = "payment")
-     List<Item> items ;
+
 }

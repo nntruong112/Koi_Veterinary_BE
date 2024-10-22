@@ -50,6 +50,7 @@ public ResponseEntity<Map<String, String>> loginGoogle(@RequestBody Map<String, 
             responseMap.put("name", name);
             responseMap.put("email", email);
 
+
             return ResponseEntity.ok(responseMap);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
