@@ -46,7 +46,6 @@ public class VNPayConfig {
         }
         return digest;
     }
-
     public static String Sha256(String message) {
         String digest = null;
         try {

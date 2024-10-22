@@ -46,7 +46,7 @@ public class EmailConfig {
     }
 
     public void sendInvoiceEmail(String to, Payment payment) {
-    String subject = "Hóa đơn #" + payment.getPaymentId();
+    String subject = "Hóa đơn #" + payment.getEmail();
 
     // Định dạng giá trị thanh toán
     NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));

@@ -1,10 +1,7 @@
 package com.KoiHealthService.Koi.demo.controller;
 
-import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.repository.UserRepository;
-import lombok.NonNull;
 import org.springframework.http.*;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -23,7 +20,7 @@ public class GoogleController {
     }
 
    @PostMapping("/login-google")
-public ResponseEntity<Map<String, String>> loginGoogle(@RequestBody Map<String, String> requestBody) {
+    public ResponseEntity<Map<String, String>> loginGoogle(@RequestBody Map<String, String> requestBody) {
     String accessToken = requestBody.get("accessToken");
     String userInfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo";
 
@@ -50,7 +47,6 @@ public ResponseEntity<Map<String, String>> loginGoogle(@RequestBody Map<String, 
             responseMap.put("name", name);
             responseMap.put("email", email);
 
-
             return ResponseEntity.ok(responseMap);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
@@ -59,4 +55,5 @@ public ResponseEntity<Map<String, String>> loginGoogle(@RequestBody Map<String, 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 }
+
 }
