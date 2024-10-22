@@ -193,8 +193,6 @@ public class UserService {
             throw new RuntimeException("Cannot find role");
         }
     }
-
-
 }
 
 
