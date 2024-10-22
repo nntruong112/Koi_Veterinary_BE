@@ -14,4 +14,6 @@ import java.util.List;
 public interface VeterinarianScheduleRepository extends JpaRepository<VeterinarianSchedule, String> {
     @Query("SELECT v FROM VeterinarianSchedule v JOIN v.veterinarianProfiles vp WHERE vp.user.userId = :veterinarianId")
     List<VeterinarianSchedule> findScheduleByVeterinarianId(@Param("veterinarianId") String veterinarianId);
+
+    
 }

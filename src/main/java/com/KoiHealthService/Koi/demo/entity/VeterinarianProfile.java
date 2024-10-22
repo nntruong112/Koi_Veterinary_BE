@@ -2,6 +2,7 @@ package com.KoiHealthService.Koi.demo.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -17,6 +18,10 @@ import java.util.List;
 @Table(name = "veterinarian_profiles")
 public class VeterinarianProfile {
 
+    @JsonProperty("username") // Include username in the response
+    public String getUsername() {
+        return user.getUsername();
+    } //có thể dùng json property để trả về thêm 1 field tùy thích
 
 
     @Id
@@ -35,6 +40,8 @@ public class VeterinarianProfile {
         @JsonBackReference
         VeterinarianSchedule veterinarianSchedule;
 }
+
+
 
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.UUID)
