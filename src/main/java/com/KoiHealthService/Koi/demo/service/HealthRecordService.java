@@ -45,10 +45,10 @@ public class HealthRecordService {
     public HealthRecord createHealthRecord(HealthRecordCreationRequest request) {
 
         fish = fishRepository.findById(request.getFishId())
-                .orElseThrow(() -> new RuntimeException("Fish is not found")); //gán giá trị cho cá, nếu hong có thì exception
+                .orElseThrow(() -> new AnotherException(ErrorCode.NO_FISH_FOUND)); //gán giá trị cho cá, nếu hong có thì exception
 
         veterinarian = userRepository.findById(request.getVeterinarianId())
-                .orElseThrow(() -> new RuntimeException("Veterinarian is not found"));
+                .orElseThrow(() -> new AnotherException(ErrorCode.NO_VETERINARIAN_FOUND));
 
         healthRecord = HealthRecord.builder()
                 .healthRecordId(request.getHealthRecordId())

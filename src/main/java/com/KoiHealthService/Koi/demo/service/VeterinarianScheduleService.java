@@ -46,7 +46,7 @@ public class VeterinarianScheduleService {
 
     public VeterinarianScheduleResponse createSchedule(VeterinarianScheduleRequest request) {
         User veterinarian = userRepository.findById(request.getVeterinarianId())
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy User"));
+                .orElseThrow(() -> new AnotherException(ErrorCode.NO_VETERINARIAN_FOUND));
 
         VeterinarianSchedule schedule = VeterinarianSchedule.builder()
                 .availableDate(request.getAvailableDate())
@@ -70,7 +70,7 @@ public class VeterinarianScheduleService {
         response.setStartTime(schedule.getStartTime());
         response.setEndTime(schedule.getEndTime());
         response.setVeterinarianName(veterinarian.getFirstname() + " " + veterinarian.getLastname());
-
+                                     //phải dùng tới cách truyền thống de nối chuỗi @@
         return response;
     }
 
@@ -82,7 +82,7 @@ public class VeterinarianScheduleService {
 
     //get schedule by id ===============================================================================
     public VeterinarianSchedule getScheduleById(String id) {
-        VeterinarianSchedule veterinarianSchedule = veterinarianScheduleRepository.findById(id).orElseThrow(() -> new RuntimeException("Fish is not found") );
+        VeterinarianSchedule veterinarianSchedule = veterinarianScheduleRepository.findById(id).orElseThrow(() -> new AnotherException(ErrorCode.NO_FISH_FOUND) );
 
        // List<User> veterinarian = veterinarianSchedule.getVeterinarians();
 
@@ -98,7 +98,7 @@ public class VeterinarianScheduleService {
     public List<VeterinarianSchedule> getScheduleByVeterinarianId(String veterinarianId) {
         // Tìm User (bác sĩ thú y) dựa trên veterinarianId
         User veterinarian = userRepository.findById(veterinarianId)
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy User"));
+                .orElseThrow(() -> new AnotherException(ErrorCode.NO_VETERINARIAN_FOUND));
 
         // Lấy danh sách VeterinarianProfiles cho User (ở đây là Vet)
         List<VeterinarianProfile> veterinarianProfiles = veterinarianProfileRepository.findByUser(veterinarian);

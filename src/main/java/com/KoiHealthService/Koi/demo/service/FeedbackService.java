@@ -71,7 +71,7 @@ public class FeedbackService {
 
     public Feedback updateFeedback(String feedbackId, FeedbackUpdateRequest request) {
         Feedback feedback = feedbackRepository.findById(feedbackId)
-                .orElseThrow(() -> new RuntimeException("Feedback not found"));
+                .orElseThrow(() -> new AnotherException(ErrorCode.NO_FEEDBACK_FOUND));
 
         FeedbackResponse feedbackResponse = feedbackMapper.toFeedbackResponse(feedback);
         

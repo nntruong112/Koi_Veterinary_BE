@@ -66,6 +66,11 @@ public class AppointmentService {
         return appointmentRepository.findAll();
     }
 
+    //get appointment by appointmentId
+    public Appointment getAppointmentById(String appointmentId) {
+        return appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new AnotherException(ErrorCode.NO_APPOINTMENT_FOUND));
+    }
 
     //update Appointment ========================================================================================
     public AppointmentResponse updateAppointment(String appointmentId, AppointmentUpdateRequest request) {

@@ -67,7 +67,7 @@ public class FishService {
 
     //get fish by id ===============================================================================
     public FishResponse getFishById(String id) {
-        fish = fishRepository.findById(id).orElseThrow(() -> new RuntimeException("Fish is not found") );
+        fish = fishRepository.findById(id).orElseThrow(() -> new AnotherException(ErrorCode.NO_CUSTOMER_FOUND) );
 
         User customer = fish.getCustomer();
 
@@ -101,7 +101,7 @@ public class FishService {
     //Update fish    ======================================================================================
     public FishResponse updateFish(String id, FishUpdateRequest request){
         //fetch fish by id
-        fish = fishRepository.findById(id).orElseThrow(() -> new RuntimeException("Fish is not found") );
+        fish = fishRepository.findById(id).orElseThrow(() -> new AnotherException(ErrorCode.NO_FISH_FOUND) );
 
         //update fish nè
 //        fish.setAge(request.getAge());

@@ -36,6 +36,12 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentService.getAppointments());
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<Appointment> getAppointmentById(@PathVariable("id") String appointmentId) {
+        Appointment appointment = appointmentService.getAppointmentById(appointmentId);
+        return ResponseEntity.ok(appointment);
+    }
+
     //update appointment by Id
     @PutMapping("/{appointmentId}")
     public ResponseEntity<AppointmentResponse> updateAppointment(

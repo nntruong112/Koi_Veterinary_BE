@@ -7,6 +7,10 @@ import org.springframework.http.HttpStatusCode;
 
 @Getter
 public enum ErrorCode {
+    NO_VETERINARIAN_PROFILE_FOUND(7000, "No veterinarian profile found", HttpStatus.NOT_FOUND),
+    NO_VETERINARIAN_SCHEDULE_FOUND(6000, "No veterinarian schedule found", HttpStatus.NOT_FOUND),
+    NO_HEALTH_RECORD_FOUND(5000, "No health record found", HttpStatus.NOT_FOUND),
+    NO_FEEDBACK_FOUND(4000, "No feedback found", HttpStatus.NOT_FOUND),
     NO_APPOINTMENT_TYPE_FOUND (3000,"No appointment type found", HttpStatus.NOT_FOUND),
     NO_FISH_SPECIALTY_FOUND(2000, "No fish specialty found", HttpStatus.NOT_FOUND),
     NO_APPOINTMENT_FOUND(1200, "No appointment found", HttpStatus.NOT_FOUND),

@@ -5,6 +5,8 @@ import com.KoiHealthService.Koi.demo.dto.request.fishSpecialty.FishSpecialtyUpda
 import com.KoiHealthService.Koi.demo.dto.response.FishSpecialtyResponse;
 import com.KoiHealthService.Koi.demo.entity.FishSpecialty;
 import com.KoiHealthService.Koi.demo.entity.User;
+import com.KoiHealthService.Koi.demo.exception.AnotherException;
+import com.KoiHealthService.Koi.demo.exception.ErrorCode;
 import com.KoiHealthService.Koi.demo.mapper.FishSpecialtyMapper;
 import com.KoiHealthService.Koi.demo.repository.FishSpecialtyRepository;
 import lombok.NonNull;
@@ -52,7 +54,7 @@ public class FishSpecialtyService {
 
     //update fish specialty
     public FishSpecialtyResponse updateFishSpecialty(String fishSpecialtyId, FishSpecialtyUpdateRequest request) {
-        fishSpecialty  = fishSpecialtyRepository.findById(fishSpecialtyId).orElseThrow(() -> new RuntimeException("Fish specialty is not found"));
+        fishSpecialty  = fishSpecialtyRepository.findById(fishSpecialtyId).orElseThrow(() -> new AnotherException(ErrorCode.NO_FISH_SPECIALTY_FOUND));
 
         fishSpecialtyMapper.toUpdateFishSpecialty(fishSpecialty, request);
 
