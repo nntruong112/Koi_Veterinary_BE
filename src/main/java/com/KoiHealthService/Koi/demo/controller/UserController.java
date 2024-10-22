@@ -15,6 +15,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -110,6 +112,16 @@ public class UserController {
         return ApiResponse.<List<User>>builder()
                 .result(userService.getByRole(roles))
                 .build();
+    }
+
+    @GetMapping("/countByRole")
+    public ResponseEntity<Long> getCountByRole(@RequestParam String role) {
+        try {
+            long count = userService.getCountByRole(role);
+            return new ResponseEntity<>(count, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 

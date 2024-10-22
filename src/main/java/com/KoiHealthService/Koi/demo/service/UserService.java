@@ -185,6 +185,15 @@ public class UserService {
 
     }
 
+    //count the role
+    public long getCountByRole(String roles) {
+        if (roles != null) {
+            return userRepository.countByRoles(roles);
+        } else {
+            throw new RuntimeException("Cannot find role");
+        }
+    }
+
 
 }
 

@@ -52,7 +52,7 @@ public class VeterinarianScheduleController {
 //        return ResponseEntity.ok(veterinarianScheduleService.getScheduleByVeterinarianId(vetId));
 //    }
 
-    @GetMapping("/veterinarians/{veterinarianId}")
+    @GetMapping("/schedules/{veterinarianId}")
     public ResponseEntity<List<VeterinarianSchedule>> getScheduleByVeterinarianId(@PathVariable String veterinarianId) {
         List<VeterinarianSchedule> schedules = veterinarianScheduleService.getScheduleByVeterinarianId(veterinarianId);
         return ResponseEntity.ok(schedules);
