@@ -26,6 +26,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -92,7 +93,6 @@ public class PaymentController {
                         .message("Invalid amount format")
                         .build());
             }
-
             // Create Payment object
             Payment payment = Payment.builder()
                     .user(User.builder()
@@ -112,28 +112,25 @@ public class PaymentController {
             // Save Payment to the database
             Payment savedPayment = paymentRepository.save(payment);
 
-            emailConfig.sendInvoiceEmail(email,payment);
+            emailConfig.sendInvoiceEmail(email, payment);
 
             // Return paymentId in the response
-            return ResponseEntity.ok().body(PaymentResponse.builder()
-                    .message("success")
-                    .paymentId(savedPayment.getPaymentId())
-                    .email(email)
-                    .payDate(payDate)
-                    .userId(userId)
-                    .amountValue(amountValue)
-                    .orderType(orderType)
-                    .username(username)
-                    .build());
+            String redirectUrl = "http://localhost:5173/get-payments/" +payment.getPaymentId(); // Thay đổi URL này thành URL của bạn
+            return ResponseEntity.status(HttpStatus.FOUND)
+                .location(URI.create(redirectUrl))
+                .build();
         } else {
             // Payment failed
-            return ResponseEntity.badRequest().body(PaymentResponse.builder()
-                    .message("Payment failed")
-                    .build());
+            String redirectUrl = "http://localhost:5173/member/my-appointment/paymentPage"; // Thay đổi URL này thành URL của bạn
+            return ResponseEntity.status(HttpStatus.FOUND)
+                    .location(URI.create(redirectUrl))
+                    .build();
         }
     }
+
+
     @GetMapping("/get-payments/{paymentId}")
-    public Payment getPayment(@PathVariable String paymentId){
+    public Payment getPayment(@PathVariable String paymentId) {
         return paymentService.getPayment(paymentId);
     }
 }
