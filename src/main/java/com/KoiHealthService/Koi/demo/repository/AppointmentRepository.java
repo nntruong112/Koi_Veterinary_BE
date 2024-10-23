@@ -19,4 +19,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, String
     List<Appointment> findAppointmentsByVeterinarianId(@Param("veterinarianId") String vetId);
 
 
+    List<Appointment> findByPaymentStatus(String paymentStatus);
+
 }

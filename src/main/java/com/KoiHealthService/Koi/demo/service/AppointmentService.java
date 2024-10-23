@@ -124,4 +124,16 @@ public class AppointmentService {
         // Fetch appointments directly from the repository
         return appointmentRepository.findAppointmentsByVeterinarianId(veterinarianId);
     }
+
+    public Long countAppointments() {
+        return appointmentRepository.count(); // This counts all records in the 'appointments' table
+    }
+
+    public Long calculateTotalIncome() {
+        List<Appointment> paidAppointments = appointmentRepository.findByPaymentStatus("PAID");
+        return paidAppointments.stream()
+                .map(appointment -> appointment.getAppointmentType().getPrice())
+                .reduce(0L, Long::sum); // Sum all the prices
+    }
+
 }

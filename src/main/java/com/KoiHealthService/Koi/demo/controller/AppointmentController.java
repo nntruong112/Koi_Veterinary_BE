@@ -10,6 +10,7 @@ import com.KoiHealthService.Koi.demo.entity.Appointment;
 import com.KoiHealthService.Koi.demo.service.AppointmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,5 +69,17 @@ public class AppointmentController {
     @GetMapping("/belonged_to_vetId/{vetId}")
     public ResponseEntity<List<Appointment>> getAppointmentByVetId(@PathVariable("vetId") String vetId) {
         return ResponseEntity.ok(appointmentService.getAppointmentsByVeterinarianId(vetId));
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> countAppointments() {
+        Long appointmentCount = appointmentService.countAppointments();
+        return new ResponseEntity<>(appointmentCount, HttpStatus.OK);
+    }
+
+    @GetMapping("/total-income")
+    public ResponseEntity<Long> getTotalIncome() {
+        Long totalIncome = appointmentService.calculateTotalIncome();
+        return new ResponseEntity<>(totalIncome, HttpStatus.OK);
     }
 }
