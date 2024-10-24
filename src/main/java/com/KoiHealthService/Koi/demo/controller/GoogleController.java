@@ -1,7 +1,11 @@
 package com.KoiHealthService.Koi.demo.controller;
 
+import com.KoiHealthService.Koi.demo.dto.response.LoginResponse;
 import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.repository.UserRepository;
+import com.KoiHealthService.Koi.demo.service.AuthenticateService;
+import com.nimbusds.jose.JOSEException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
@@ -12,16 +16,15 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/googles")
+@RequiredArgsConstructor
 public class GoogleController {
 
-    private final UserRepository userRepository;
+    final UserRepository userRepository;
 
-    public GoogleController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    final AuthenticateService authenticateService;
 
    @PostMapping("/login-google")
-    public ResponseEntity<Map<String, String>> loginGoogle(@RequestBody Map<String, String> requestBody) {
+public ResponseEntity<LoginResponse> loginGoogle(@RequestBody Map<String, String> requestBody) {
     String accessToken = requestBody.get("accessToken");
     String userInfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo";
 
@@ -41,20 +44,21 @@ public class GoogleController {
             // Extract name and email from response
             String name = (String) userInfo.get("name");
             String email = (String) userInfo.get("email");
-            userRepository.save(User.builder().
 
-                    build());
+            // Save user information
+            userRepository.save(User.builder()
+                    .email(email)
+                    .username(name)
+                    .roles("USER")
+                    .build());
 
-            // Create a response map to return as JSON
-            Map<String, String> responseMap = new HashMap<>();
-            responseMap.put("name", name);
-            responseMap.put("email", email);
-
-            return ResponseEntity.ok(responseMap);
+            // Create LoginResponse with token and user info
+            LoginResponse loginResponse  = authenticateService.loginGoogle(email,name);
+            return ResponseEntity.ok(loginResponse);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
-    } catch (RestClientException e) {
+    } catch (RestClientException | JOSEException e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
 }

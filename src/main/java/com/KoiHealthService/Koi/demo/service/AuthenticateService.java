@@ -71,16 +71,22 @@ public class AuthenticateService {
 
     }
 
-//    public LoginResponse loginGoogle(String email){
-//        Optional<User> user =  userRepository.findByEmail(email);
-//
-//        if(user.isPresent() && user.get().isCheckLoginGoogle() ){
-//            return User ;
-//        }
-//
-//
-//
-//    }
+    public LoginResponse loginGoogle(String email,String name) throws JOSEException {
+
+        User user = User.builder()
+                .email(email)
+                .username(name)
+                .roles("USER")
+                .build();
+        var token = generateToken(user);
+
+        return LoginResponse.builder()
+                .token(token)
+                .user(user)
+                .build();
+
+    }
+
 
 
     //Verify Token
@@ -99,21 +105,6 @@ public class AuthenticateService {
 
     }
 
-    public AuthenticationResponse loginGoogle(String email) throws JOSEException {
-        var user = userRepository.findByEmail(email);
-
-        if(user != null){
-            user.setRoles("USER");
-            user.setPassword("12345");
-            var token = generateToken(user);
-            return AuthenticationResponse.builder()
-                .token(token)
-                .build();
-        }else {
-            throw new AnotherException(ErrorCode.EMAIL_NOT_EXISTED);
-        }
-
-    }
     //Generate token
     private String generateToken(User user) throws JOSEException {
         //Header
