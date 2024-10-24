@@ -4,8 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -20,10 +23,10 @@ public class Payment {
     String paymentId;
 
     @Column(nullable = false)
-    Long amountValue;
+    Double amountValue;
 
     @Column(nullable = false)
-     String vnp_PayDate;
+    LocalDateTime vnp_PayDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

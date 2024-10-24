@@ -1,5 +1,6 @@
 package com.KoiHealthService.Koi.demo.controller;
 
+import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.repository.UserRepository;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +41,9 @@ public class GoogleController {
             // Extract name and email from response
             String name = (String) userInfo.get("name");
             String email = (String) userInfo.get("email");
+            userRepository.save(User.builder().
 
+                    build());
 
             // Create a response map to return as JSON
             Map<String, String> responseMap = new HashMap<>();

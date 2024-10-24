@@ -116,7 +116,6 @@ public class AuthenticateService {
     }
     //Generate token
     private String generateToken(User user) throws JOSEException {
-
         //Header
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 

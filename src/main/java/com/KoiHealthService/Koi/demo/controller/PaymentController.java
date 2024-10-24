@@ -29,6 +29,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @RestController
@@ -48,85 +52,101 @@ public class PaymentController {
         return paymentService.createPayment(request, paymentRequest);
     }
 
-    @GetMapping("/vn-pay-callback")
-    public ResponseEntity<PaymentResponse> payCallbackHandler(
-            @RequestParam(value = "vnp_Amount") String amount,
-            @RequestParam(value = "vnp_BankCode") String bankCode,
-            @RequestParam(value = "vnp_OrderInfo") String orderInfo,
-            @RequestParam(value = "vnp_PayDate") String payDate,
-            @RequestParam(value = "vnp_ResponseCode") String responseCode,
-            @RequestParam(value = "vnp_TxnRef") String txnRef) {
 
-        if ("00".equals(responseCode)) {
-            // Payment successful
+@GetMapping("/vn-pay-callback")
+public ResponseEntity<PaymentResponse> payCallbackHandler(
+        @RequestParam(value = "vnp_Amount") String amount,
+        @RequestParam(value = "vnp_BankCode") String bankCode,
+        @RequestParam(value = "vnp_OrderInfo") String orderInfo,
+        @RequestParam(value = "vnp_PayDate") String payDate,
+        @RequestParam(value = "vnp_ResponseCode") String responseCode,
+        @RequestParam(value = "vnp_TxnRef") String txnRef) {
 
-            // Decode orderInfo
-            String decodedOrderInfo;
-            try {
-                decodedOrderInfo = URLDecoder.decode(orderInfo, StandardCharsets.UTF_8.name());
-            } catch (Exception e) {
-                return ResponseEntity.badRequest().body(PaymentResponse.builder()
-                        .message("Error decoding order info: " + e.getMessage())
-                        .build());
-            }
+    if ("00".equals(responseCode)) {
+        // Payment successful
 
-            // Split orderInfo to get userId, username, and email (now using "|" as a delimiter)
-            String[] orderDetails = decodedOrderInfo.split("\\|");
-            if (orderDetails.length < 5) {
-                return ResponseEntity.badRequest().body(PaymentResponse.builder()
-                        .message("Invalid order info format")
-                        .build());
-            }
+        // Decode orderInfo
+        String decodedOrderInfo;
+        try {
+            decodedOrderInfo = URLDecoder.decode(orderInfo, StandardCharsets.UTF_8.name());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(PaymentResponse.builder()
+                    .message("Error decoding order info: " + e.getMessage())
+                    .build());
+        }
 
-            String userId = orderDetails[0]; // First element is userId
-            String username = orderDetails[1]; // Second element is username
-            String email = orderDetails[2]; // Third element is email
-            String appointmentId = orderDetails[3];
-            String orderType = orderDetails[4];
+        // Split orderInfo to get userId, username, email, appointmentId, and orderType
+        String[] orderDetails = decodedOrderInfo.split("\\|");
+        if (orderDetails.length < 5) {
+            return ResponseEntity.badRequest().body(PaymentResponse.builder()
+                    .message("Invalid order info format")
+                    .build());
+        }
 
-            // Convert amount from String to Long
-            long amountValue;
-            try {
-                amountValue = Long.parseLong(amount) / 100; // Convert back to original amount
-            } catch (NumberFormatException e) {
-                return ResponseEntity.badRequest().body(PaymentResponse.builder()
-                        .message("Invalid amount format")
-                        .build());
-            }
-            // Create Payment object
-            Payment payment = Payment.builder()
-                    .user(User.builder()
-                            .userId(userId)
-                            .build())
-                    .appointment(Appointment.builder()
-                            .appointmentId(appointmentId)
-                            .build())
-                    .amountValue(amountValue)
-                    .vnp_PayDate(payDate)
-                    .vnp_TxnRef(txnRef)
-                    .name(username)
-                    .email(email)
-                    .orderType(orderType)
-                    .build();
+        String userId = orderDetails[0]; // First element is userId
+        String username = orderDetails[1]; // Second element is username
+        String email = orderDetails[2]; // Third element is email
+        String appointmentId = orderDetails[3];
+        String orderType = orderDetails[4];
 
-            // Save Payment to the database
-            Payment savedPayment = paymentRepository.save(payment);
+        // Convert amount from String to Long
+        Double amountValue;
+        try {
+            amountValue = Double.parseDouble(amount) / 100; // Convert back to original amount
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body(PaymentResponse.builder()
+                    .message("Invalid amount format")
+                    .build());
+        }
 
-            emailConfig.sendInvoiceEmail(email, payment);
+        // Parse payDate from String to LocalDateTime
+        LocalDateTime vnpPayDate1;
+        LocalDateTime vnpPayDate;
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+            vnpPayDate1 = LocalDateTime.parse(payDate, formatter);
+            vnpPayDate = vnpPayDate1.truncatedTo(ChronoUnit.SECONDS);
 
-            // Return paymentId in the response
-            String redirectUrl = "http://localhost:5173/get-payments/" +payment.getPaymentId(); // Thay đổi URL này thành URL của bạn
-            return ResponseEntity.status(HttpStatus.FOUND)
+        } catch (DateTimeParseException e) {
+            return ResponseEntity.badRequest().body(PaymentResponse.builder()
+                    .message("Invalid payDate format: " + e.getMessage())
+                    .build());
+        }
+
+        // Create Payment object
+        Payment payment = Payment.builder()
+                .user(User.builder()
+                        .userId(userId)
+                        .build())
+                .appointment(Appointment.builder()
+                        .appointmentId(appointmentId)
+                        .build())
+                .amountValue( amountValue)
+                .vnp_PayDate(vnpPayDate) // Convert LocalDateTime to String if needed
+                .vnp_TxnRef(txnRef)
+                .name(username)
+                .email(email)
+                .orderType(orderType)
+                .build();
+
+        // Save Payment to the database
+        paymentRepository.save(payment);
+
+        emailConfig.sendInvoiceEmail(email, payment);
+
+        // Return paymentId in the response
+        String redirectUrl = "http://localhost:5173/get-payments/" + payment.getPaymentId(); // Adjust URL as needed
+        return ResponseEntity.status(HttpStatus.FOUND)
+            .location(URI.create(redirectUrl))
+            .build();
+    } else {
+        // Payment failed
+        String redirectUrl = "http://localhost:5173/member/my-appointment/paymentPage"; // Adjust URL as needed
+        return ResponseEntity.status(HttpStatus.FOUND)
                 .location(URI.create(redirectUrl))
                 .build();
-        } else {
-            // Payment failed
-            String redirectUrl = "http://localhost:5173/member/my-appointment/paymentPage"; // Thay đổi URL này thành URL của bạn
-            return ResponseEntity.status(HttpStatus.FOUND)
-                    .location(URI.create(redirectUrl))
-                    .build();
-        }
     }
+}
 
 
     @GetMapping("/get-payments/{paymentId}")
