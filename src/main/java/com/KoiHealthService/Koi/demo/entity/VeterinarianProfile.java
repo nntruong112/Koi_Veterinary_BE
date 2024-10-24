@@ -23,6 +23,17 @@ public class VeterinarianProfile {
         return user.getUsername();
     } //có thể dùng json property để trả về thêm 1 field tùy thích
 
+    @JsonProperty("firstname")
+    public String getFirstname() {
+        return user.getFirstname();
+    }
+
+    @JsonProperty("lastname")
+    public String getLastname() {
+        return user.getLastname();
+    }
+
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
