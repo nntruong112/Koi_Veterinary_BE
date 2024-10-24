@@ -33,6 +33,11 @@ public class VeterinarianProfile {
         return user.getLastname();
     }
 
+    @JsonProperty("userId")
+    public String getUserId() {
+        return user.getUserId();
+    }
+
 
 
     @Id
