@@ -6,6 +6,7 @@ import com.KoiHealthService.Koi.demo.dto.request.LoginRequest;
 import com.KoiHealthService.Koi.demo.dto.request.LogoutRequest;
 import com.KoiHealthService.Koi.demo.dto.response.AuthenticationResponse;
 import com.KoiHealthService.Koi.demo.dto.response.IntrospectResponse;
+import com.KoiHealthService.Koi.demo.dto.response.LoginResponse;
 import com.KoiHealthService.Koi.demo.entity.InvalidatedToken;
 import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;

@@ -72,14 +72,12 @@ public class AppointmentController {
     }
 
     @GetMapping("/count")
-    public ResponseEntity<Long> countAppointments() {
-        Long appointmentCount = appointmentService.countAppointments();
-        return new ResponseEntity<>(appointmentCount, HttpStatus.OK);
+    public Long countAppointments() {
+        return appointmentService.countAppointments();
     }
 
     @GetMapping("/total-income")
-    public ResponseEntity<Long> getTotalIncome() {
-        Long totalIncome = appointmentService.calculateTotalIncome();
-        return new ResponseEntity<>(totalIncome, HttpStatus.OK);
+    public Long getTotalIncome() {
+        return appointmentService.calculateTotalIncome();
     }
 }
