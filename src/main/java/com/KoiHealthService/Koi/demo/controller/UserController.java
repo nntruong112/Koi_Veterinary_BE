@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -115,12 +116,11 @@ public class UserController {
     }
 
     @GetMapping("/countByRole")
-    public ResponseEntity<Long> getCountByRole(@RequestParam String role) {
+    public Long getCountByRole(@RequestParam String role) {
         try {
-            long count = userService.getCountByRole(role);
-            return new ResponseEntity<>(count, HttpStatus.OK);
+            return userService.getCountByRole(role);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found", e);
         }
     }
 

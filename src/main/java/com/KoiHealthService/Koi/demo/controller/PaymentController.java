@@ -115,13 +115,13 @@ public class PaymentController {
             emailConfig.sendInvoiceEmail(email, payment);
 
             // Return paymentId in the response
-            String redirectUrl = "http://localhost:5173/get-payments/" +payment.getPaymentId(); // Thay đổi URL này thành URL của bạn
+            String redirectUrl = "http://localhost:5173/member/payment-details/" +payment.getPaymentId(); // Thay đổi URL này thành URL của bạn
             return ResponseEntity.status(HttpStatus.FOUND)
-                .location(URI.create(redirectUrl))
-                .build();
+                    .location(URI.create(redirectUrl))
+                    .build();
         } else {
             // Payment failed
-            String redirectUrl = "http://localhost:5173/member/my-appointment/paymentPage"; // Thay đổi URL này thành URL của bạn
+            String redirectUrl = "http://localhost:5173/member/my-appointment/payment-page"; // Thay đổi URL này thành URL của bạn
             return ResponseEntity.status(HttpStatus.FOUND)
                     .location(URI.create(redirectUrl))
                     .build();
@@ -133,5 +133,8 @@ public class PaymentController {
     public Payment getPayment(@PathVariable String paymentId) {
         return paymentService.getPayment(paymentId);
     }
+
+    
+
 }
 

@@ -1,4 +1,4 @@
-package com.KoiHealthService.Koi.demo.dto.request;
+package com.KoiHealthService.Koi.demo.dto.request.feedback;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
