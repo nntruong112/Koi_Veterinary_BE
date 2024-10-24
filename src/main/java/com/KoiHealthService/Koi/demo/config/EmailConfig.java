@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 
@@ -52,15 +53,9 @@ public class EmailConfig {
     NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));
     String formattedAmount = formatter.format(payment.getAmountValue());
 
-    // Chuyển đổi chuỗi ngày thành đối tượng Date
-    SimpleDateFormat sdfInput = new SimpleDateFormat("yyyyMMddHHmmss");
-    SimpleDateFormat sdfOutput = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-    Date payDate = null;
-    try {
-        payDate = sdfInput.parse(payment.getVnp_PayDate());
-    } catch (ParseException e) {
-        System.err.println("Error parsing date: " + e.getMessage());
-    }
+    // Định dạng LocalDateTime thành chuỗi
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    String formattedPayDate = payment.getVnp_PayDate().format(dateFormatter);
 
     // Tạo nội dung HTML cho phần thân email với CSS inline và bảng
     StringBuilder body = new StringBuilder();
@@ -70,7 +65,7 @@ public class EmailConfig {
         .append("<table style='width: 100%; border-collapse: collapse;'>")
         .append("<tr>")
         .append("<td style='border: 1px solid #ddd; padding: 8px; width: 50%;'><strong>Loại dịch vụ:</strong></td>")
-        .append("<td style='border: 1px solid #ddd; padding: 8px; width: 50%;'>" + payment.getOrderType()+ "</td>")
+        .append("<td style='border: 1px solid #ddd; padding: 8px; width: 50%;'>" + payment.getOrderType() + "</td>")
         .append("</tr>")
         .append("<tr>")
         .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Giá trị thanh toán:</strong></td>")
@@ -78,7 +73,7 @@ public class EmailConfig {
         .append("</tr>")
         .append("<tr>")
         .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Ngày tạo:</strong></td>")
-        .append("<td style='border: 1px solid #ddd; padding: 8px;'>" + sdfOutput.format(payDate) + "</td>")
+        .append("<td style='border: 1px solid #ddd; padding: 8px;'>" + formattedPayDate + "</td>")
         .append("</tr>")
         .append("<tr>")
         .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Email:</strong></td>")
@@ -105,5 +100,6 @@ public class EmailConfig {
         System.err.println("Error sending invoice email: " + e.getMessage());
     }
 }
+
 
 }

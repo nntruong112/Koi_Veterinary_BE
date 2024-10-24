@@ -1,5 +1,6 @@
 package com.KoiHealthService.Koi.demo.dto.response;
 
+import com.KoiHealthService.Koi.demo.entity.User;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -9,10 +10,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LoginResponse {
-    String id;
-    String username;
-    String password;
-    String email;
-    String phone;
-
+    String token;
+    User user;
 }

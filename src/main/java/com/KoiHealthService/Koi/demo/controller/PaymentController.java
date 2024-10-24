@@ -29,6 +29,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @RestController
@@ -47,6 +51,7 @@ public class PaymentController {
     public PaymentResponse createPayment(HttpServletRequest request, @RequestBody PaymentRequest paymentRequest) throws UnsupportedEncodingException {
         return paymentService.createPayment(request, paymentRequest);
     }
+
 
     @GetMapping("/vn-pay-callback")
     public ResponseEntity<PaymentResponse> payCallbackHandler(
@@ -70,7 +75,7 @@ public class PaymentController {
                         .build());
             }
 
-            // Split orderInfo to get userId, username, and email (now using "|" as a delimiter)
+            // Split orderInfo to get userId, username, email, appointmentId, and orderType
             String[] orderDetails = decodedOrderInfo.split("\\|");
             if (orderDetails.length < 5) {
                 return ResponseEntity.badRequest().body(PaymentResponse.builder()
@@ -85,14 +90,29 @@ public class PaymentController {
             String orderType = orderDetails[4];
 
             // Convert amount from String to Long
-            long amountValue;
+            Double amountValue;
             try {
-                amountValue = Long.parseLong(amount) / 100; // Convert back to original amount
+                amountValue = Double.parseDouble(amount) / 100; // Convert back to original amount
             } catch (NumberFormatException e) {
                 return ResponseEntity.badRequest().body(PaymentResponse.builder()
                         .message("Invalid amount format")
                         .build());
             }
+
+            // Parse payDate from String to LocalDateTime
+            LocalDateTime vnpPayDate1;
+            LocalDateTime vnpPayDate;
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+                vnpPayDate1 = LocalDateTime.parse(payDate, formatter);
+                vnpPayDate = vnpPayDate1.truncatedTo(ChronoUnit.SECONDS);
+
+            } catch (DateTimeParseException e) {
+                return ResponseEntity.badRequest().body(PaymentResponse.builder()
+                        .message("Invalid payDate format: " + e.getMessage())
+                        .build());
+            }
+
             // Create Payment object
             Payment payment = Payment.builder()
                     .user(User.builder()
@@ -102,7 +122,7 @@ public class PaymentController {
                             .appointmentId(appointmentId)
                             .build())
                     .amountValue(amountValue)
-                    .vnp_PayDate(payDate)
+                    .vnp_PayDate(vnpPayDate) // Convert LocalDateTime to String if needed
                     .vnp_TxnRef(txnRef)
                     .name(username)
                     .email(email)
@@ -110,18 +130,18 @@ public class PaymentController {
                     .build();
 
             // Save Payment to the database
-            Payment savedPayment = paymentRepository.save(payment);
+            paymentRepository.save(payment);
 
             emailConfig.sendInvoiceEmail(email, payment);
 
             // Return paymentId in the response
-            String redirectUrl = "http://localhost:5173/member/payment-details/" +payment.getPaymentId(); // Thay đổi URL này thành URL của bạn
+            String redirectUrl = "http://localhost:5173/member/payment-details/" + payment.getPaymentId(); // Thay đổi URL này thành URL của bạn
             return ResponseEntity.status(HttpStatus.FOUND)
                     .location(URI.create(redirectUrl))
                     .build();
         } else {
             // Payment failed
-            String redirectUrl = "http://localhost:5173/member/my-appointment/payment-page"; // Thay đổi URL này thành URL của bạn
+            String redirectUrl = "http://localhost:5173/member/my-appointment/paymentPage"; // Thay đổi URL này thành URL của bạn
             return ResponseEntity.status(HttpStatus.FOUND)
                     .location(URI.create(redirectUrl))
                     .build();
@@ -133,8 +153,5 @@ public class PaymentController {
     public Payment getPayment(@PathVariable String paymentId) {
         return paymentService.getPayment(paymentId);
     }
-
-    
-
 }
 
