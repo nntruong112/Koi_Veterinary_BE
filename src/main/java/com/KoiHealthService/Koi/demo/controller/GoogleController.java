@@ -1,5 +1,6 @@
 package com.KoiHealthService.Koi.demo.controller;
 
+import com.KoiHealthService.Koi.demo.dto.request.LoginGoogleRequest;
 import com.KoiHealthService.Koi.demo.dto.response.LoginResponse;
 import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.repository.UserRepository;
@@ -23,37 +24,34 @@ public class GoogleController {
 
     final AuthenticateService authenticateService;
 
-   @PostMapping("/login-google")
-public ResponseEntity<LoginResponse> loginGoogle(@RequestBody Map<String, String> requestBody) {
-    String accessToken = requestBody.get("accessToken");
-    String userInfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo";
+    @PostMapping("/login-google")
+public ResponseEntity<LoginResponse> loginGoogle(@RequestBody LoginGoogleRequest request) {
+    String accessToken = request.getAccessToken(); // Lấy accessToken từ request
 
+    // Thêm access_token vào URL
+    String userInfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo?access_token=" +accessToken;
     RestTemplate restTemplate = new RestTemplate();
-    HttpHeaders headers = new HttpHeaders();
-    headers.setBearerAuth(accessToken); // Set the Bearer token in the headers
-
-    HttpEntity<String> entity = new HttpEntity<>(headers);
 
     try {
-        // Make the API request to Google
-        ResponseEntity<Map> response = restTemplate.exchange(userInfoEndpoint, HttpMethod.GET, entity, Map.class);
+        // Thực hiện yêu cầu API đến Google
+        ResponseEntity<Map> response = restTemplate.getForEntity(userInfoEndpoint, Map.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
             Map<String, Object> userInfo = response.getBody();
 
-            // Extract name and email from response
+            // Trích xuất tên và email từ phản hồi
             String name = (String) userInfo.get("name");
             String email = (String) userInfo.get("email");
 
-            // Save user information
+            // Lưu thông tin người dùng
             userRepository.save(User.builder()
                     .email(email)
                     .username(name)
                     .roles("USER")
                     .build());
 
-            // Create LoginResponse with token and user info
-            LoginResponse loginResponse  = authenticateService.loginGoogle(email,name);
+            // Tạo LoginResponse với token và thông tin người dùng
+            LoginResponse loginResponse = authenticateService.loginGoogle(email, name);
             return ResponseEntity.ok(loginResponse);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
