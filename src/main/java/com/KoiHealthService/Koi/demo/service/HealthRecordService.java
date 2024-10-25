@@ -74,6 +74,9 @@ public class HealthRecordService {
     public List<HealthRecordResponse> getHealthRecordsByFishId(String fishId) {
         Fish fish = fishRepository.findById(fishId).orElseThrow(() -> new AnotherException(ErrorCode.NO_FISH_FOUND));
         List<HealthRecord> foundHealthRecord= healthRecordRepository.findByFishId(fishId);
+        if (foundHealthRecord.isEmpty()) {
+            throw new AnotherException(ErrorCode.NO_HEALTH_RECORD_FOUND);
+        }
 
           return foundHealthRecord.stream()
                 .map(healthRecordMapper::toHealthResponse) // Map each healthRecord to HealthRecordResponse

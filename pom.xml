@@ -59,6 +59,14 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 
+
+		<!-- JSON Parsing library -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+	
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-client</artifactId>
@@ -103,6 +111,8 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
