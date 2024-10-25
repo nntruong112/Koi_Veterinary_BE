@@ -23,7 +23,7 @@ public class Payment {
     String paymentId;
 
     @Column(nullable = false)
-    Double amountValue;
+    Long amountValue;
 
     @Column(nullable = false)
     LocalDateTime vnp_PayDate;
