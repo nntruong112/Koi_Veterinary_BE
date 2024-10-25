@@ -24,7 +24,7 @@ public class GoogleController {
     final AuthenticateService authenticateService;
 
    @PostMapping("/login-google")
-public ResponseEntity<LoginResponse> loginGoogle(@RequestBody Map<String, String> requestBody) {
+   public ResponseEntity<LoginResponse> loginGoogle(@RequestBody Map<String, String> requestBody) {
     String accessToken = requestBody.get("accessToken");
     String userInfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo";
 

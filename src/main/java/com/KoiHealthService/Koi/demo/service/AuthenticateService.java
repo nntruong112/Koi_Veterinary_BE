@@ -73,6 +73,7 @@ public class AuthenticateService {
 
     public LoginResponse loginGoogle(String email,String name) throws JOSEException {
 
+
         User user = User.builder()
                 .email(email)
                 .username(name)
