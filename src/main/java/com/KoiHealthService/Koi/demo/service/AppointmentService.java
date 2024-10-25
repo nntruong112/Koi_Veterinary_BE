@@ -136,4 +136,8 @@ public class AppointmentService {
                 .reduce(0L, Long::sum); // Sum all the prices
     }
 
+    public Fish findFishByAppointmentId(String appointmentId) {
+        return appointmentRepository.findFishByAppointmentId(appointmentId);
+    }
+
 }

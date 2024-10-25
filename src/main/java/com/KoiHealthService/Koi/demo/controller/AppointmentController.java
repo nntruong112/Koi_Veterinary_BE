@@ -7,6 +7,7 @@ import com.KoiHealthService.Koi.demo.dto.request.appointment.AppointmentUpdateRe
 import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
 import com.KoiHealthService.Koi.demo.dto.response.AppointmentResponse;
 import com.KoiHealthService.Koi.demo.entity.Appointment;
+import com.KoiHealthService.Koi.demo.entity.Fish;
 import com.KoiHealthService.Koi.demo.service.AppointmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -80,4 +81,11 @@ public class AppointmentController {
     public Long getTotalIncome() {
         return appointmentService.calculateTotalIncome();
     }
+
+    @GetMapping("/fish-in-appointments/{appointmentId}")
+    public ResponseEntity<Fish> findFishByAppointmentId(@PathVariable String appointmentId) {
+        Fish fish = appointmentService.findFishByAppointmentId(appointmentId);
+        return ResponseEntity.ok(fish);
+    }
+    
 }
