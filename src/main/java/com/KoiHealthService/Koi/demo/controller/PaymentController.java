@@ -127,7 +127,7 @@ public class PaymentController {
         // Find the appointment and update its status to "Paid"
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new AnotherException(ErrorCode.NO_APPOINTMENT_FOUND));
-        appointment.setPaymentStatus("PAID");
+        appointment.setPaymentStatus("paid");
         appointmentRepository.save(appointment);
 
 
