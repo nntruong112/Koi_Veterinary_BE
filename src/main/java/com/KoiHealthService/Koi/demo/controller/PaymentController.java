@@ -56,7 +56,7 @@ public class PaymentController {
 
 
    @GetMapping("/vn-pay-callback")
-public ResponseEntity<PaymentResponse> payCallbackHandler(
+    public ResponseEntity<PaymentResponse> payCallbackHandler(
         @RequestParam(value = "vnp_Amount") String amount,
         @RequestParam(value = "vnp_BankCode") String bankCode,
         @RequestParam(value = "vnp_OrderInfo") String orderInfo,
@@ -124,13 +124,15 @@ public ResponseEntity<PaymentResponse> payCallbackHandler(
                 .orderType(orderType)
                 .build();
 
-        paymentRepository.save(payment);
-
         // Find the appointment and update its status to "Paid"
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new AnotherException(ErrorCode.NO_APPOINTMENT_FOUND));
-        appointment.setStatus("PAID");
+        appointment.setPaymentStatus("PAID");
         appointmentRepository.save(appointment);
+
+
+        paymentRepository.save(payment);
+
 
         // Send Mail
         emailConfig.sendInvoiceEmail(email, payment);
