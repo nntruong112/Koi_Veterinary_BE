@@ -11,7 +11,6 @@ import com.KoiHealthService.Koi.demo.entity.Fish;
 import com.KoiHealthService.Koi.demo.service.AppointmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -87,5 +86,6 @@ public class AppointmentController {
         Fish fish = appointmentService.findFishByAppointmentId(appointmentId);
         return ResponseEntity.ok(fish);
     }
-    
+
+
 }

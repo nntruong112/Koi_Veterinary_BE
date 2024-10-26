@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -120,7 +119,7 @@ public class AppointmentService {
     public List<Appointment> getAppointmentsByVeterinarianId(String veterinarianId) {
         // Fetch appointments by vetId and return the Appointment entity directly
         User veterinarian = userRepository.findById(veterinarianId)
-                .orElseThrow(() -> new AnotherException(ErrorCode.NO_CUSTOMER_FOUND));
+                .orElseThrow(() -> new AnotherException(ErrorCode.NO_VETERINARIAN_FOUND));
         // Fetch appointments directly from the repository
         return appointmentRepository.findAppointmentsByVeterinarianId(veterinarianId);
     }
@@ -139,5 +138,6 @@ public class AppointmentService {
     public Fish findFishByAppointmentId(String appointmentId) {
         return appointmentRepository.findFishByAppointmentId(appointmentId);
     }
+
 
 }
