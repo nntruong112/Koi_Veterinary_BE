@@ -41,5 +41,6 @@ public class Appointment {
     @ManyToOne
     @JoinColumn(name = "fishId")
     Fish fish;
+    String paymentStatus;
 
 }
