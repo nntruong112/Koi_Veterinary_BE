@@ -33,7 +33,6 @@ public enum ErrorCode {
     ;
     @Setter
     private int code;
-    @Setter
     private String message;
     private HttpStatusCode httpStatusCode;
 
