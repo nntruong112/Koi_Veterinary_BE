@@ -124,13 +124,15 @@ public ResponseEntity<PaymentResponse> payCallbackHandler(
                 .orderType(orderType)
                 .build();
 
-        paymentRepository.save(payment);
-
         // Find the appointment and update its status to "Paid"
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new AnotherException(ErrorCode.NO_APPOINTMENT_FOUND));
         appointment.setStatus("paid");
         appointmentRepository.save(appointment);
+
+
+        paymentRepository.save(payment);
+
 
         // Send Mail
         emailConfig.sendInvoiceEmail(email, payment);
