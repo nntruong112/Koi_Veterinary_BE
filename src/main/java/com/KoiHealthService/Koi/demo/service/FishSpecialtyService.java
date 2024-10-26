@@ -39,7 +39,7 @@ public class FishSpecialtyService {
                 .category(request.getCategory())
                 .fishSpecialtyName(request.getFishSpecialtyName())
                 .description(request.getDescription())
-                .price(request.getPrice())
+                .experience(request.getExperience())
                 .build();
 
 

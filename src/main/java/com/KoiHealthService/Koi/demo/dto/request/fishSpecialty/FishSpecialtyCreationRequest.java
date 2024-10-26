@@ -15,5 +15,5 @@ public class FishSpecialtyCreationRequest {
     String fishSpecialtyName;
     String description;
     String category;
-    BigDecimal price;
+    String experience;
 }
