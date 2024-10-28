@@ -129,7 +129,7 @@ public class AppointmentService {
     }
 
     public Long calculateTotalIncome() {
-        List<Appointment> paidAppointments = appointmentRepository.findByPaymentStatus("PAID");
+        List<Appointment> paidAppointments = appointmentRepository.findByPaymentStatus("paid");
         return paidAppointments.stream()
                 .map(appointment -> appointment.getAppointmentType().getPrice())
                 .reduce(0L, Long::sum); // Sum all the prices

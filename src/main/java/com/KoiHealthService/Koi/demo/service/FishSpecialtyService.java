@@ -3,6 +3,7 @@ package com.KoiHealthService.Koi.demo.service;
 import com.KoiHealthService.Koi.demo.dto.request.fishSpecialty.FishSpecialtyCreationRequest;
 import com.KoiHealthService.Koi.demo.dto.request.fishSpecialty.FishSpecialtyUpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.response.FishSpecialtyResponse;
+import com.KoiHealthService.Koi.demo.entity.Appointment;
 import com.KoiHealthService.Koi.demo.entity.FishSpecialty;
 import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.annotation.Native;
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -47,6 +49,10 @@ public class FishSpecialtyService {
         return fish;    
     }
 
+    public List<FishSpecialty> getFishSpecialtyList() {
+        return fishSpecialtyRepository.findAll();
+    }
+
     //delete fish specialty ====================================================================================
     public void deleteFishSpecialty(String fishSpecialtyId) {
         fishSpecialtyRepository.deleteById(fishSpecialtyId);
@@ -54,13 +60,26 @@ public class FishSpecialtyService {
 
     //update fish specialty
     public FishSpecialtyResponse updateFishSpecialty(String fishSpecialtyId, FishSpecialtyUpdateRequest request) {
-        fishSpecialty  = fishSpecialtyRepository.findById(fishSpecialtyId).orElseThrow(() -> new AnotherException(ErrorCode.NO_FISH_SPECIALTY_FOUND));
+        FishSpecialty fishSpecialty = fishSpecialtyRepository.findById(fishSpecialtyId)
+                .orElseThrow(() -> new AnotherException(ErrorCode.NO_FISH_SPECIALTY_FOUND));
 
-        fishSpecialtyMapper.toUpdateFishSpecialty(fishSpecialty, request);
+        // Update fields manually using the request data
+        fishSpecialty = FishSpecialty.builder()
+                .fishSpecialtyId(fishSpecialty.getFishSpecialtyId())  // Keep the existing ID
+                .fishSpecialtyName(request.getFishSpecialtyName() != null ? request.getFishSpecialtyName() : fishSpecialty.getFishSpecialtyName())
+                .description(request.getDescription() != null ? request.getDescription() : fishSpecialty.getDescription())
+                .category(request.getCategory() != null ? request.getCategory() : fishSpecialty.getCategory())
+                .build();
 
-        FishSpecialtyResponse response = fishSpecialtyMapper.toFishSpecialtyResponse(fishSpecialtyRepository.save(fishSpecialty));
+        // Save the updated entity and build the response using builder
+        fishSpecialty = fishSpecialtyRepository.save(fishSpecialty);
 
-        return response;
+        return FishSpecialtyResponse.builder()
+                .fishSpecialtyId(fishSpecialty.getFishSpecialtyId())
+                .fishSpecialtyName(fishSpecialty.getFishSpecialtyName())
+                .description(fishSpecialty.getDescription())
+                .category(fishSpecialty.getCategory())
+                .build();
     }
 
 
