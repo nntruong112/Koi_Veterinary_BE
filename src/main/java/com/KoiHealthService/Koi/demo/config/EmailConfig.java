@@ -47,59 +47,78 @@ public class EmailConfig {
     }
 
     public void sendInvoiceEmail(String to, Payment payment) {
-    String subject = "Hóa đơn #" + payment.getEmail();
+        String subject = "Hóa đơn #" + payment.getEmail();
 
-    // Định dạng giá trị thanh toán
-    NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));
-    String formattedAmount = formatter.format(payment.getAmountValue());
+        // Định dạng giá trị thanh toán
+        NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));
+        String formattedAmount = formatter.format(payment.getAmountValue());
 
-    // Định dạng LocalDateTime thành chuỗi
-    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-    String formattedPayDate = payment.getVnp_PayDate().format(dateFormatter);
+        // Định dạng LocalDateTime thành chuỗi
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        String formattedPayDate = payment.getVnp_PayDate().format(dateFormatter);
 
-    // Tạo nội dung HTML cho phần thân email với CSS inline và bảng
-    StringBuilder body = new StringBuilder();
-    body.append("<html><body style='font-family: Arial, sans-serif; margin: 20px;'>")
-        .append("<h2 style='color: #4CAF50;'>Hóa đơn của: " + payment.getName() + "</h2>")
-        .append("<p>Đây là hóa đơn cho đơn hàng # <strong>" + payment.getVnp_TxnRef() + "</strong>.</p>")
-        .append("<table style='width: 100%; border-collapse: collapse;'>")
-        .append("<tr>")
-        .append("<td style='border: 1px solid #ddd; padding: 8px; width: 50%;'><strong>Loại dịch vụ:</strong></td>")
-        .append("<td style='border: 1px solid #ddd; padding: 8px; width: 50%;'>" + payment.getOrderType() + "</td>")
-        .append("</tr>")
-        .append("<tr>")
-        .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Giá trị thanh toán:</strong></td>")
-        .append("<td style='border: 1px solid #ddd; padding: 8px;'>" + formattedAmount + " VNĐ</td>")
-        .append("</tr>")
-        .append("<tr>")
-        .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Ngày tạo:</strong></td>")
-        .append("<td style='border: 1px solid #ddd; padding: 8px;'>" + formattedPayDate + "</td>")
-        .append("</tr>")
-        .append("<tr>")
-        .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Email:</strong></td>")
-        .append("<td style='border: 1px solid #ddd; padding: 8px;'>" + payment.getEmail() + "</td>")
-        .append("</tr>")
-        .append("</table>")
-        .append("<hr style='border: 1px solid #4CAF50;'>")
-        .append("<footer style='font-size: 12px; color: #777;'>")
-        .append("Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!")
-        .append("</footer>")
-        .append("</body></html>");
+        // Tạo nội dung HTML cho phần thân email với CSS inline và bảng
+        StringBuilder body = new StringBuilder();
+        body.append("<html><body style='font-family: Arial, sans-serif; margin: 20px;'>")
+                .append("<h2 style='color: #4CAF50;'>Hóa đơn của: " + payment.getName() + "</h2>")
+                .append("<p>Đây là hóa đơn cho đơn hàng # <strong>" + payment.getVnp_TxnRef() + "</strong>.</p>")
+                .append("<table style='width: 100%; border-collapse: collapse;'>")
+                .append("<tr>")
+                .append("<td style='border: 1px solid #ddd; padding: 8px; width: 50%;'><strong>Loại dịch vụ:</strong></td>")
+                .append("<td style='border: 1px solid #ddd; padding: 8px; width: 50%;'>" + payment.getOrderType() + "</td>")
+                .append("</tr>")
+                .append("<tr>")
+                .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Giá trị thanh toán:</strong></td>")
+                .append("<td style='border: 1px solid #ddd; padding: 8px;'>" + formattedAmount + " VNĐ</td>")
+                .append("</tr>")
+                .append("<tr>")
+                .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Ngày tạo:</strong></td>")
+                .append("<td style='border: 1px solid #ddd; padding: 8px;'>" + formattedPayDate + "</td>")
+                .append("</tr>")
+                .append("<tr>")
+                .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Email:</strong></td>")
+                .append("<td style='border: 1px solid #ddd; padding: 8px;'>" + payment.getEmail() + "</td>")
+                .append("</tr>")
+                .append("</table>")
+                .append("<hr style='border: 1px solid #4CAF50;'>")
+                .append("<footer style='font-size: 12px; color: #777;'>")
+                .append("Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!")
+                .append("</footer>")
+                .append("</body></html>");
 
-    // Gửi email
-    try {
-        MimeMessage message = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        helper.setFrom("your-email@example.com");
-        helper.setTo(to);
-        helper.setSubject(subject);
-        helper.setText(body.toString(), true);
+        // Gửi email
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom("your-email@example.com");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(body.toString(), true);
 
-        javaMailSender.send(message);
-    } catch (MessagingException e) {
-        System.err.println("Error sending invoice email: " + e.getMessage());
+            javaMailSender.send(message);
+        } catch (MessagingException e) {
+            System.err.println("Error sending invoice email: " + e.getMessage());
+        }
     }
-}
+
+    public void sendResetPasswordEmail(String email,String resetPasswordLink) {
+        String messageBody = "Click the link to reset your password: <a href=\"" + resetPasswordLink + "\">Click here</a>";
+
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper;
+
+        try {
+            helper = new MimeMessageHelper(mimeMessage, true); // true = multipart
+            helper.setSubject("Reset Your Password");
+            helper.setTo(email);
+            helper.setText(messageBody, true); // true = isHtml
+
+            javaMailSender.send(mimeMessage);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

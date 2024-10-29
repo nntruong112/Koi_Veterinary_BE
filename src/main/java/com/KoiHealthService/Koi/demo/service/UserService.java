@@ -2,8 +2,10 @@ package com.KoiHealthService.Koi.demo.service;
 
 import com.KoiHealthService.Koi.demo.Storage.UserStorage;
 import com.KoiHealthService.Koi.demo.config.EmailConfig;
+import com.KoiHealthService.Koi.demo.dto.request.ForgotPasswordRequest;
 import com.KoiHealthService.Koi.demo.dto.request.user.UpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.request.user.UserRequest;
+import com.KoiHealthService.Koi.demo.dto.response.ForgotPasswordResponse;
 import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
 import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;
@@ -83,17 +85,17 @@ public class UserService {
 //        message.setTo(userRequest.getEmail());
 //        message.setText("Mã xác minh của bạn là :" + verificationCode);
 //        javaMailSender.send(message);
-        emailConfig.sendCode(userRequest.getEmail(),"KoiHealthSerivce@gmail.com" ,"Mã xác minh của bạn là : " + verificationCode);
+        emailConfig.sendCode(userRequest.getEmail(), "KoiHealthSerivce@gmail.com", "Mã xác minh của bạn là : " + verificationCode);
 
         //Save info user and code into userStorage
-        userStorage.storeVerificationCode(verificationCode,user);
-        userStorage.storeEmail(userRequest.getEmail(),user);
+        userStorage.storeVerificationCode(verificationCode, user);
+        userStorage.storeEmail(userRequest.getEmail(), user);
 
         return userMapper.toUserResponse(user);
     }
 
     // Role VET
-    public UserResponse createVet(UserRequest userRequest){
+    public UserResponse createVet(UserRequest userRequest) {
         if (userRepository.existsByUsername(userRequest.getUsername())) {
             throw new AnotherException(ErrorCode.USER_EXISTED);
         }
@@ -105,7 +107,7 @@ public class UserService {
     }
 
     // Role Staff
-    public UserResponse createStaff(UserRequest userRequest){
+    public UserResponse createStaff(UserRequest userRequest) {
         if (userRepository.existsByUsername(userRequest.getUsername())) {
             throw new AnotherException(ErrorCode.USER_EXISTED);
         }
@@ -116,14 +118,16 @@ public class UserService {
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
-    //Update User
-    public UserResponse updateUser(String id, UpdateRequest updateRequest){
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User is not found") );
 
-        userMapper.toUpdateUser(user,updateRequest);
+    //Update User
+    public UserResponse updateUser(String id, UpdateRequest updateRequest) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User is not found"));
+
+        userMapper.toUpdateUser(user, updateRequest);
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
+
     // Get All User
     @PreAuthorize("hasRole('ADMIN')")
     public List<UserResponse> getUsers() {
@@ -133,7 +137,7 @@ public class UserService {
 
 
     //Get info user
-    public UserResponse getMyInfo(){
+    public UserResponse getMyInfo() {
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
 
@@ -142,18 +146,35 @@ public class UserService {
         return userMapper.toUserResponse(user);
     }
 
-    //Verify Code
-    public UserResponse verifyCode(String verificationCode) {
-          // Take the code from userStorage
-    User user = userStorage.getUserByVerificationCode(verificationCode);
-    if (user != null && new Date().before(user.getVerificationCodeExpiration()) ) {
-        // user will save into database if code is right
-        return userMapper.toUserResponse(userRepository.save(user));
-    } else
-        // if code wrong throw exception
-        throw new AnotherException(ErrorCode.INVALID_CODE);
+    public void forgotPassword(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new AnotherException(ErrorCode.EMAIL_NOT_EXISTED));
+
+        String resetLink =  "http://localhost:5173/reset-password?email=" + email;
+        emailConfig.sendResetPasswordEmail(email, resetLink);
     }
 
+    //Verify Code
+    public UserResponse verifyCode(String verificationCode) {
+        // Take the code from userStorage
+        User user = userStorage.getUserByVerificationCode(verificationCode);
+        if (user != null && new Date().before(user.getVerificationCodeExpiration())) {
+            // user will save into database if code is right
+            return userMapper.toUserResponse(userRepository.save(user));
+        } else
+            // if code wrong throw exception
+            throw new AnotherException(ErrorCode.INVALID_CODE);
+    }
+
+    public ForgotPasswordResponse ResetPassword(ForgotPasswordRequest forgotPasswordRequest) {
+        User user = userRepository.findByEmail(forgotPasswordRequest.getEmail()).orElseThrow(() -> new AnotherException(ErrorCode.EMAIL_NOT_EXISTED));
+
+        user.setPassword(passwordEncoder.encode(forgotPasswordRequest.getNewPassword()));
+        userRepository.save(user);
+
+        return ForgotPasswordResponse.builder()
+                .user(user)
+                .build();
+    }
 
     // Get User By Id
     @PreAuthorize("hasRole('USER')")
@@ -162,7 +183,7 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.findById(id).orElseThrow(() -> new RuntimeException("Cannot find the id")));
     }
 
-    public void deleteAll(){
+    public void deleteAll() {
         userRepository.deleteAll();
     }
 
@@ -177,10 +198,10 @@ public class UserService {
     }
 
     //Get user by Role
-    public List<User> getByRole(String roles){
-        if(roles != null) {
+    public List<User> getByRole(String roles) {
+        if (roles != null) {
             return userRepository.findByRoles(roles);
-        }else
+        } else
             throw new RuntimeException("Cannot find role");
 
     }
