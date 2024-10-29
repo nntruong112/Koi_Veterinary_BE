@@ -15,6 +15,5 @@ public class FishSpecialtyUpdateRequest {
     String fishSpecialtyName;
     String description;
     String category;
-    String experience;
-
+    
 }

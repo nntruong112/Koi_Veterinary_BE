@@ -103,28 +103,15 @@ public class FishService {
         //fetch fish by id
         fish = fishRepository.findById(id).orElseThrow(() -> new AnotherException(ErrorCode.NO_FISH_FOUND) );
 
-        //update fish nè
-//        fish.setAge(request.getAge());
-//        fish.setSpecies(request.getSpecies());
-//        fish.setImage(request.getImage());
-//        fish.setWeight(request.getWeight());
-//        fish.setSize(request.getSize());
+
         fishMapper.updateFish(fish, request);
 
-        //Fish updatedFish = fishRepository.save(fish);
+      
 
         FishResponse fishResponse = fishMapper.toFishResponse(fishRepository.save(fish));
         return fishResponse;
 
-//        return FishResponse.builder()
-//                .size(updatedFish.getSize())
-//                .weight(updatedFish.getWeight())
-//                .species(updatedFish.getSpecies())
-//                .age(updatedFish.getAge())
-//                .image(updatedFish.getImage())
-//                .fishId(updatedFish.getFishId())
-//                .customerId(updatedFish.getCustomer().getUserId())
-//                .build();
+
 
     }
 

@@ -48,4 +48,9 @@ public class FishSpecialtyController {
     public ResponseEntity<List<FishSpecialty>> getAppointments() {
         return ResponseEntity.ok(fishSpecialtyService.getFishSpecialtyList());
     }
+
+    @GetMapping("/{fishSpecialtyId}")
+    public FishSpecialty getFishSpecialtyById(@PathVariable String fishSpecialtyId) {
+        return fishSpecialtyService.getFishSpecialtyById(fishSpecialtyId);
+    }
 }

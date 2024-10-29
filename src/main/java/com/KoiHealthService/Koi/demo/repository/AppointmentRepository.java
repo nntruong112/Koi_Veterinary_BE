@@ -22,7 +22,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, String
 
     @Query("SELECT a.fish FROM Appointment a WHERE a.appointmentId = :appointmentId")
     Fish findFishByAppointmentId(@Param("appointmentId") String appointmentId);
-
-
+    
 
 }

@@ -15,5 +15,5 @@ public class FishSpecialtyResponse {
     String fishSpecialtyName;
     String description;
     String category;
-    String experience;
+
 }

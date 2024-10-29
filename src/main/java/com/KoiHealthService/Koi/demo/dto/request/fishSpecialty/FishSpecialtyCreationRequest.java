@@ -15,5 +15,4 @@ public class FishSpecialtyCreationRequest {
     String fishSpecialtyName;
     String description;
     String category;
-    String experience;
 }

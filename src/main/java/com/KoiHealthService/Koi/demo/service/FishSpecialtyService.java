@@ -41,7 +41,7 @@ public class FishSpecialtyService {
                 .category(request.getCategory())
                 .fishSpecialtyName(request.getFishSpecialtyName())
                 .description(request.getDescription())
-                .experience(request.getExperience())
+                
                 .build();
 
 
@@ -82,10 +82,9 @@ public class FishSpecialtyService {
                 .build();
     }
 
-
-
-    
-
-
+    public FishSpecialty getFishSpecialtyById(String fishSpecialtyId) {
+        return fishSpecialtyRepository.findById(fishSpecialtyId)
+                .orElseThrow(() -> new AnotherException(ErrorCode.NO_FISH_SPECIALTY_FOUND));
+    }
     
 }
