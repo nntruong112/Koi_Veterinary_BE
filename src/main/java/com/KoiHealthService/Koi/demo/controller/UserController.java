@@ -2,12 +2,17 @@ package com.KoiHealthService.Koi.demo.controller;
 
 
 
+import com.KoiHealthService.Koi.demo.config.EmailConfig;
+import com.KoiHealthService.Koi.demo.dto.request.ForgotPasswordRequest;
 import com.KoiHealthService.Koi.demo.dto.request.user.UpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.request.user.UserRequest;
 import com.KoiHealthService.Koi.demo.dto.request.VerifyRequest;
 import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
+import com.KoiHealthService.Koi.demo.dto.response.ForgotPasswordResponse;
 import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
 import com.KoiHealthService.Koi.demo.entity.User;
+import com.KoiHealthService.Koi.demo.exception.AnotherException;
+import com.KoiHealthService.Koi.demo.exception.ErrorCode;
 import com.KoiHealthService.Koi.demo.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -15,6 +20,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,8 +34,10 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class UserController {
 
-    @NonNull
-    UserService userService;
+
+    final UserService userService;
+
+    final EmailConfig emailConfig;
 
     //Register
     @PostMapping("/register")
@@ -82,6 +91,23 @@ public class UserController {
     ApiResponse<UserResponse> getMyInfo(){
         return ApiResponse.<UserResponse>builder()
                 .result(userService.getMyInfo())
+                .build();
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity <String>forgotPassword(@RequestParam String email){
+        try {
+            userService.forgotPassword(email);
+            return ResponseEntity.status(HttpStatus.OK).body("Reset password email has been sent to " + email);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error" + e.getMessage());
+        }
+    }
+
+    @PostMapping("/reset-password")
+    public ApiResponse<ForgotPasswordResponse> resetPassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest){
+        return ApiResponse.<ForgotPasswordResponse>builder()
+                .result(userService.ResetPassword(forgotPasswordRequest))
                 .build();
     }
 
