@@ -60,8 +60,13 @@ public class UserService {
     @Value("${spring.mail.username}")
     String SENDER_EMAIL;
 
+    @NonNull
     final FishSpecialtyRepository fishSpecialtyRepository;
+
+    @NonNull
     final FishSpecialtyMapper fishSpecialtyMapper;
+
+    
     FishSpecialty fishSpecialty;
 
     // Register
@@ -127,7 +132,6 @@ public class UserService {
         User user = userMapper.toUser(userRequest);
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         user.setRoles("STAFF");
-
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
@@ -212,7 +216,7 @@ public class UserService {
     //Get user by Role
     public List<User> getByRole(String roles) {
         if (roles != null) {
-            return userRepository.findByRolesWithFishSpecialty(roles);
+            return userRepository.findByRoles(roles);
         } else {
             throw new RuntimeException("Cannot find role");
         }
