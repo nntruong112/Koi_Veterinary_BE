@@ -136,12 +136,8 @@ public class AppointmentService {
             throw new AnotherException(ErrorCode.NO_APPOINTMENT_TYPE_FOUND);
         }
 
-        Long count = appointmentRepository.countByAppointmentTypeId(appointmentTypeId);
+        return appointmentRepository.countByAppointmentTypeId(appointmentTypeId);
 
-        if (count == null || count == 0) {
-            throw new AnotherException(ErrorCode.NO_APPOINTMENT_FOUND);
-        }
-        return count;
     }
 
 }
