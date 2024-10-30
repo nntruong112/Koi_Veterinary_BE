@@ -19,4 +19,5 @@ public class UserRequest {
     String password;
     @Email(message = "EMAIL_INVALID")
     String email;
+    String fishSpecialtyId;
 }

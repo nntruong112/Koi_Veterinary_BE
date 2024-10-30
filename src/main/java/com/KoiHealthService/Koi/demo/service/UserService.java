@@ -7,10 +7,13 @@ import com.KoiHealthService.Koi.demo.dto.request.user.UpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.request.user.UserRequest;
 import com.KoiHealthService.Koi.demo.dto.response.ForgotPasswordResponse;
 import com.KoiHealthService.Koi.demo.dto.response.UserResponse;
+import com.KoiHealthService.Koi.demo.entity.FishSpecialty;
 import com.KoiHealthService.Koi.demo.entity.User;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;
 import com.KoiHealthService.Koi.demo.exception.ErrorCode;
+import com.KoiHealthService.Koi.demo.mapper.FishSpecialtyMapper;
 import com.KoiHealthService.Koi.demo.mapper.UserMapper;
+import com.KoiHealthService.Koi.demo.repository.FishSpecialtyRepository;
 import com.KoiHealthService.Koi.demo.repository.UserRepository;
 import lombok.AccessLevel;
 import lombok.NonNull;
@@ -57,6 +60,10 @@ public class UserService {
     @Value("${spring.mail.username}")
     String SENDER_EMAIL;
 
+    final FishSpecialtyRepository fishSpecialtyRepository;
+    final FishSpecialtyMapper fishSpecialtyMapper;
+    FishSpecialty fishSpecialty;
+
     // Register
     public UserResponse register(UserRequest userRequest) {
 //        Find exist username
@@ -99,9 +106,14 @@ public class UserService {
         if (userRepository.existsByUsername(userRequest.getUsername())) {
             throw new AnotherException(ErrorCode.USER_EXISTED);
         }
+        fishSpecialty = fishSpecialtyRepository.findById(userRequest.getFishSpecialtyId())
+                .orElseThrow(() -> new AnotherException(ErrorCode.NO_FISH_SPECIALTY_FOUND));
+        
         User user = userMapper.toUser(userRequest);
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         user.setRoles("VET");
+        user.setFishSpecialty(fishSpecialty);
+
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
@@ -200,10 +212,10 @@ public class UserService {
     //Get user by Role
     public List<User> getByRole(String roles) {
         if (roles != null) {
-            return userRepository.findByRoles(roles);
-        } else
+            return userRepository.findByRolesWithFishSpecialty(roles);
+        } else {
             throw new RuntimeException("Cannot find role");
-
+        }
     }
 
     //count the role

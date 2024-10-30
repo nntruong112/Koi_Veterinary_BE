@@ -86,5 +86,7 @@ public class FishSpecialtyService {
         return fishSpecialtyRepository.findById(fishSpecialtyId)
                 .orElseThrow(() -> new AnotherException(ErrorCode.NO_FISH_SPECIALTY_FOUND));
     }
+
+    
     
 }

@@ -3,6 +3,7 @@ package com.KoiHealthService.Koi.demo.service;
 import com.KoiHealthService.Koi.demo.dto.request.appointment.AppointmentRequest;
 import com.KoiHealthService.Koi.demo.dto.request.appointment.AppointmentUpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.response.AppointmentResponse;
+import com.KoiHealthService.Koi.demo.dto.response.AppointmentTypeResponse;
 import com.KoiHealthService.Koi.demo.entity.Appointment;
 import com.KoiHealthService.Koi.demo.entity.AppointmentType;
 import com.KoiHealthService.Koi.demo.entity.Fish;
@@ -130,5 +131,17 @@ public class AppointmentService {
         }
     }
 
+    public Long getAppointmentCountByType(String appointmentTypeId) {
+        if (!appointmentTypeRepository.existsById(appointmentTypeId)) {
+            throw new AnotherException(ErrorCode.NO_APPOINTMENT_TYPE_FOUND);
+        }
+
+        Long count = appointmentRepository.countByAppointmentTypeId(appointmentTypeId);
+
+        if (count == null || count == 0) {
+            throw new AnotherException(ErrorCode.NO_APPOINTMENT_FOUND);
+        }
+        return count;
+    }
 
 }
