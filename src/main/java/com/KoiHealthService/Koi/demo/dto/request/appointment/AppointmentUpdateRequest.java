@@ -16,6 +16,8 @@ public class AppointmentUpdateRequest {
     LocalDate appointmentDate;
     String appointmentTypeId;
     String status;
+    String customerId;
+    String veterinarianId;
     String location;
     LocalTime startTime;
     LocalTime endTime;
