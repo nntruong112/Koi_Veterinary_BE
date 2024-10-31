@@ -4,12 +4,16 @@ import com.KoiHealthService.Koi.demo.dto.request.fishSpecialty.FishSpecialtyCrea
 import com.KoiHealthService.Koi.demo.dto.request.fishSpecialty.FishSpecialtyUpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
 import com.KoiHealthService.Koi.demo.dto.response.FishSpecialtyResponse;
+import com.KoiHealthService.Koi.demo.entity.Appointment;
 import com.KoiHealthService.Koi.demo.entity.FishSpecialty;
 import com.KoiHealthService.Koi.demo.service.FishSpecialtyService;
 import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/fish_specialties")
@@ -40,4 +44,13 @@ public class FishSpecialtyController {
         return "Fish specialty has been deleted";
     }
 
+    @GetMapping
+    public ResponseEntity<List<FishSpecialty>> getAppointments() {
+        return ResponseEntity.ok(fishSpecialtyService.getFishSpecialtyList());
+    }
+
+    @GetMapping("/{fishSpecialtyId}")
+    public FishSpecialty getFishSpecialtyById(@PathVariable String fishSpecialtyId) {
+        return fishSpecialtyService.getFishSpecialtyById(fishSpecialtyId);
+    }
 }

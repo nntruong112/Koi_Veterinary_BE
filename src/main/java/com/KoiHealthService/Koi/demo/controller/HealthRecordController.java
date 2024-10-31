@@ -50,4 +50,10 @@ public class HealthRecordController {
     List<HealthRecordResponse> getHealthRecordByFishId(@PathVariable ("fishId") String fishId){
         return healthRecordService.getHealthRecordsByFishId(fishId);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<HealthRecord> getHealthRecordById(@PathVariable("id") String healthRecordId) {
+        HealthRecord healthRecord = healthRecordService.getHealthRecordById(healthRecordId);
+        return ResponseEntity.ok(healthRecord);
+    }
 }

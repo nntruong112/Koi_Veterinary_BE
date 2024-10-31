@@ -1,9 +1,8 @@
 package com.KoiHealthService.Koi.demo.repository;
 
-import com.KoiHealthService.Koi.demo.dto.response.AppointmentResponse;
+import com.KoiHealthService.Koi.demo.dto.response.AppointmentTypeResponse;
 import com.KoiHealthService.Koi.demo.entity.Appointment;
 import com.KoiHealthService.Koi.demo.entity.Fish;
-import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,5 +23,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, String
 
     @Query("SELECT a.fish FROM Appointment a WHERE a.appointmentId = :appointmentId")
     Fish findFishByAppointmentId(@Param("appointmentId") String appointmentId);
+
+    @Query("SELECT COUNT(a) FROM Appointment a WHERE a.appointmentType.appointmentTypeId = :appointmentTypeId")
+    Long countByAppointmentTypeId(@Param("appointmentTypeId") String appointmentTypeId);
 
 }

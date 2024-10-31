@@ -11,8 +11,9 @@ import java.math.BigDecimal;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FishSpecialtyUpdateRequest {
+
     String fishSpecialtyName;
     String description;
     String category;
-    BigDecimal price;
+    
 }

@@ -19,4 +19,5 @@ public class UpdateRequest {
     LocalDate dateOfBirth;
     String gender;
     String image;
+    String fishSpecialtyId;
 }

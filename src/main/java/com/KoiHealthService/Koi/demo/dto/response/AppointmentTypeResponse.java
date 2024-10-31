@@ -15,4 +15,5 @@ public class AppointmentTypeResponse {
     String appointmentTypeId;
     String appointmentService;
     Long price;
+    Long appointmentCount;
 }

@@ -3,6 +3,7 @@ package com.KoiHealthService.Koi.demo.controller;
 import com.KoiHealthService.Koi.demo.config.EmailConfig;
 import com.KoiHealthService.Koi.demo.config.VNPayConfig;
 import com.KoiHealthService.Koi.demo.dto.request.PaymentRequest;
+import com.KoiHealthService.Koi.demo.dto.response.AppointmentResponse;
 import com.KoiHealthService.Koi.demo.dto.response.PaymentResponse;
 import com.KoiHealthService.Koi.demo.entity.Appointment;
 import com.KoiHealthService.Koi.demo.entity.Payment;
@@ -56,7 +57,7 @@ public class PaymentController {
 
 
    @GetMapping("/vn-pay-callback")
-    public ResponseEntity<PaymentResponse> payCallbackHandler(
+public ResponseEntity<PaymentResponse> payCallbackHandler(
         @RequestParam(value = "vnp_Amount") String amount,
         @RequestParam(value = "vnp_BankCode") String bankCode,
         @RequestParam(value = "vnp_OrderInfo") String orderInfo,
@@ -124,15 +125,13 @@ public class PaymentController {
                 .orderType(orderType)
                 .build();
 
+        paymentRepository.save(payment);
+
         // Find the appointment and update its status to "Paid"
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new AnotherException(ErrorCode.NO_APPOINTMENT_FOUND));
         appointment.setPaymentStatus("paid");
         appointmentRepository.save(appointment);
-
-
-        paymentRepository.save(payment);
-
 
         // Send Mail
         emailConfig.sendInvoiceEmail(email, payment);
@@ -151,11 +150,14 @@ public class PaymentController {
     }
 }
 
-
-
     @GetMapping("/get-payments/{paymentId}")
     public Payment getPayment(@PathVariable String paymentId) {
         return paymentService.getPayment(paymentId);
+    }
+
+    @GetMapping("/amount-in-month/{month}")
+    public Long getAmountValueInMonth(@PathVariable int month) {
+        return paymentService.getAmountValueInMonth(month);
     }
 }
 

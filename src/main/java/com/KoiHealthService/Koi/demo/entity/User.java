@@ -37,30 +37,15 @@ public class User implements Serializable {
     Date verificationCodeExpiration;
     String roles;
 
-
-
-
-
-
-
     // One-to-many with VeterinarianProfile
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
     List<VeterinarianProfile> veterinarianProfiles;
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "specialtyId") // Foreign key column name
-    @JsonBackReference
     FishSpecialty fishSpecialty;
 
 }
 
-// Many-to-many relationship with WorkSchedule, only for Veterinarian users
-//    @ManyToMany (fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinTable(
-//            name = "veterinarian_profile", // name of the join table
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "schedule_id")
-//    )
-//    @JsonManagedReference
-//    private List<VeterinarianSchedule> veterinarianSchedules;
+

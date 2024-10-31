@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -57,9 +58,15 @@ public class HealthRecordService {
                 .fish(fish)
                 .treatment(request.getTreatment())
                 .veterinarian(veterinarian)
+                .medicine(request.getMedicine())
                 .build();
 
         return healthRecordRepository.save(healthRecord);
+    }
+
+    public HealthRecord getHealthRecordById(String healthRecordId) {
+        Optional<HealthRecord> healthRecord = healthRecordRepository.findById(healthRecordId);
+        return healthRecord.orElseThrow(() -> new AnotherException(ErrorCode.NO_HEALTH_RECORD_FOUND));
     }
 
     public List<HealthRecord> getAllHealthRecords() {
@@ -83,9 +90,13 @@ public class HealthRecordService {
                 .collect(Collectors.toList()); // Collect results into a List
     }
 
+
+
 //    // Get fish by customerId
 //    public List<HealthRecordResponse> getHealthRecordByFishId(String fishId) {
 //        return healthRecordRepository.findByFishId(fishId);
 //    }
+
+
 
 }

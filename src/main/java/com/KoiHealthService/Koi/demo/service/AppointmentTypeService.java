@@ -3,9 +3,11 @@ package com.KoiHealthService.Koi.demo.service;
 
 import com.KoiHealthService.Koi.demo.dto.request.appointmentType.AppointmentTypeCreationRequest;
 import com.KoiHealthService.Koi.demo.dto.response.AppointmentTypeResponse;
+import com.KoiHealthService.Koi.demo.entity.Appointment;
 import com.KoiHealthService.Koi.demo.entity.AppointmentType;
 import com.KoiHealthService.Koi.demo.exception.AnotherException;
 import com.KoiHealthService.Koi.demo.exception.ErrorCode;
+import com.KoiHealthService.Koi.demo.repository.AppointmentRepository;
 import com.KoiHealthService.Koi.demo.repository.AppointmentTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AppointmentTypeService {
     private final AppointmentTypeRepository appointmentTypeRepository;
+    private final AppointmentRepository appointmentRepository;
 
     // Create Appointment Type
     public AppointmentTypeResponse createAppointmentType(AppointmentTypeCreationRequest request) {
@@ -101,5 +104,9 @@ public class AppointmentTypeService {
                 .build();
 
         return appointmentTypeRepository.save(updatedAppointmentType);
+    }
+
+    public Long getAppointmentCountByType(String appointmentTypeId) {
+        return appointmentRepository.countByAppointmentTypeId(appointmentTypeId);
     }
 }

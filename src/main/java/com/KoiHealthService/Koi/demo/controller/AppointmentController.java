@@ -6,12 +6,13 @@ import com.KoiHealthService.Koi.demo.dto.request.appointment.AppointmentRequest;
 import com.KoiHealthService.Koi.demo.dto.request.appointment.AppointmentUpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
 import com.KoiHealthService.Koi.demo.dto.response.AppointmentResponse;
+import com.KoiHealthService.Koi.demo.dto.response.AppointmentTypeResponse;
 import com.KoiHealthService.Koi.demo.entity.Appointment;
 import com.KoiHealthService.Koi.demo.entity.Fish;
 import com.KoiHealthService.Koi.demo.service.AppointmentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -87,5 +88,12 @@ public class AppointmentController {
         Fish fish = appointmentService.findFishByAppointmentId(appointmentId);
         return ResponseEntity.ok(fish);
     }
-    
+
+    @GetMapping("/count/{appointmentTypeId}")
+    public ResponseEntity<Long> countAppointmentsByType(@PathVariable String appointmentTypeId) {
+        Long count = appointmentService.getAppointmentCountByType(appointmentTypeId);
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON) // Set the content type to JSON
+                .body(count);
+    }
 }

@@ -22,6 +22,6 @@ public class AppointmentUpdateRequest {
     LocalTime startTime;
     LocalTime endTime;
     String paymentStatus;
-
+    String veterinarianId;
 
 }

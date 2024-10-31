@@ -23,4 +23,5 @@ public class UserResponse {
     String image;
     LocalDate dateOfBirth;
     String roles;
+    String fishSpecialtyId;
 }

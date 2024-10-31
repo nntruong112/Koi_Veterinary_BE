@@ -88,6 +88,16 @@ public class AuthenticateService {
 
     }
 
+//    public User forgotPassword(String email , String password){
+//        User user = userRepository.findByEmail(email).orElseThrow(() -> new AnotherException(ErrorCode.EMAIL_NOT_EXISTED));
+//        if (user == null){
+//            throw new AnotherException(ErrorCode.EMAIL_NOT_EXISTED);
+//        }else {
+//            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+//            user.setPassword(passwordEncoder.encode(password));
+//            return userRepository.save(user);
+//        }
+//    }
 
 
     //Verify Token

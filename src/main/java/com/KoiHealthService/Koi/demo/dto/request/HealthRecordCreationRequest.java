@@ -18,4 +18,5 @@ public class HealthRecordCreationRequest {
     String treatment;
     String fishId;
     String veterinarianId;
+    String medicine;
 }
