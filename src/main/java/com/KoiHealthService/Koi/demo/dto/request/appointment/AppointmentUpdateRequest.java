@@ -12,14 +12,14 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AppointmentUpdateRequest {
-    String appointmentId;
     LocalDate appointmentDate;
-    String appointmentTypeId;
     String status;
     String customerId;
     String veterinarianId;
+    String fishId;
     String location;
     LocalTime startTime;
     LocalTime endTime;
+    String appointmentTypeId;
     String paymentStatus;
 }

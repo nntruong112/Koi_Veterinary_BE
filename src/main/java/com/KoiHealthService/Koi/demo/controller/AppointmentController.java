@@ -47,11 +47,10 @@ public class AppointmentController {
 
     //update appointment by Id
     @PutMapping("/{appointmentId}")
-    public ResponseEntity<AppointmentResponse> updateAppointment(
+    public Appointment updateAppointment(
             @PathVariable("appointmentId") String appointmentId,
             @RequestBody AppointmentUpdateRequest request) {
-        AppointmentResponse response = appointmentService.updateAppointment(appointmentId, request);
-        return ResponseEntity.ok(response);
+     return appointmentService.updateAppointment(appointmentId, request);
     }
 
     //delete

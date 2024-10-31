@@ -2,6 +2,7 @@ package com.KoiHealthService.Koi.demo.service;
 
 import com.KoiHealthService.Koi.demo.dto.request.appointment.AppointmentRequest;
 import com.KoiHealthService.Koi.demo.dto.request.appointment.AppointmentUpdateRequest;
+import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
 import com.KoiHealthService.Koi.demo.dto.response.AppointmentResponse;
 import com.KoiHealthService.Koi.demo.dto.response.AppointmentTypeResponse;
 import com.KoiHealthService.Koi.demo.entity.Appointment;
@@ -29,7 +30,7 @@ public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final UserRepository userRepository;
     private final AppointmentTypeRepository appointmentTypeRepository;
-    
+
 
     //create new Appointment ========================================================================================
     public Appointment createAppointment(AppointmentRequest request) {
@@ -73,20 +74,34 @@ public class AppointmentService {
     }
 
     //update Appointment ========================================================================================
-    public AppointmentResponse updateAppointment(String appointmentId, AppointmentUpdateRequest request) {
+    public Appointment updateAppointment(String appointmentId, AppointmentUpdateRequest request) {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new AnotherException(ErrorCode.NO_APPOINTMENT_FOUND));
 
-        appointmentMapper.toUpdateAppointment(appointment, request);
-        appointmentRepository.save(appointment);
-        return appointmentMapper.toAppointmentResponse(appointment);
+        AppointmentType appointmentType = appointmentTypeRepository.findById(request.getAppointmentTypeId()).orElseThrow(() -> new AnotherException(ErrorCode.NO_APPOINTMENT_TYPE_FOUND));
+        User user = userRepository.findById(request.getCustomerId()).orElseThrow(() -> new AnotherException(ErrorCode.USER_NOT_EXISTED));
+        Fish fish = fishRepository.findById(request.getFishId()).orElseThrow(() -> new AnotherException(ErrorCode.NO_FISH_FOUND));
+        User vet = userRepository.findById(request.getVeterinarianId()).orElseThrow(() -> new AnotherException(ErrorCode.NO_VETERINARIAN_FOUND));
+
+         appointment.builder()
+                .appointmentDate(request.getAppointmentDate())
+                .appointmentType(appointmentType)
+                .endTime(request.getEndTime())
+                .location(request.getLocation())
+                .startTime(request.getStartTime())
+                .status(request.getStatus())
+                .customer(user)
+                .fish(fish)
+                .veterinarian(vet)
+                .paymentStatus(request.getPaymentStatus())
+                .build();
+        return appointmentRepository.save(appointment) ;
     }
 
     //delete Appointment ========================================================================================
     public void deleteAppointment(String appointmentId) {
         appointmentRepository.deleteById(appointmentId);
     }
-
 
 
     public List<Appointment> getAppointmentsByCustomerId(String customerId) {
@@ -96,7 +111,6 @@ public class AppointmentService {
         // Fetch appointments directly from the repository
         return appointmentRepository.findAppointmentsByCustomerId(customerId);
     }
-
 
 
     public List<Appointment> getAppointmentsByVeterinarianId(String veterinarianId) {
