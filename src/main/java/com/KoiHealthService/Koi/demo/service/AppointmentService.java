@@ -83,19 +83,20 @@ public class AppointmentService {
         Fish fish = fishRepository.findById(request.getFishId()).orElseThrow(() -> new AnotherException(ErrorCode.NO_FISH_FOUND));
         User vet = userRepository.findById(request.getVeterinarianId()).orElseThrow(() -> new AnotherException(ErrorCode.NO_VETERINARIAN_FOUND));
 
-         appointment.builder()
-                .appointmentDate(request.getAppointmentDate())
-                .appointmentType(appointmentType)
-                .endTime(request.getEndTime())
-                .location(request.getLocation())
-                .startTime(request.getStartTime())
-                .status(request.getStatus())
-                .customer(user)
-                .fish(fish)
-                .veterinarian(vet)
-                .paymentStatus(request.getPaymentStatus())
-                .build();
-        return appointmentRepository.save(appointment) ;
+
+        Appointment updatedAppointment = Appointment.builder()
+            .appointmentDate(request.getAppointmentDate())
+            .appointmentType(appointmentType)
+            .endTime(request.getEndTime())
+            .location(request.getLocation())
+            .startTime(request.getStartTime())
+            .status(request.getStatus())
+            .customer(user)
+            .fish(fish)
+            .veterinarian(vet)
+            .paymentStatus(request.getPaymentStatus())
+            .build();
+        return appointmentRepository.save(updatedAppointment) ;
     }
 
     //delete Appointment ========================================================================================
