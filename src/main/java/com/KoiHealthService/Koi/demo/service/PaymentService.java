@@ -129,4 +129,8 @@ public class PaymentService {
     public Payment getPayment(String paymentId){
         return paymentRepository.findById(paymentId).orElseThrow(() -> new RuntimeException("ảo lồn"));
     }
+
+    public Long getAmountValueInMonth(int month) {
+        return paymentRepository.getAmountValueInMonth(month);
+    }
 }

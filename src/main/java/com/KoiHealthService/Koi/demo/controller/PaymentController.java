@@ -3,6 +3,7 @@ package com.KoiHealthService.Koi.demo.controller;
 import com.KoiHealthService.Koi.demo.config.EmailConfig;
 import com.KoiHealthService.Koi.demo.config.VNPayConfig;
 import com.KoiHealthService.Koi.demo.dto.request.PaymentRequest;
+import com.KoiHealthService.Koi.demo.dto.response.AppointmentResponse;
 import com.KoiHealthService.Koi.demo.dto.response.PaymentResponse;
 import com.KoiHealthService.Koi.demo.entity.Appointment;
 import com.KoiHealthService.Koi.demo.entity.Payment;
@@ -149,11 +150,14 @@ public ResponseEntity<PaymentResponse> payCallbackHandler(
     }
 }
 
-
-
     @GetMapping("/get-payments/{paymentId}")
     public Payment getPayment(@PathVariable String paymentId) {
         return paymentService.getPayment(paymentId);
+    }
+
+    @GetMapping("/amount-in-month/{month}")
+    public Long getAmountValueInMonth(@PathVariable int month) {
+        return paymentService.getAmountValueInMonth(month);
     }
 }
 

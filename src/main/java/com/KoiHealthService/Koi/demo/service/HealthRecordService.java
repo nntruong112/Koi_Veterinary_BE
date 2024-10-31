@@ -58,6 +58,7 @@ public class HealthRecordService {
                 .fish(fish)
                 .treatment(request.getTreatment())
                 .veterinarian(veterinarian)
+                .medicine(request.getMedicine())
                 .build();
 
         return healthRecordRepository.save(healthRecord);
