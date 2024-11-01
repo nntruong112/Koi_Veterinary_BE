@@ -28,8 +28,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -38,11 +36,11 @@ import java.util.*;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE , makeFinal = true)
 public class AuthenticateService {
-    @NonNull
+
     UserRepository userRepository;
-    @NonNull
+
     InvalidatedTokenRepository invalidatedTokenRepository;
 
     //Key to verify token
@@ -71,33 +69,33 @@ public class AuthenticateService {
 
     }
 
+    //Login google
     public LoginResponse loginGoogle(String email,String name) throws JOSEException {
+        Optional<User> user = userRepository.findByEmail(email);
 
+        if(user.isPresent()){
+            String token = generateToken(user.get());
+            return LoginResponse.builder()
+                    .token(token)
+                    .user(user.get())
+                    .build();
+        }
+        else {
+            User newUser = User.builder()
+                    .email(email)
+                    .username(name)
+                    .roles("USER")
+                    .checkIsLoginGoogle(true)
+                    .build();
+            userRepository.save(newUser);
+            String token = generateToken(newUser);
 
-        User user = User.builder()
-                .email(email)
-                .username(name)
-                .roles("USER")
-                .build();
-        var token = generateToken(user);
-
-        return LoginResponse.builder()
-                .token(token)
-                .user(user)
-                .build();
-
+            return LoginResponse.builder()
+                    .token(token)
+                    .user(newUser)
+                    .build();
+        }
     }
-
-//    public User forgotPassword(String email , String password){
-//        User user = userRepository.findByEmail(email).orElseThrow(() -> new AnotherException(ErrorCode.EMAIL_NOT_EXISTED));
-//        if (user == null){
-//            throw new AnotherException(ErrorCode.EMAIL_NOT_EXISTED);
-//        }else {
-//            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-//            user.setPassword(passwordEncoder.encode(password));
-//            return userRepository.save(user);
-//        }
-//    }
 
 
     //Verify Token

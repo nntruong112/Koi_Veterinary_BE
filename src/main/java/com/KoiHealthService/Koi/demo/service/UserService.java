@@ -75,6 +75,10 @@ public class UserService {
         if (userRepository.existsByUsername(userRequest.getUsername())) {
             throw new AnotherException(ErrorCode.USER_EXISTED);
         }
+
+        if(userRepository.existsByEmail(userRequest.getEmail())){
+            throw new AnotherException(ErrorCode.EXISTED_EMAIL);
+        }
         //Mapping request to database
         User user = userMapper.toUser(userRequest);
 
@@ -92,6 +96,7 @@ public class UserService {
 
         //Set Role
         user.setRoles("USER");
+        user.setCheckIsLoginGoogle(false);
         //Send Mail
 //        SimpleMailMessage message = new SimpleMailMessage();
 //        message.setTo(userRequest.getEmail());
