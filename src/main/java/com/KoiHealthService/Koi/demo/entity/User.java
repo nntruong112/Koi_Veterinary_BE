@@ -36,6 +36,7 @@ public class User implements Serializable {
     String verificationCode;
     Date verificationCodeExpiration;
     String roles;
+    boolean checkIsLoginGoogle;
 
     // One-to-many with VeterinarianProfile
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

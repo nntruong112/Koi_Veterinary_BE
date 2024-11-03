@@ -25,40 +25,34 @@ public class GoogleController {
     final AuthenticateService authenticateService;
 
     @PostMapping("/login-google")
-public ResponseEntity<LoginResponse> loginGoogle(@RequestBody LoginGoogleRequest request) {
-    String accessToken = request.getAccessToken(); // Lấy accessToken từ request
+    public ResponseEntity<LoginResponse> loginGoogle(@RequestBody LoginGoogleRequest request) {
+        String accessToken = request.getAccessToken(); // Lấy accessToken từ request
 
-    // Thêm access_token vào URL
-    String userInfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo?access_token=" +accessToken;
-    RestTemplate restTemplate = new RestTemplate();
+        // Thêm access_token vào URL
+        String userInfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo?access_token=" + accessToken;
+        RestTemplate restTemplate = new RestTemplate();
 
-    try {
-        // Thực hiện yêu cầu API đến Google
-        ResponseEntity<Map> response = restTemplate.getForEntity(userInfoEndpoint, Map.class);
+        try {
+            // Thực hiện yêu cầu API đến Google
+            ResponseEntity<Map> response = restTemplate.getForEntity(userInfoEndpoint, Map.class);
 
-        if (response.getStatusCode() == HttpStatus.OK) {
-            Map<String, Object> userInfo = response.getBody();
+            if (response.getStatusCode() == HttpStatus.OK) {
+                Map<String, Object> userInfo = response.getBody();
 
-            // Trích xuất tên và email từ phản hồi
-            String name = (String) userInfo.get("name");
-            String email = (String) userInfo.get("email");
+                // Trích xuất tên và email từ phản hồi
+                String name = (String) userInfo.get("name");
+                String email = (String) userInfo.get("email");
 
-            // Lưu thông tin người dùng
-            userRepository.save(User.builder()
-                    .email(email)
-                    .username(name)
-                    .roles("USER")
-                    .build());
-
-            // Tạo LoginResponse với token và thông tin người dùng
-            LoginResponse loginResponse = authenticateService.loginGoogle(email, name);
-            return ResponseEntity.ok(loginResponse);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+                // Lưu thông tin người dùng
+              LoginResponse loginResponse =  authenticateService.loginGoogle(email,name);
+                // Tạo LoginResponse với token và thông tin người dùng
+                return ResponseEntity.ok(loginResponse);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            }
+        } catch (RestClientException | JOSEException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
-    } catch (RestClientException | JOSEException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
     }
-}
 
 }
