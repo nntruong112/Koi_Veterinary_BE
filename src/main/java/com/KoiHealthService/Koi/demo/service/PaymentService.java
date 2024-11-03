@@ -64,8 +64,7 @@ public class PaymentService {
         vnp_Params.put("vnp_ReturnUrl", VNPayConfig.vnp_ReturnUrl);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
-        vnp_Params.put("vnp_OrderInfo", String.format("%s|%s|%s|%s|%s",
-            user.getUserId(), user.getUsername(), user.getEmail(), appointment.getAppointmentId(), orderType));
+        vnp_Params.put("vnp_OrderInfo", String.format("%s|%s|%s|%s|%s", user.getUserId(), user.getUsername(), user.getEmail(), appointment.getAppointmentId(), orderType));
         vnp_Params.put("vnp_OrderType", orderType);
         vnp_Params.put("vnp_Locale", "vn");
 
@@ -127,7 +126,7 @@ public class PaymentService {
     }
 
     public Payment getPayment(String paymentId){
-        return paymentRepository.findById(paymentId).orElseThrow(() -> new RuntimeException("ảo lồn"));
+        return paymentRepository.findById(paymentId).orElseThrow(() -> new RuntimeException("error"));
     }
 
     public Long getAmountValueInMonth(int month) {

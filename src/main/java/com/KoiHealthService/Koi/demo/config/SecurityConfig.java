@@ -51,6 +51,7 @@ public class SecurityConfig {
             "/messages/**",
             "/veterinarian_schedules/**",
             "/fish_specialties/**",
+            "/news/**",
             "/auth/**"
             ,"/users/**"
             ,"/feedback/**"
