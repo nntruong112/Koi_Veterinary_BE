@@ -44,7 +44,7 @@ public class GoogleController {
                 String email = (String) userInfo.get("email");
 
                 // Lưu thông tin người dùng
-              LoginResponse loginResponse =  authenticateService.loginGoogle(email,name);
+                LoginResponse loginResponse =  authenticateService.loginGoogle(email,name);
                 // Tạo LoginResponse với token và thông tin người dùng
                 return ResponseEntity.ok(loginResponse);
             } else {

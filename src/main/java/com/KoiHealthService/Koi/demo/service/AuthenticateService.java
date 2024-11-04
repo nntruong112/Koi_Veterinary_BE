@@ -176,6 +176,4 @@ public class AuthenticateService {
 
         invalidatedTokenRepository.save(invalidatedToken);
     }
-
-
 }

@@ -1,3 +1,4 @@
+
 package com.KoiHealthService.Koi.demo.service;
 
 import com.KoiHealthService.Koi.demo.Storage.UserStorage;
@@ -66,8 +67,8 @@ public class UserService {
     @NonNull
     final FishSpecialtyMapper fishSpecialtyMapper;
 
-    
-    FishSpecialty fishSpecialty;
+
+     
 
     // Register
     public UserResponse register(UserRequest userRequest) {
@@ -116,9 +117,9 @@ public class UserService {
         if (userRepository.existsByUsername(userRequest.getUsername())) {
             throw new AnotherException(ErrorCode.USER_EXISTED);
         }
-        fishSpecialty = fishSpecialtyRepository.findById(userRequest.getFishSpecialtyId())
+        FishSpecialty fishSpecialty = fishSpecialtyRepository.findById(userRequest.getFishSpecialtyId())
                 .orElseThrow(() -> new AnotherException(ErrorCode.NO_FISH_SPECIALTY_FOUND));
-        
+
         User user = userMapper.toUser(userRequest);
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         user.setRoles("VET");
@@ -236,24 +237,3 @@ public class UserService {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
