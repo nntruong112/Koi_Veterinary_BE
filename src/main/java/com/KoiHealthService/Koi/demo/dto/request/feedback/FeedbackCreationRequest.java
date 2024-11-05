@@ -14,4 +14,5 @@ public class FeedbackCreationRequest {
     Integer rating;
     String customerId;
     String appointmentId;
+    String punctuality;
 }

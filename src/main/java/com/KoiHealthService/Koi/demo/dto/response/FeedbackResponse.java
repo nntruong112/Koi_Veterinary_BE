@@ -16,4 +16,5 @@ public class FeedbackResponse {
     Integer rating;
     String customerId;
     String appointmentId;
+    String punctuality;
 }
