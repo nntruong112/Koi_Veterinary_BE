@@ -1,4 +1,4 @@
-package com.KoiHealthService.Koi.demo.dto.request;
+package com.KoiHealthService.Koi.demo.dto.request.user;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,7 +8,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RoleCreationRequest {
-    String roleId;
-    String roleName;
+public class LinkVeterinarianToScheduleRequest {
+    String scheduleId;
+    String veterinarianId;
 }

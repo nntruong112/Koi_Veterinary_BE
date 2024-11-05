@@ -1,11 +1,10 @@
 package com.KoiHealthService.Koi.demo.mapper;
 
-import com.KoiHealthService.Koi.demo.dto.request.NewsCreationRequest;
-import com.KoiHealthService.Koi.demo.dto.request.NewsUpdateRequest;
+import com.KoiHealthService.Koi.demo.dto.request.news.NewsCreationRequest;
+import com.KoiHealthService.Koi.demo.dto.request.news.NewsUpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.response.NewsResponse;
 import com.KoiHealthService.Koi.demo.entity.News;
 import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface NewsMapper {

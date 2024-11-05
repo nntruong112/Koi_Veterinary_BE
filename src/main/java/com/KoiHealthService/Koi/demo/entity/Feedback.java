@@ -19,6 +19,7 @@ public class Feedback {
     String feedbackId;
     String comment;
     Integer rating;
+    String punctuality;
     @ManyToOne
     @JoinColumn(name = "customerId")
     User customer;

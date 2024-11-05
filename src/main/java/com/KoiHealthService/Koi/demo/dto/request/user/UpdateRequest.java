@@ -20,4 +20,5 @@ public class UpdateRequest {
     String gender;
     String image;
     String fishSpecialtyId;
+    Integer rating;
 }

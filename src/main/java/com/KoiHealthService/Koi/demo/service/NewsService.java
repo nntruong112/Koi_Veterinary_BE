@@ -1,7 +1,7 @@
 package com.KoiHealthService.Koi.demo.service;
 
-import com.KoiHealthService.Koi.demo.dto.request.NewsCreationRequest;
-import com.KoiHealthService.Koi.demo.dto.request.NewsUpdateRequest;
+import com.KoiHealthService.Koi.demo.dto.request.news.NewsCreationRequest;
+import com.KoiHealthService.Koi.demo.dto.request.news.NewsUpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.response.NewsResponse;
 import com.KoiHealthService.Koi.demo.entity.News;
 import com.KoiHealthService.Koi.demo.entity.User;
@@ -36,6 +36,7 @@ public class NewsService {
                 .author(author)
                 .title(request.getTitle())
                 .newsContent(request.getNewsContent())
+                .image(request.getImage())
                 .build();
 
         return newsRepository.save(news);
@@ -52,7 +53,7 @@ public class NewsService {
 
     public NewsResponse updateNews(String id, NewsUpdateRequest request) {
         News existingNews = newsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("News not found with id " + id));
+                .orElseThrow(() -> new AnotherException(ErrorCode.NO_NEWS_FOUND));
 
         newsMapper.updateNewsFromRequest(request, existingNews);
 

@@ -1,13 +1,10 @@
 package com.KoiHealthService.Koi.demo.controller;
 
 
-import com.KoiHealthService.Koi.demo.dto.request.NewsCreationRequest;
-import com.KoiHealthService.Koi.demo.dto.request.NewsUpdateRequest;
-import com.KoiHealthService.Koi.demo.dto.request.appointment.AppointmentRequest;
-import com.KoiHealthService.Koi.demo.dto.request.appointment.AppointmentUpdateRequest;
+import com.KoiHealthService.Koi.demo.dto.request.news.NewsCreationRequest;
+import com.KoiHealthService.Koi.demo.dto.request.news.NewsUpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
 import com.KoiHealthService.Koi.demo.dto.response.NewsResponse;
-import com.KoiHealthService.Koi.demo.entity.Appointment;
 import com.KoiHealthService.Koi.demo.entity.News;
 import com.KoiHealthService.Koi.demo.service.NewsService;
 import jakarta.validation.Valid;

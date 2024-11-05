@@ -1,7 +1,7 @@
 package com.KoiHealthService.Koi.demo.service;
 
 
-import com.KoiHealthService.Koi.demo.dto.request.LinkVeterinarianToScheduleRequest;
+import com.KoiHealthService.Koi.demo.dto.request.user.LinkVeterinarianToScheduleRequest;
 import com.KoiHealthService.Koi.demo.dto.request.VeterinarianScheduleRequest;
 import com.KoiHealthService.Koi.demo.dto.response.VeterinarianScheduleResponse;
 import com.KoiHealthService.Koi.demo.entity.*;
@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,35 +40,7 @@ public class VeterinarianScheduleService {
     UserMapper userMapper;
 
 
-    //    public VeterinarianScheduleResponse createSchedule(VeterinarianScheduleRequest request) {
-////        User veterinarian = userRepository.findById(request.getVeterinarianId())
-////                .orElseThrow(() -> new AnotherException(ErrorCode.NO_VETERINARIAN_FOUND));
-//
-//        VeterinarianSchedule schedule = VeterinarianSchedule.builder()
-//                .availableDate(request.getAvailableDate())
-//                .startTime(request.getStartTime())
-//                .endTime(request.getEndTime())
-//                .build();
-//
-//        veterinarianScheduleRepository.save(schedule);
-//
-//        VeterinarianProfile veterinarianProfile = VeterinarianProfile.builder()
-//                .user(veterinarian)
-//                .veterinarianSchedule(schedule)
-//                .build();
-//
-//        veterinarianProfileRepository.save(veterinarianProfile);
-//
-//        // Create and return the response DTO
-//        VeterinarianScheduleResponse response = new VeterinarianScheduleResponse();
-//        response.setScheduleId(schedule.getScheduleId());
-//        response.setAvailableDate(schedule.getAvailableDate());
-//        response.setStartTime(schedule.getStartTime());
-//        response.setEndTime(schedule.getEndTime());
-//        response.setVeterinarianName(veterinarian.getFirstname() + " " + veterinarian.getLastname());
-//        //phải dùng tới cách truyền thống de nối chuỗi @@
-//        return response;
-//    }
+
     public VeterinarianScheduleResponse createSchedule(VeterinarianScheduleRequest request) {
         VeterinarianSchedule veterinarianSchedule = VeterinarianSchedule.builder()
                 .endTime(request.getEndTime())

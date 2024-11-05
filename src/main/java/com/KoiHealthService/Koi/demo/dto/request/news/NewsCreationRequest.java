@@ -1,4 +1,4 @@
-package com.KoiHealthService.Koi.demo.dto.request;
+package com.KoiHealthService.Koi.demo.dto.request.news;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -15,4 +15,5 @@ public class NewsCreationRequest {
     String title;
     String newsContent;
     String authorId;
+    String image;
 }

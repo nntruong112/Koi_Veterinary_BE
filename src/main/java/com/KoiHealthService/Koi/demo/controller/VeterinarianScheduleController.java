@@ -1,21 +1,13 @@
 package com.KoiHealthService.Koi.demo.controller;
 
-import com.KoiHealthService.Koi.demo.dto.request.LinkVeterinarianToScheduleRequest;
+import com.KoiHealthService.Koi.demo.dto.request.user.LinkVeterinarianToScheduleRequest;
 import com.KoiHealthService.Koi.demo.dto.request.VeterinarianScheduleRequest;
-import com.KoiHealthService.Koi.demo.dto.request.fish.FishCreationRequest;
-import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
-import com.KoiHealthService.Koi.demo.dto.response.AppointmentResponse;
-import com.KoiHealthService.Koi.demo.dto.response.FishResponse;
 import com.KoiHealthService.Koi.demo.dto.response.VeterinarianScheduleResponse;
-import com.KoiHealthService.Koi.demo.entity.Appointment;
-import com.KoiHealthService.Koi.demo.entity.Fish;
 import com.KoiHealthService.Koi.demo.entity.VeterinarianProfile;
 import com.KoiHealthService.Koi.demo.entity.VeterinarianSchedule;
 import com.KoiHealthService.Koi.demo.service.VeterinarianScheduleService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

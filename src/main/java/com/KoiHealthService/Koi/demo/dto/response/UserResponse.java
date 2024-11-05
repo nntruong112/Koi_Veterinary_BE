@@ -24,4 +24,5 @@ public class UserResponse {
     LocalDate dateOfBirth;
     String roles;
     String fishSpecialtyId;
+    Integer rating;
 }

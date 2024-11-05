@@ -18,6 +18,8 @@ public class News {
     String newsId;
     String title;
     String newsContent;
+    @Column(columnDefinition = "TEXT")
+    String image;
 
     @ManyToOne
     @JoinColumn(name = "veterinarianId")

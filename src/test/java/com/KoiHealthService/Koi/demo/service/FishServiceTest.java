@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -45,8 +47,8 @@ class FishServiceTest {
         fishRequest.setSpecies("Koi");
         fishRequest.setAge(2);
         fishRequest.setImage("koi-image.jpg");
-        fishRequest.setWeight(2);
-        fishRequest.setSize(20);
+        fishRequest.setWeight(BigDecimal.valueOf(2));
+        fishRequest.setSize(BigDecimal.valueOf(20));
         fishRequest.setColor("Red");
         fishRequest.setGender("Female");
     }

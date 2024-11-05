@@ -14,4 +14,5 @@ public class NewsResponse {
     String title;
     String newsContent;
     String authorId;
+    String image;
 }
