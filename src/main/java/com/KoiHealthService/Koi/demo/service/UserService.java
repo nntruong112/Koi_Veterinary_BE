@@ -98,11 +98,6 @@ public class UserService {
         //Set Role
         user.setRoles("USER");
         user.setCheckIsLoginGoogle(false);
-        //Send Mail
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setTo(userRequest.getEmail());
-//        message.setText("Mã xác minh của bạn là :" + verificationCode);
-//        javaMailSender.send(message);
         emailConfig.sendCode(userRequest.getEmail(), "KoiHealthSerivce@gmail.com", "Mã xác minh của bạn là : " + verificationCode);
 
         //Save info user and code into userStorage
@@ -159,6 +154,7 @@ public class UserService {
 
 
     //Get info user
+    @PreAuthorize("hasRole('USER')")
     public UserResponse getMyInfo() {
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
@@ -167,7 +163,7 @@ public class UserService {
 
         return userMapper.toUserResponse(user);
     }
-
+    //Forgot Password
     public void forgotPassword(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new AnotherException(ErrorCode.EMAIL_NOT_EXISTED));
 
@@ -187,6 +183,7 @@ public class UserService {
             throw new AnotherException(ErrorCode.INVALID_CODE);
     }
 
+    //Reset Password
     public ForgotPasswordResponse ResetPassword(ForgotPasswordRequest forgotPasswordRequest) {
         User user = userRepository.findByEmail(forgotPasswordRequest.getEmail()).orElseThrow(() -> new AnotherException(ErrorCode.EMAIL_NOT_EXISTED));
 
@@ -224,7 +221,7 @@ public class UserService {
         if (roles != null) {
             return userRepository.findByRoles(roles);
         } else {
-            throw new RuntimeException("Cannot find role");
+            throw new RuntimeException("Cannot find  role");
         }
     }
 

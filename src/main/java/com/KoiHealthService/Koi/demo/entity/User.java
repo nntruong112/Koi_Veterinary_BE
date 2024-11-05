@@ -1,7 +1,7 @@
 package com.KoiHealthService.Koi.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)

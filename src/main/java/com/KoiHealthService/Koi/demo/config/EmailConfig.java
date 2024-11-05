@@ -1,6 +1,8 @@
 package com.KoiHealthService.Koi.demo.config;
 
+import com.KoiHealthService.Koi.demo.entity.Appointment;
 import com.KoiHealthService.Koi.demo.entity.Payment;
+import com.KoiHealthService.Koi.demo.repository.AppointmentRepository;
 import com.KoiHealthService.Koi.demo.repository.PaymentRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -10,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -21,9 +24,10 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Optional;
 
 
-@Service
+@Configuration
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 @Slf4j
@@ -31,6 +35,8 @@ public class EmailConfig {
 
 
     final PaymentRepository paymentRepository;
+
+    final AppointmentRepository appointmentRepository;
 
     final JavaMailSender javaMailSender;
 
@@ -47,11 +53,15 @@ public class EmailConfig {
     }
 
     public void sendInvoiceEmail(String to, Payment payment) {
+        Optional<Appointment> appointment = appointmentRepository.findById(payment.getAppointment().getAppointmentId());
+
         String subject = "Hóa đơn #" + payment.getEmail();
 
         // Định dạng giá trị thanh toán
         NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));
-        String formattedAmount = formatter.format(payment.getAmountValue());
+        String movingFee = formatter.format(appointment.get().getMovingFee());
+        String serviceFee = formatter.format(appointment.get().getAppointmentType().getPrice());
+        String total = formatter.format(payment.getAmountValue());
 
         // Định dạng LocalDateTime thành chuỗi
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -62,14 +72,12 @@ public class EmailConfig {
         body.append("<html><body style='font-family: Arial, sans-serif; margin: 20px;'>")
                 .append("<h2 style='color: #4CAF50;'>Hóa đơn của: " + payment.getName() + "</h2>")
                 .append("<p>Đây là hóa đơn cho đơn hàng # <strong>" + payment.getVnp_TxnRef() + "</strong>.</p>")
+
+                // Bảng thông tin chi tiết
                 .append("<table style='width: 100%; border-collapse: collapse;'>")
                 .append("<tr>")
                 .append("<td style='border: 1px solid #ddd; padding: 8px; width: 50%;'><strong>Loại dịch vụ:</strong></td>")
                 .append("<td style='border: 1px solid #ddd; padding: 8px; width: 50%;'>" + payment.getOrderType() + "</td>")
-                .append("</tr>")
-                .append("<tr>")
-                .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Giá trị thanh toán:</strong></td>")
-                .append("<td style='border: 1px solid #ddd; padding: 8px;'>" + formattedAmount + " VNĐ</td>")
                 .append("</tr>")
                 .append("<tr>")
                 .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Ngày tạo:</strong></td>")
@@ -79,7 +87,21 @@ public class EmailConfig {
                 .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Email:</strong></td>")
                 .append("<td style='border: 1px solid #ddd; padding: 8px;'>" + payment.getEmail() + "</td>")
                 .append("</tr>")
+                .append("<tr>")
+                .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Giá dịch vụ:</strong></td>")
+                .append("<td style='border: 1px solid #ddd; padding: 8px;'>" + serviceFee + " VNĐ</td>")
+                .append("</tr>")
+                .append("<tr>")
+                .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Phí di chuyển:</strong></td>")
+                .append("<td style='border: 1px solid #ddd; padding: 8px;'>" + movingFee + " VNĐ</td>")
+                .append("</tr>")
+                .append("<tr>")
+                .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Tổng số tiền</strong></td>")
+                .append("<td style='border: 1px solid #ddd; padding: 8px;'>" + total + " VNĐ</td>")
+                .append("</tr>")
                 .append("</table>")
+
+
                 .append("<hr style='border: 1px solid #4CAF50;'>")
                 .append("<footer style='font-size: 12px; color: #777;'>")
                 .append("Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi!")
@@ -101,7 +123,8 @@ public class EmailConfig {
         }
     }
 
-    public void sendResetPasswordEmail(String email,String resetPasswordLink) {
+
+    public void sendResetPasswordEmail(String email, String resetPasswordLink) {
         String messageBody = "Click the link to reset your password: <a href=\"" + resetPasswordLink + "\">Click here</a>";
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();

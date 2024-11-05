@@ -57,7 +57,10 @@ public class AppointmentService {
                 .fish(fish)
                 .veterinarian(veterinarian)
                 .paymentStatus(request.getPaymentStatus())
+                .movingFee(request.getMovingFee())
                 .build();
+
+        appointment.CalculateDistance();
 
         return appointmentRepository.save(appointment);
     }
@@ -92,7 +95,9 @@ public class AppointmentService {
         appointment.setCustomer(user);
         appointment.setVeterinarian(vet);
         appointment.setPaymentStatus(request.getPaymentStatus());
+        appointment.setMovingFee(appointment.getMovingFee());
         appointment.setFish(fish);
+
 
         return appointmentRepository.save(appointment);
     }

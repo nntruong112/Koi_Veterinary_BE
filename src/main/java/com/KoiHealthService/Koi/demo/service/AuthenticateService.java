@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.NonUniqueResultException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,6 +49,7 @@ public class AuthenticateService {
     @Value("${jwt.signer_key}")
     protected String SIGNER_KEY;
 
+    //Login
     public AuthenticationResponse authenticated(AuthenticationRequest authenticationRequest) throws JOSEException {
         // Find user by username
         var user = userRepository.findByUsername(authenticationRequest.getUsername())
@@ -68,12 +70,11 @@ public class AuthenticateService {
                 .build();
 
     }
-
     //Login google
     public LoginResponse loginGoogle(String email,String name) throws JOSEException {
         Optional<User> user = userRepository.findByEmail(email);
 
-        if(user.isPresent()){
+        if(user.isPresent() && user.get().isCheckIsLoginGoogle()){
             String token = generateToken(user.get());
             return LoginResponse.builder()
                     .token(token)
@@ -144,6 +145,7 @@ public class AuthenticateService {
 
     }
 
+    //Verify Token
     private SignedJWT verifyToken(String token) throws JOSEException, ParseException {
         JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
         //Parse token
@@ -163,6 +165,8 @@ public class AuthenticateService {
 
         return signedJWT;
     }
+
+    //Log Out
     public void logout(LogoutRequest request) throws ParseException, JOSEException {
         var signToken = verifyToken(request.getToken());
 

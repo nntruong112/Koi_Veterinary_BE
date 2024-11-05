@@ -49,7 +49,7 @@ public class PaymentService {
         Appointment appointment = appointmentRepository.findById(paymentRequest.getAppointmentId()).orElseThrow(() -> new AnotherException(ErrorCode.NO_APPOINTMENT_FOUND));
 
         String orderType = appointment.getAppointmentType().getAppointmentService();
-        long amountValue = (long) (appointment.getAppointmentType().getPrice() * 100);
+        long amountValue = (long) ((appointment.getAppointmentType().getPrice() + appointment.getMovingFee())* 100);
         String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
         String vnp_IpAddr = VNPayConfig.getIpAddress(request);
 
@@ -106,18 +106,7 @@ public class PaymentService {
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = VNPayConfig.vnp_PayUrl + "?" + queryUrl;
 
-//        Payment payment = Payment.builder()
-//                .orderType(orderType)
-//                .name(user.getUsername())
-//                .email(user.getEmail())
-//                .amountValue(appointment.getAppointmentType().getPrice())
-//                .vnp_CreateDate((vnp_CreateDate))
-//                .vnp_ExpireDate((vnp_ExpireDate))
-//                .user(user)
-//                .vnp_TxnRef(vnp_TxnRef)
-//                .build();
-//
-//        paymentRepository.save(payment);
+
 
         return PaymentResponse.builder()
                 .message("success")

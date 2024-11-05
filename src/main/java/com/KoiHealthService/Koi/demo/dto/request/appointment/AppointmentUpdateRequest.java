@@ -22,4 +22,5 @@ public class AppointmentUpdateRequest {
     LocalTime endTime;
     String appointmentTypeId;
     String paymentStatus;
+
 }
