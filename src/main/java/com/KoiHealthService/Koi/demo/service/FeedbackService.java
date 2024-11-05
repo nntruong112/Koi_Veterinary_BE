@@ -56,6 +56,7 @@ public class FeedbackService {
                 .rating(request.getRating())
                 .appointment(appointment)
                 .customer(customer)
+                .punctuality(request.getPunctuality())
                 .build();
 
         return feedbackRepository.save(feedback);

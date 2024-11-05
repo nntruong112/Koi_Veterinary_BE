@@ -15,4 +15,5 @@ public class FeedbackUpdateRequest {
     Integer rating;
     String customerId;
     String appointmentId;
+    String punctuality;
 }
