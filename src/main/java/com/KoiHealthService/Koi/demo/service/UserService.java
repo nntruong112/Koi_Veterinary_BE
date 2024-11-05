@@ -118,6 +118,7 @@ public class UserService {
         User user = userMapper.toUser(userRequest);
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         user.setRoles("VET");
+        user.setRating(10);
         user.setFishSpecialty(fishSpecialty);
 
 
@@ -232,5 +233,31 @@ public class UserService {
         } else {
             throw new RuntimeException("Cannot find role");
         }
+    }
+
+    //minus rating if late
+    public void latePenalty(String userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Decrease rating by 1 if it's greater than 0
+        if (user.getRating() != null && user.getRating() > 0) {
+            user.setRating(user.getRating() - 1);
+        } else {
+            user.setRating(0); // Prevent negative rating
+        }
+
+        userRepository.save(user); // Save updated user
+    }
+
+    public void absentPenalty(String userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (user.getRating() != null && user.getRating() > 0) {
+            user.setRating(Math.max(user.getRating() - 3, 0));
+        }
+
+        userRepository.save(user);
     }
 }
