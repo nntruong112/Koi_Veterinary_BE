@@ -65,7 +65,9 @@ public class VeterinarianScheduleService {
         User user = userRepository.findById(request.getVeterinarianId())
                 .orElseThrow(() -> new AnotherException(ErrorCode.NO_VETERINARIAN_FOUND));
 
-        
+        if (veterinarianProfileRepository.existsByUserAndVeterinarianSchedule(user, veterinarianSchedule)) {
+            throw new AnotherException(ErrorCode.VETERINARIAN_SCHEDULE_DUPLICATE);
+        }
         
         return veterinarianProfileRepository.save(
                 VeterinarianProfile.builder()

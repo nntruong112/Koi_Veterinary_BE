@@ -148,5 +148,17 @@ public class UserController {
         }
     }
 
+    @PostMapping("/late-penalty/{userId}")
+    public ResponseEntity<Void> applyLatePenalty(@PathVariable String userId) {
+        userService.latePenalty(userId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/absent-penalty/{userId}")
+    public ResponseEntity<Void> applyAbsentPenalty(@PathVariable String userId) {
+        userService.absentPenalty(userId);
+        return ResponseEntity.ok().build();
+    }
+
 
 }
