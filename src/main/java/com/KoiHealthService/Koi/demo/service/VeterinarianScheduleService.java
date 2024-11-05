@@ -46,6 +46,7 @@ public class VeterinarianScheduleService {
                 .endTime(request.getEndTime())
                 .availableDate(request.getAvailableDate())
                 .startTime(request.getStartTime())
+                .slot(request.getSlot())
                 .build();
 
         veterinarianScheduleRepository.save(veterinarianSchedule);
@@ -54,6 +55,7 @@ public class VeterinarianScheduleService {
                 .availableDate(request.getAvailableDate())
                 .startTime(request.getStartTime())
                 .endTime(request.getEndTime())
+                .slot(request.getSlot())
                 .build();
     }
 
@@ -63,6 +65,8 @@ public class VeterinarianScheduleService {
         User user = userRepository.findById(request.getVeterinarianId())
                 .orElseThrow(() -> new AnotherException(ErrorCode.NO_VETERINARIAN_FOUND));
 
+        
+        
         return veterinarianProfileRepository.save(
                 VeterinarianProfile.builder()
                         .veterinarianSchedule(veterinarianSchedule)
@@ -89,6 +93,7 @@ public class VeterinarianScheduleService {
                 .endTime(veterinarianSchedule.getEndTime())
                 .scheduleId(veterinarianSchedule.getScheduleId())
                 .veterinarianProfiles(veterinarianSchedule.getVeterinarianProfiles())
+                .slot(veterinarianSchedule.getSlot())
                 .build();
 
     }

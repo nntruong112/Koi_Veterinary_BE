@@ -28,6 +28,7 @@ public class VeterinarianSchedule {
     String availableDate;
     LocalTime startTime;
     LocalTime endTime;
+    String slot;
     
     // Many-to-many relationship with User (as Veterinarians)
 //    @ManyToMany(mappedBy = "veterinarianSchedules", fetch = FetchType.LAZY)   //map cái biến veterinarianSchedules bên User

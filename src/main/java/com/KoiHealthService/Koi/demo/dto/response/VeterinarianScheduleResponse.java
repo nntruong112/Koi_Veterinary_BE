@@ -20,7 +20,6 @@ public class VeterinarianScheduleResponse {
     String availableDate;
     LocalTime startTime;
     LocalTime endTime;
-    String veterinarianId;
-    String veterinarianName;
+    String slot;
 
 }

@@ -46,7 +46,7 @@ public class User implements Serializable {
     @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "specialtyId") // Foreign key column name
     FishSpecialty fishSpecialty;
-    Integer rating;
+    Integer rating = 10;
 
 }
 
