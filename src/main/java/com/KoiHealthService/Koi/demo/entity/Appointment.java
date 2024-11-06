@@ -48,6 +48,9 @@ public class Appointment {
         if (movingFee != null) {
             this.movingFee = movingFee * 10000;
         }
+        else {
+            movingFee = 0L;
+        }
     }
 
 }

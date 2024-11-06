@@ -155,7 +155,7 @@ public class UserService {
 
 
     //Get info user
-    @PreAuthorize("hasAnyRole('USER', 'STAFF','MANAGER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'STAFF','MANAGER', 'ADMIN', 'VET')")
     public UserResponse getMyInfo() {
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
