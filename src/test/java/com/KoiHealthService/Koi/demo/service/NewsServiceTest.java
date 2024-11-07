@@ -87,7 +87,7 @@ class NewsServiceTest {
             newsService.createNews(newsCreationRequest);
         });
 
-        assertEquals("No staff found", exception.getMessage(), "Error message should match");
+        assertEquals("No veterinarian found", exception.getMessage(), "Error message should match");
     }
 
     @Test
