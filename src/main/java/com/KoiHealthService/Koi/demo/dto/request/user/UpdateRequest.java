@@ -21,4 +21,5 @@ public class UpdateRequest {
     String image;
     String fishSpecialtyId;
     Integer rating;
+    String email;
 }

@@ -18,6 +18,7 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import jakarta.annotation.PostConstruct;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -37,7 +39,7 @@ import java.util.*;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE , makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticateService {
 
     UserRepository userRepository;
@@ -47,7 +49,8 @@ public class AuthenticateService {
     //Key to verify token
     @NonFinal
     @Value("${jwt.signer_key}")
-    protected String SIGNER_KEY;
+    public String SIGNER_KEY;
+
 
     //Login
     public AuthenticationResponse authenticated(AuthenticationRequest authenticationRequest) throws JOSEException {
@@ -70,18 +73,18 @@ public class AuthenticateService {
                 .build();
 
     }
+
     //Login google
-    public LoginResponse loginGoogle(String email,String name) throws JOSEException {
+    public LoginResponse loginGoogle(String email, String name) throws JOSEException {
         Optional<User> user = userRepository.findByEmail(email);
 
-        if(user.isPresent() && user.get().isCheckIsLoginGoogle()){
+        if (user.isPresent() && user.get().isCheckIsLoginGoogle()) {
             String token = generateToken(user.get());
             return LoginResponse.builder()
                     .token(token)
                     .user(user.get())
                     .build();
-        }
-        else {
+        } else {
             User newUser = User.builder()
                     .email(email)
                     .username(name)
@@ -106,7 +109,7 @@ public class AuthenticateService {
         boolean isValid = true;
         try {
             verifyToken(token);
-        }catch (AnotherException e){
+        } catch (AnotherException e) {
             isValid = false;
         }
         return IntrospectResponse.builder()
@@ -116,7 +119,7 @@ public class AuthenticateService {
     }
 
     //Generate token
-    private String generateToken(User user) throws JOSEException {
+    public String generateToken(User user) throws JOSEException {
         //Header
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
@@ -155,11 +158,11 @@ public class AuthenticateService {
         //Verify Expiration time
         Date expiryTime = signedJWT.getJWTClaimsSet().getExpirationTime();
 
-        if(!(verified && expiryTime.after(new Date()))){
+        if (!(verified && expiryTime.after(new Date()))) {
             throw new AnotherException(ErrorCode.UNAUTHENTICATED);
         }
 
-        if(invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID())){
+        if (invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID())) {
             throw new AnotherException(ErrorCode.UNAUTHENTICATED);
         }
 
