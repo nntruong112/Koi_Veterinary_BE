@@ -50,6 +50,9 @@ public class Appointment {
         }else{
             this.movingFee = 0L;
         }
+        else {
+            movingFee = 0L;
+        }
     }
 
 }
