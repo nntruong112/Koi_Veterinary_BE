@@ -37,34 +37,31 @@ import java.util.stream.Collectors;
 
 
 @Service
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE , makeFinal = true)
 @RequiredArgsConstructor
 @Slf4j
 public class UserService {
 
-    @NonNull
+
     EmailConfig emailConfig;
 
-    @NonNull
     UserStorage userStorage;
 
-    @NonNull
+
     UserRepository userRepository;
 
-    @NonNull
+
     UserMapper userMapper;
-    @NonNull
+
     PasswordEncoder passwordEncoder;
-    @NonNull
+
     JavaMailSender javaMailSender;
     @NonFinal
     @Value("${spring.mail.username}")
     String SENDER_EMAIL;
 
-    @NonNull
     final FishSpecialtyRepository fishSpecialtyRepository;
 
-    @NonNull
     final FishSpecialtyMapper fishSpecialtyMapper;
 
 
@@ -260,4 +257,5 @@ public class UserService {
 
         userRepository.save(user);
     }
+
 }

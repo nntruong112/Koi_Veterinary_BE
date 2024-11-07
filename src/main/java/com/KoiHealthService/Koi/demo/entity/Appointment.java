@@ -47,6 +47,8 @@ public class Appointment {
     public void CalculateDistance() {
         if (movingFee != null) {
             this.movingFee = movingFee * 10000;
+        }else{
+            this.movingFee = 0L;
         }
         else {
             movingFee = 0L;
