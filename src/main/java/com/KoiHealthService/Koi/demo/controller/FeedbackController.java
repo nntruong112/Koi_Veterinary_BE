@@ -58,6 +58,15 @@ public class FeedbackController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/byAppointment/{appointmentId}")
+    public ResponseEntity<List<Feedback>> getFeedbackByAppointmentId(@PathVariable String appointmentId) {
+        List<Feedback> feedbackList = feedbackService.getFeedbackByAppointmentId(appointmentId);
+        if (feedbackList.isEmpty()) {
+            return ResponseEntity.noContent().build(); // 204 No Content if no feedback found
+        }
+        return ResponseEntity.ok(feedbackList); // 200 OK with the feedback list
+    }
+
 
 
 }

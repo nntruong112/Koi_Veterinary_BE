@@ -84,5 +84,9 @@ public class FeedbackService {
         feedbackRepository.deleteById(feedbackId);
     }
 
+    public List<Feedback> getFeedbackByAppointmentId(String appointmentId) {
+        return feedbackRepository.findByAppointmentAppointmentId(appointmentId);
+    }
+
 
 }

@@ -123,29 +123,7 @@ class NewsServiceTest {
         assertEquals("No news found", exception.getMessage(), "Error message should match");
     }
 
-//    @Test
-//    void updateNews_Success() {
-//        Mockito.when(newsRepository.findById("1")).thenReturn(Optional.of(news));
-//        Mockito.doNothing().when(newsMapper).updateNewsFromRequest(ArgumentMatchers.any(NewsUpdateRequest.class), ArgumentMatchers.any(News.class));
-//        Mockito.when(newsRepository.save(ArgumentMatchers.any(News.class))).thenReturn(news);
-//
-//        NewsResponse updatedNewsResponse = newsService.updateNews("1", newsUpdateRequest);
-//
-//        assertNotNull(updatedNewsResponse, "Updated news response should not be null");
-//        assertEquals("Updated Test News", updatedNewsResponse.getTitle(), "Updated title should match");
-//        assertEquals("Updated content", updatedNewsResponse.getNewsContent(), "Updated content should match");
-//    }
-//
-//    @Test
-//    void updateNews_NotFound() {
-//        Mockito.when(newsRepository.findById("1")).thenReturn(Optional.empty());
-//
-//        Exception exception = assertThrows(AnotherException.class, () -> {
-//            newsService.updateNews("1", newsUpdateRequest);
-//        });
-//
-//        assertEquals("No news found", exception.getMessage(), "Error message should match");
-//    }
+
 
     @Test
     void deleteNews_Success() {
