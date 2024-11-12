@@ -115,7 +115,7 @@ public class UserService {
         User user = userMapper.toUser(userRequest);
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         user.setRoles("VET");
-        user.setRating(10);
+        user.setRating(5);
         user.setFishSpecialty(fishSpecialty);
 
 
@@ -252,7 +252,7 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (user.getRating() != null && user.getRating() > 0) {
-            user.setRating(Math.max(user.getRating() - 3, 0));
+            user.setRating(Math.max(user.getRating() - 2, 0));
         }
 
         userRepository.save(user);

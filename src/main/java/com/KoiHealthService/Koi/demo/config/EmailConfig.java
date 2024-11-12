@@ -59,9 +59,15 @@ public class EmailConfig {
 
         // Định dạng giá trị thanh toán
         NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));
-        String movingFee = formatter.format(appointment.get().getMovingFee());
         String serviceFee = formatter.format(appointment.get().getAppointmentType().getPrice());
-        String total = formatter.format(payment.getAmountValue());
+        // Định dạng phí di chuyển và tổng số tiền với kiểm tra null
+        String movingFee = (appointment.get().getMovingFee() != null)
+                ? formatter.format(appointment.get().getMovingFee()) + " VNĐ"
+                : "0 VNĐ";
+        String total = (payment.getAmountValue() != null)
+                ? formatter.format(payment.getAmountValue()) + " VNĐ"
+                : "0 VNĐ";
+
 
         // Định dạng LocalDateTime thành chuỗi
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -93,11 +99,11 @@ public class EmailConfig {
                 .append("</tr>")
                 .append("<tr>")
                 .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Phí di chuyển:</strong></td>")
-                .append("<td style='border: 1px solid #ddd; padding: 8px;'>" + movingFee + " VNĐ</td>")
+                .append("<td style='border: 1px solid #ddd; padding: 8px;'>" + movingFee + "</td>")
                 .append("</tr>")
                 .append("<tr>")
                 .append("<td style='border: 1px solid #ddd; padding: 8px;'><strong>Tổng số tiền</strong></td>")
-                .append("<td style='border: 1px solid #ddd; padding: 8px;'>" + total + " VNĐ</td>")
+                .append("<td style='border: 1px solid #ddd; padding: 8px;'>" + total + "</td>")
                 .append("</tr>")
                 .append("</table>")
 
