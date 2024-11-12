@@ -49,10 +49,10 @@ public class PaymentService {
         Appointment appointment = appointmentRepository.findById(paymentRequest.getAppointmentId()).orElseThrow(() -> new AnotherException(ErrorCode.NO_APPOINTMENT_FOUND));
 
         String orderType = appointment.getAppointmentType().getAppointmentService();
-        long amountValue = (long) ((appointment.getAppointmentType().getPrice() + appointment.getMovingFee())* 100);
+       
         String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
         String vnp_IpAddr = VNPayConfig.getIpAddress(request);
-
+        long amountValue = calculateAmountValue(appointment);
         String vnp_TmnCode = VNPayConfig.vnp_TmnCode;
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", VNPayConfig.vnp_Version);
@@ -120,5 +120,11 @@ public class PaymentService {
 
     public Long getAmountValueInMonth(int month) {
         return paymentRepository.getAmountValueInMonth(month);
+    }
+
+    public long calculateAmountValue(Appointment appointment) {
+        long price = appointment.getAppointmentType().getPrice();
+        long movingFee = (appointment.getMovingFee() != null) ? appointment.getMovingFee() : 0;
+        return (price + movingFee) * 100;
     }
 }
