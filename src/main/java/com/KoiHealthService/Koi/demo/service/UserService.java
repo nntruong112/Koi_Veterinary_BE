@@ -258,4 +258,15 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void bonusRating(String userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (user.getRating() != null && user.getRating() > 0) {
+            user.setRating(Math.max(user.getRating() + 1, 0));
+        }
+
+        userRepository.save(user);
+    }
+
 }

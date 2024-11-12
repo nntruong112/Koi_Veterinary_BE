@@ -2,6 +2,7 @@ package com.KoiHealthService.Koi.demo.repository;
 
 import com.KoiHealthService.Koi.demo.dto.request.feedback.FeedbackUpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.request.fish.FishUpdateRequest;
+import com.KoiHealthService.Koi.demo.dto.response.FeedbackResponse;
 import com.KoiHealthService.Koi.demo.entity.Feedback;
 import com.KoiHealthService.Koi.demo.entity.Fish;
 import lombok.NonNull;

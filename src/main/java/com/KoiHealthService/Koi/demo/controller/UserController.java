@@ -160,5 +160,11 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/bonus-rating/{userId}")
+    public ResponseEntity<Void> bonusRating(@PathVariable String userId) {
+        userService.bonusRating(userId);
+        return ResponseEntity.ok().build();
+    }
+
 
 }

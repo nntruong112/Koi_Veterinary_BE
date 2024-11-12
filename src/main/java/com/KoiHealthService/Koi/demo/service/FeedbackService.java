@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -84,8 +85,17 @@ public class FeedbackService {
         feedbackRepository.deleteById(feedbackId);
     }
 
-    public List<Feedback> getFeedbackByAppointmentId(String appointmentId) {
-        return feedbackRepository.findByAppointmentAppointmentId(appointmentId);
+    public List<FeedbackResponse> getFeedbackByAppointmentId(String appointmentId) {
+        List<Feedback> feedbackList = feedbackRepository.findByAppointmentAppointmentId(appointmentId);
+        return feedbackList.stream().map(feedback -> FeedbackResponse.builder()
+                        .feedbackId(feedback.getFeedbackId())
+                        .comment(feedback.getComment())
+                        .rating(feedback.getRating())
+                        .punctuality(feedback.getPunctuality())
+                        .customerId(feedback.getCustomer().getUserId())
+                        .appointmentId(feedback.getAppointment().getAppointmentId())
+                        .build())
+                .collect(Collectors.toList());
     }
 
 

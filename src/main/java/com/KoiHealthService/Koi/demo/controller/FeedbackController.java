@@ -4,6 +4,7 @@ package com.KoiHealthService.Koi.demo.controller;
 import com.KoiHealthService.Koi.demo.dto.request.feedback.FeedbackCreationRequest;
 import com.KoiHealthService.Koi.demo.dto.request.feedback.FeedbackUpdateRequest;
 import com.KoiHealthService.Koi.demo.dto.response.ApiResponse;
+import com.KoiHealthService.Koi.demo.dto.response.FeedbackResponse;
 import com.KoiHealthService.Koi.demo.entity.Feedback;
 import com.KoiHealthService.Koi.demo.service.FeedbackService;
 import jakarta.validation.Valid;
@@ -59,9 +60,9 @@ public class FeedbackController {
     }
 
     @GetMapping("/byAppointment/{appointmentId}")
-    public ResponseEntity<List<Feedback>> getFeedbackByAppointmentId(@PathVariable String appointmentId) {
-        List<Feedback> feedbackList = feedbackService.getFeedbackByAppointmentId(appointmentId);
-        return ResponseEntity.ok(feedbackList); 
+    public ResponseEntity<List<FeedbackResponse>> getFeedbackByAppointmentId(@PathVariable String appointmentId) {
+        List<FeedbackResponse> feedbackResponses = feedbackService.getFeedbackByAppointmentId(appointmentId);
+        return ResponseEntity.ok(feedbackResponses);
     }
 
 
