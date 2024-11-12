@@ -60,7 +60,7 @@ public class AppointmentService {
                 .movingFee(request.getMovingFee())
                 .build();
 
-        appointment.CalculateDistance();
+       // appointment.CalculateDistance();
 
         return appointmentRepository.save(appointment);
     }
