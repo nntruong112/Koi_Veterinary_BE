@@ -126,13 +126,7 @@ public class VeterinarianScheduleService {
         //Kết quả: Phương thức này sẽ trả về một danh sách chứa tất cả các lịch làm việc (VeterinarianSchedule) không bị null.
 
 
-//    public List<VeterinarianScheduleResponse> getScheduleByVeterinarianId(String veterinarianId) {
-//        User veterinarian = userRepository.findById(veterinarianId).orElseThrow(() -> new AnotherException(ErrorCode.NO_VETERINARIAN_FOUND));
-//        List<VeterinarianSchedule> schedules = veterinarianScheduleRepository.findScheduleByVeterinarianId(veterinarianId);
-//        return schedules.stream()
-//                .map(veterinarianScheduleMapper::toVeterinarianResponse)
-//                .collect(Collectors.toList());
-//    }
+
 
 
 }
